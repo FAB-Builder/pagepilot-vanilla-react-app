@@ -19,7 +19,7 @@ body {
 .app {
   min-height: 100vh;
   background: #fff;
-  padding: 2rem 1.5rem;
+  padding: 2rem 0.5rem;
 }
 
 .page-wrapper {
