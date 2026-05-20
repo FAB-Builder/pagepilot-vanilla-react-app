@@ -70,7 +70,7 @@ function App() {
                   onChange={(event) =>
                     setApplicationIdInput(event.target.value)
                   }
-                  placeholder="e.g. 68fe3656ea23fd016a4484e5"
+                  placeholder="e.g. 91319823719287312893"
                   autoComplete="off"
                   spellCheck={false}
                 />
