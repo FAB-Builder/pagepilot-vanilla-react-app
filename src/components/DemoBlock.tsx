@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { Code2, ChevronUp } from 'lucide-react';
 import CodeSnippet from './CodeSnippet';
 
 interface DemoBlockProps {
@@ -9,28 +10,36 @@ interface DemoBlockProps {
   language?: string;
 }
 
-/** Ant-Design-style demo card: live preview, meta strip, "Show code" toggle. */
+/**
+ * Ant-Design-style demo card: a live preview on top, a meta strip with the
+ * title/description, and the source code shown by DEFAULT below (collapsible).
+ */
 function DemoBlock({ title, description, children, code, language = 'tsx' }: DemoBlockProps) {
-  const [showCode, setShowCode] = useState(false);
+  const [showCode, setShowCode] = useState(true);
 
   return (
     <div className="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white">
       <div className="px-6 py-8">{children}</div>
 
-      <div className="border-t border-dashed border-slate-200 px-6 pb-3 pt-4">
-        <span className="text-sm font-semibold">{title}</span>
-        {description && <p className="mt-1 text-sm leading-relaxed text-slate-500">{description}</p>}
-      </div>
-
-      <div className="flex justify-end px-6 pb-3">
-        <button
-          type="button"
-          onClick={() => setShowCode((v) => !v)}
-          aria-expanded={showCode}
-          className="rounded-md px-1.5 py-1 text-xs font-semibold text-brand transition-colors hover:bg-brand-tint"
-        >
-          {showCode ? '⌃ Hide code' : '⌄ Show code'}
-        </button>
+      <div className="border-t border-dashed border-slate-200 px-6 pb-4 pt-4">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <span className="text-sm font-semibold text-slate-900">{title}</span>
+            {description && (
+              <p className="mt-1 text-sm leading-relaxed text-slate-500">{description}</p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowCode((v) => !v)}
+            aria-expanded={showCode}
+            title={showCode ? 'Hide code' : 'Show code'}
+            className="flex shrink-0 items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-brand"
+          >
+            {showCode ? <ChevronUp size={14} /> : <Code2 size={14} />}
+            {showCode ? 'Hide code' : 'Show code'}
+          </button>
+        </div>
       </div>
 
       {showCode && (

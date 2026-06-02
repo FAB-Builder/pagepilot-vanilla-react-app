@@ -1,8 +1,10 @@
+import { Compass, Megaphone, MonitorPlay, Lightbulb, type LucideIcon } from 'lucide-react';
+
 export interface NavItem {
   to: string;
   label: string;
   description: string;
-  emoji: string;
+  icon: LucideIcon;
 }
 
 /**
@@ -14,24 +16,24 @@ export const navItems: NavItem[] = [
     to: '/tours',
     label: 'Tours',
     description: 'Step-by-step guided walkthroughs that highlight parts of your UI.',
-    emoji: '🧭',
+    icon: Compass,
   },
   {
     to: '/app-banner',
     label: 'App Banner',
     description: 'Announcement banners rendered anywhere in your app.',
-    emoji: '📣',
+    icon: Megaphone,
   },
   {
     to: '/demos',
     label: 'Demos',
     description: 'Interactive product demos embedded into your pages.',
-    emoji: '🎬',
+    icon: MonitorPlay,
   },
   {
     to: '/tooltips',
     label: 'Tooltips',
     description: 'Contextual hints attached to individual elements.',
-    emoji: '💡',
+    icon: Lightbulb,
   },
 ];

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Play, Square, CheckCircle2, AlertCircle } from 'lucide-react';
 import { createAhd, AHD_API_HOST, DEMO_APPLICATION_ID, type AhdInstance } from '../lib/ahd';
 import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
@@ -64,24 +65,31 @@ function LiveTourDemo() {
           <button
             type="button"
             onClick={stopTour}
-            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand hover:text-brand"
+            className="flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand hover:text-brand"
           >
-            Stop Tour
+            <Square size={15} /> Stop Tour
           </button>
         ) : (
           <button
             type="button"
             onClick={startTour}
             disabled={status === 'loading'}
-            className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
+            className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
           >
-            {status === 'loading' ? 'Starting…' : '▶ Start Tour'}
+            <Play size={15} />
+            {status === 'loading' ? 'Starting…' : 'Start Tour'}
           </button>
         )}
         {status === 'running' && (
-          <span className="text-sm font-semibold text-emerald-600">Tour running</span>
+          <span className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600">
+            <CheckCircle2 size={15} /> Tour running
+          </span>
         )}
-        {error && <span className="text-sm font-semibold text-rose-600">{error}</span>}
+        {error && (
+          <span className="flex items-center gap-1.5 text-sm font-semibold text-rose-600">
+            <AlertCircle size={15} /> {error}
+          </span>
+        )}
       </div>
 
       {/* Sample target elements. The tour steps point at these selectors. */}

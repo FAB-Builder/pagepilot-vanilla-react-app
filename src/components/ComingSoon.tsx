@@ -1,3 +1,4 @@
+import { Construction } from 'lucide-react';
 import DocLayout from './DocLayout';
 
 interface ComingSoonProps {
@@ -17,11 +18,11 @@ function ComingSoon({ title, description }: ComingSoonProps) {
           <p className="mt-3 text-lg leading-relaxed text-slate-600">{description}</p>
         </header>
         <section id="overview" className="scroll-mt-24">
-          <div className="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
-            <span className="block text-4xl" aria-hidden>
-              🚧
+          <div className="rounded-xl border border-dashed border-slate-300 bg-white p-12 text-center">
+            <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-amber-50 text-amber-500">
+              <Construction size={28} />
             </span>
-            <h2 className="mt-2 text-lg font-bold">Demo coming soon</h2>
+            <h2 className="mt-4 text-lg font-bold">Demo coming soon</h2>
             <p className="mt-1 text-sm text-slate-500">This section is being built out next.</p>
           </div>
         </section>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Copy, Check } from 'lucide-react';
 
 interface CodeSnippetProps {
   code: string;
@@ -22,15 +23,28 @@ function CodeSnippet({ code, language = 'tsx', title }: CodeSnippetProps) {
   const lines = code.split('\n');
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-800">
-      <div className="flex items-center justify-between bg-[#1e1e2e] px-3.5 py-2">
-        <span className="font-mono text-xs text-slate-400">{title ?? language}</span>
+    <div className="overflow-hidden rounded-xl border border-slate-800 shadow-sm">
+      <div className="flex items-center justify-between border-b border-white/5 bg-[#1e1e2e] px-4 py-2">
+        <div className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f56]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#27c93f]" />
+          <span className="ml-2 font-mono text-xs text-slate-400">{title ?? language}</span>
+        </div>
         <button
           type="button"
           onClick={handleCopy}
-          className="rounded-md border border-white/15 px-2.5 py-1 text-xs text-slate-300 transition-colors hover:bg-white/10"
+          className="flex items-center gap-1.5 rounded-md border border-white/10 px-2.5 py-1 text-xs text-slate-300 transition-colors hover:bg-white/10"
         >
-          {copied ? '✓ Copied' : 'Copy'}
+          {copied ? (
+            <>
+              <Check size={13} className="text-emerald-400" /> Copied
+            </>
+          ) : (
+            <>
+              <Copy size={13} /> Copy
+            </>
+          )}
         </button>
       </div>
       <pre className="overflow-x-auto bg-[#181825] py-3">
