@@ -351,7 +351,7 @@ function Tours() {
         </Section>
 
         <Section id="api" title="API reference">
-          <h3 className="mb-2 mt-2 text-base font-semibold text-slate-900">Constructor options</h3>
+          <h3 className="mb-2 mt-2 text-base font-semibold text-ink">Constructor options</h3>
           <ApiTable
             rows={[
               {
@@ -378,7 +378,7 @@ function Tours() {
               },
             ]}
           />
-          <h3 className="mb-2 mt-6 text-base font-semibold text-slate-900">Methods</h3>
+          <h3 className="mb-2 mt-6 text-base font-semibold text-ink">Methods</h3>
           <ApiTable
             rows={[
               {

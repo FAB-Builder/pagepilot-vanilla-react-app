@@ -18,13 +18,13 @@ function DemoBlock({ title, description, children, code, language = 'tsx' }: Dem
   const [showCode, setShowCode] = useState(true);
 
   return (
-    <div className="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <div className="mb-6 overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-card">
       <div className="px-6 py-8">{children}</div>
 
       <div className="border-t border-dashed border-slate-200 px-6 pb-4 pt-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <span className="text-sm font-semibold text-slate-900">{title}</span>
+            <span className="text-sm font-semibold text-ink">{title}</span>
             {description && (
               <p className="mt-1 text-sm leading-relaxed text-slate-500">{description}</p>
             )}
