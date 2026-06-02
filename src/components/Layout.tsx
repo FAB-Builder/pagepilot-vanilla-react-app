@@ -1,6 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
 import { ExternalLink } from 'lucide-react';
-import { PagePilotIcon, GithubIcon } from './Icons';
+import { GithubIcon } from './Icons';
 
 const PAGEPILOT_URL = 'https://pagepilot.fabbuilder.com/';
 const AHDJS_REPO_URL = 'https://github.com/ishaan-puniani/ahdjs';
