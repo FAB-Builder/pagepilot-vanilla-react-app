@@ -59,10 +59,11 @@ function LiveTourDemo() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-3">
+    <div id="tours-live-demo" className="flex flex-col gap-4">
+      <div id="tours-live-controls" className="flex items-center gap-3">
         {status === 'running' ? (
           <button
+            id="tours-stop-button"
             type="button"
             onClick={stopTour}
             className="flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand hover:text-brand"
@@ -71,6 +72,7 @@ function LiveTourDemo() {
           </button>
         ) : (
           <button
+            id="tours-start-button"
             type="button"
             onClick={startTour}
             disabled={status === 'loading'}
@@ -81,19 +83,28 @@ function LiveTourDemo() {
           </button>
         )}
         {status === 'running' && (
-          <span className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600">
+          <span
+            id="tours-status-running"
+            className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600"
+          >
             <CheckCircle2 size={15} /> Tour running
           </span>
         )}
         {error && (
-          <span className="flex items-center gap-1.5 text-sm font-semibold text-rose-600">
+          <span
+            id="tours-status-error"
+            className="flex items-center gap-1.5 text-sm font-semibold text-rose-600"
+          >
             <AlertCircle size={15} /> {error}
           </span>
         )}
       </div>
 
       {/* Sample target elements. The tour steps point at these selectors. */}
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5">
+      <div
+        id="tours-demo-stage"
+        className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5"
+      >
         <button
           id="demo-create"
           type="button"
@@ -139,14 +150,18 @@ function Section({
 }) {
   return (
     <section id={id} className="mb-12 scroll-mt-24">
-      <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">{title}</h2>
-      <div className="space-y-3 leading-relaxed text-slate-600">{children}</div>
+      <h2 id={`${id}-heading`} className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
+        {title}
+      </h2>
+      <div id={`${id}-body`} className="space-y-3 leading-relaxed text-slate-600">
+        {children}
+      </div>
     </section>
   );
 }
 
-const Code = ({ children }: { children: React.ReactNode }) => (
-  <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+const Code = ({ id, children }: { id?: string; children: React.ReactNode }) => (
+  <code id={id} className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
     {children}
   </code>
 );
@@ -154,38 +169,43 @@ const Code = ({ children }: { children: React.ReactNode }) => (
 function Tours() {
   return (
     <DocLayout title="Tours" sections={SECTIONS}>
-      <article className="max-w-3xl">
-        <header className="mb-8 border-b border-slate-200 pb-6">
-          <span className="text-sm font-semibold uppercase tracking-wide text-brand">
+      <article id="tours-article" className="max-w-3xl">
+        <header id="tours-header" className="mb-8 border-b border-slate-200 pb-6">
+          <span id="tours-eyebrow" className="text-sm font-semibold uppercase tracking-wide text-brand">
             Components
           </span>
-          <h1 className="mt-1 text-3xl font-bold">Tours</h1>
-          <p className="mt-3 text-lg leading-relaxed text-slate-600">
+          <h1 id="tours-title" className="mt-1 text-3xl font-bold">
+            Tours
+          </h1>
+          <p id="tours-intro" className="mt-3 text-lg leading-relaxed text-slate-600">
             A tour is a step-by-step guided walkthrough. Each step highlights an element on a page
             and shows a tooltip card with content and next / previous controls. PagePilot fetches the
-            tour for a given <strong>Target Page</strong> and renders it over your real DOM.
+            tour for a given <strong id="tours-intro-target">Target Page</strong> and renders it over
+            your real DOM.
           </p>
         </header>
 
         <Section id="overview" title="Overview">
-          <p>
-            A tour has <strong>tour-level</strong> settings (which pages it runs on, scheduling,
-            device) and a list of <strong>steps</strong>. Each step points at an element and
-            controls its own placement and styling. The sections below document every property you
-            configure in the PagePilot admin.
+          <p id="overview-text">
+            A tour has <strong id="overview-tour-level">tour-level</strong> settings (which pages it
+            runs on, scheduling, device) and a list of <strong id="overview-steps">steps</strong>.
+            Each step points at an element and controls its own placement and styling. The sections
+            below document every property you configure in the PagePilot admin.
           </p>
         </Section>
 
         <Section id="live-demo" title="Live demo">
-          <p>
-            Press <strong>Start Tour</strong> to run the tour published against the{' '}
-            <Code>{TOUR_SLUG}</Code> slug for this demo app. It highlights the sample buttons below.
+          <p id="live-demo-text">
+            Press <strong id="live-demo-cta-text">Start Tour</strong> to run the tour published
+            against the <Code id="live-demo-slug">{TOUR_SLUG}</Code> slug for this demo app. It
+            highlights the sample buttons below.
           </p>
           <DemoBlock
             title="Start a tour"
             description={
               <>
-                Calls <Code>showHighlights("{TOUR_SLUG}", true)</Code> after initializing the client.
+                Calls <Code id="live-demo-method">showHighlights("{TOUR_SLUG}", true)</Code> after
+                initializing the client.
               </>
             }
             code={LIVE_DEMO_CODE}
@@ -195,51 +215,65 @@ function Tours() {
         </Section>
 
         <Section id="target-page" title="Target Page">
-          <p>
+          <p id="target-page-text">
             The page (slug) where the tour appears. PagePilot matches the visitor's current URL path
             against this slug; when it matches, the tour renders. It must start with a{' '}
-            <Code>/</Code>.
+            <Code id="target-page-slash">/</Code>.
           </p>
           <PropertyCard type="string" required defaultValue="'/'">
-            The URL path the tour is bound to, e.g. <Code>/dashboard</Code> or <Code>/tours</Code>.
-            In code this is the first argument to <Code>showHighlights(slug, refetch)</Code>.
+            <span id="target-page-prop">
+              The URL path the tour is bound to, e.g. <Code id="target-page-eg1">/dashboard</Code> or{' '}
+              <Code id="target-page-eg2">/tours</Code>. In code this is the first argument to{' '}
+              <Code id="target-page-method">showHighlights(slug, refetch)</Code>.
+            </span>
           </PropertyCard>
         </Section>
 
         <Section id="alt-target-page" title="Alternative Target Page">
-          <p>
+          <p id="alt-target-page-text">
             Additional slugs the same tour should also run on. Useful when the same screen is reached
-            via multiple URLs (e.g. <Code>/home</Code> and <Code>/dashboard</Code>). Each alternative
-            must also start with <Code>/</Code>.
+            via multiple URLs (e.g. <Code id="alt-eg1">/home</Code> and{' '}
+            <Code id="alt-eg2">/dashboard</Code>). Each alternative must also start with{' '}
+            <Code id="alt-slash">/</Code>.
           </p>
           <PropertyCard type="string[]" defaultValue="[]">
-            A list of extra page slugs. The tour shows if the current URL matches the Target Page{' '}
-            <em>or</em> any alternative.
+            <span id="alt-target-page-prop">
+              A list of extra page slugs. The tour shows if the current URL matches the Target Page{' '}
+              <em>or</em> any alternative.
+            </span>
           </PropertyCard>
         </Section>
 
         <Section id="selector" title="Element / Selector">
-          <p>
-            Per step, the <strong>Element ID</strong> (CSS selector) of the element to highlight. The
-            tooltip anchors to this element. On this demo page the selectors are{' '}
-            <Code>#demo-create</Code>, <Code>#demo-search</Code>, <Code>#demo-settings</Code> and{' '}
-            <Code>#demo-profile</Code>.
+          <p id="selector-text">
+            Per step, the <strong id="selector-element-id">Element ID</strong> (CSS selector) of the
+            element to highlight. The tooltip anchors to this element. On this demo page the
+            selectors are <Code id="selector-eg-create">#demo-create</Code>,{' '}
+            <Code id="selector-eg-search">#demo-search</Code>,{' '}
+            <Code id="selector-eg-settings">#demo-settings</Code> and{' '}
+            <Code id="selector-eg-profile">#demo-profile</Code>.
           </p>
           <PropertyCard type="string" required>
-            Any valid CSS selector. If the element isn't present when the tour runs, that step is
-            skipped.
+            <span id="selector-prop">
+              Any valid CSS selector. If the element isn't present when the tour runs, that step is
+              skipped.
+            </span>
           </PropertyCard>
         </Section>
 
         <Section id="position" title="Position">
-          <p>Where the tooltip card sits relative to the highlighted element.</p>
+          <p id="position-text">Where the tooltip card sits relative to the highlighted element.</p>
           <PropertyCard type="'top' | 'bottom' | 'left' | 'right'" defaultValue="'bottom'">
-            Placement of the step tooltip. Falls back to <Code>bottom</Code> when not set.
+            <span id="position-prop">
+              Placement of the step tooltip. Falls back to <Code id="position-default">bottom</Code>{' '}
+              when not set.
+            </span>
           </PropertyCard>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div id="position-grid" className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
             {(['top', 'bottom', 'left', 'right'] as const).map((p) => (
               <div
                 key={p}
+                id={`position-option-${p}`}
                 className="rounded-lg border border-slate-200 bg-white px-3 py-4 text-center text-sm font-medium capitalize text-slate-700"
               >
                 {p}
@@ -249,52 +283,61 @@ function Tours() {
         </Section>
 
         <Section id="backdrop" title="Backdrop">
-          <p>
+          <p id="backdrop-text">
             The dimmed overlay drawn behind the highlighted element to focus attention. Its color is
-            controlled by <Code>backdropColor</Code> on the step's layout. A cut-out around the
-            target element keeps it bright while the rest of the page is dimmed.
+            controlled by <Code id="backdrop-prop-name">backdropColor</Code> on the step's layout. A
+            cut-out around the target element keeps it bright while the rest of the page is dimmed.
           </p>
           <PropertyCard type="string (hex color)" defaultValue="'#F5F5F5'">
-            Backdrop / overlay color for the step. Set per step via the step's EmailLayout{' '}
-            <Code>backdropColor</Code>.
+            <span id="backdrop-prop">
+              Backdrop / overlay color for the step. Set per step via the step's EmailLayout{' '}
+              <Code id="backdrop-layout-prop">backdropColor</Code>.
+            </span>
           </PropertyCard>
         </Section>
 
         <Section id="device-language" title="Device & Language">
-          <p>Restrict where the tour shows and which localized content is served.</p>
+          <p id="device-language-text">
+            Restrict where the tour shows and which localized content is served.
+          </p>
           <PropertyCard type="'desktop' | 'tablet' | 'mobile'" defaultValue="'desktop'">
-            Device the tour targets.
+            <span id="device-prop">Device the tour targets.</span>
           </PropertyCard>
           <PropertyCard type="'en' | 'hi'" defaultValue="'en'">
-            Language of the tour content.
+            <span id="language-prop">Language of the tour content.</span>
           </PropertyCard>
         </Section>
 
         <Section id="scheduling" title="Scheduling">
-          <p>
+          <p id="scheduling-text">
             Control when a tour is live with a start date, an end date, or "run forever". Outside the
             window the tour is not served.
           </p>
           <PropertyCard type="Date" defaultValue="now">
-            <strong>Start date</strong> — when the tour goes live.
+            <span id="scheduling-start-prop">
+              <strong>Start date</strong> — when the tour goes live.
+            </span>
           </PropertyCard>
           <PropertyCard type="Date | null" defaultValue="null">
-            <strong>End date</strong> — when it stops. Turn on <em>Run forever</em> to leave it open.
+            <span id="scheduling-end-prop">
+              <strong>End date</strong> — when it stops. Turn on <em>Run forever</em> to leave it
+              open.
+            </span>
           </PropertyCard>
         </Section>
 
         <Section id="show-once" title="Show only once">
-          <p>
+          <p id="show-once-text">
             When enabled, a visitor sees the tour a single time; once they finish or dismiss it, it
-            won't show again for them (tracked per <Code>visitorId</Code>).
+            won't show again for them (tracked per <Code id="show-once-visitor">visitorId</Code>).
           </p>
           <PropertyCard type="boolean" defaultValue="false">
-            Show the tour only once per visitor.
+            <span id="show-once-prop">Show the tour only once per visitor.</span>
           </PropertyCard>
         </Section>
 
         <Section id="step-style" title="Step styling">
-          <p>Each step's tooltip card can be styled independently.</p>
+          <p id="step-style-text">Each step's tooltip card can be styled independently.</p>
           <ApiTable
             rows={[
               {
@@ -330,14 +373,17 @@ function Tours() {
         </Section>
 
         <Section id="integration" title="Integration">
-          <p>Install AHDjs, initialize it once, then render the tour for a slug.</p>
+          <p id="integration-text">
+            Install AHDjs, initialize it once, then render the tour for a slug.
+          </p>
           <DemoBlock
             title="React"
             description="Initialize AHDjs and render the tour on demand."
             code={BASIC_CODE}
           >
-            <div className="text-sm text-slate-600">
-              <Code>showHighlights("{TOUR_SLUG}", true)</Code> renders the tour for the current page.
+            <div id="integration-react-note" className="text-sm text-slate-600">
+              <Code id="integration-react-method">showHighlights("{TOUR_SLUG}", true)</Code> renders
+              the tour for the current page.
             </div>
           </DemoBlock>
           <DemoBlock
@@ -346,12 +392,16 @@ function Tours() {
             code={SCRIPT_TAG_CODE}
             language="html"
           >
-            <div className="text-sm text-slate-600">Loads AHDjs from a CDN and runs on load.</div>
+            <div id="integration-script-note" className="text-sm text-slate-600">
+              Loads AHDjs from a CDN and runs on load.
+            </div>
           </DemoBlock>
         </Section>
 
         <Section id="api" title="API reference">
-          <h3 className="mb-2 mt-2 text-base font-semibold text-ink">Constructor options</h3>
+          <h3 id="api-constructor-heading" className="mb-2 mt-2 text-base font-semibold text-ink">
+            Constructor options
+          </h3>
           <ApiTable
             rows={[
               {
@@ -378,7 +428,9 @@ function Tours() {
               },
             ]}
           />
-          <h3 className="mb-2 mt-6 text-base font-semibold text-ink">Methods</h3>
+          <h3 id="api-methods-heading" className="mb-2 mt-6 text-base font-semibold text-ink">
+            Methods
+          </h3>
           <ApiTable
             rows={[
               {
