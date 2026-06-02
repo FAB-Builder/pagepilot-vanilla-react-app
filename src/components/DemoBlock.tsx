@@ -4,42 +4,37 @@ import CodeSnippet from './CodeSnippet';
 interface DemoBlockProps {
   title: string;
   description?: ReactNode;
-  /** The live, interactive preview. */
   children: ReactNode;
-  /** The source code shown when the user expands the snippet. */
   code: string;
   language?: string;
 }
 
-/**
- * An Ant-Design-style demo card: a live preview on top, a meta strip with the
- * title/description, and a "Show code" toggle revealing the source.
- */
+/** Ant-Design-style demo card: live preview, meta strip, "Show code" toggle. */
 function DemoBlock({ title, description, children, code, language = 'tsx' }: DemoBlockProps) {
   const [showCode, setShowCode] = useState(false);
 
   return (
-    <div className="demo-block">
-      <div className="demo-block-preview">{children}</div>
+    <div className="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white">
+      <div className="px-6 py-8">{children}</div>
 
-      <div className="demo-block-meta">
-        <span className="demo-block-title">{title}</span>
-        {description && <p className="demo-block-desc">{description}</p>}
+      <div className="border-t border-dashed border-slate-200 px-6 pb-3 pt-4">
+        <span className="text-sm font-semibold">{title}</span>
+        {description && <p className="mt-1 text-sm leading-relaxed text-slate-500">{description}</p>}
       </div>
 
-      <div className="demo-block-toolbar">
+      <div className="flex justify-end px-6 pb-3">
         <button
           type="button"
-          className="demo-block-toggle"
           onClick={() => setShowCode((v) => !v)}
           aria-expanded={showCode}
+          className="rounded-md px-1.5 py-1 text-xs font-semibold text-brand transition-colors hover:bg-brand-tint"
         >
           {showCode ? '⌃ Hide code' : '⌄ Show code'}
         </button>
       </div>
 
       {showCode && (
-        <div className="demo-block-code">
+        <div className="border-t border-slate-200 bg-slate-50 px-6 pb-6 pt-4">
           <CodeSnippet code={code} language={language} />
         </div>
       )}

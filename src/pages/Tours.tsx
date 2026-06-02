@@ -1,26 +1,41 @@
 import { useEffect, useRef, useState } from 'react';
 import { createAhd, AHD_API_HOST, DEMO_APPLICATION_ID, type AhdInstance } from '../lib/ahd';
-import DocLayout from '../components/DocLayout';
+import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
 import ApiTable from '../components/ApiTable';
+import PropertyCard from '../components/PropertyCard';
 
 /**
  * The slug a tour is attached to. In PagePilot a "Target Page" is just a
- * slug; the tour for this demo is published against the `tours` slug.
+ * slug; the tour for this demo is published against the `/tours` slug.
  */
 const TOUR_SLUG = '/tours';
 
+/** Left-sidebar sections — scoped to Tours, in reading order. */
+const SECTIONS: DocSection[] = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'live-demo', label: 'Live demo' },
+  { id: 'target-page', label: 'Target Page' },
+  { id: 'alt-target-page', label: 'Alternative Target Page' },
+  { id: 'selector', label: 'Element / Selector' },
+  { id: 'position', label: 'Position' },
+  { id: 'backdrop', label: 'Backdrop' },
+  { id: 'device-language', label: 'Device & Language' },
+  { id: 'scheduling', label: 'Scheduling' },
+  { id: 'show-once', label: 'Show only once' },
+  { id: 'step-style', label: 'Step styling' },
+  { id: 'integration', label: 'Integration' },
+  { id: 'api', label: 'API reference' },
+];
+
 type Status = 'idle' | 'loading' | 'running' | 'error';
 
-/** The headline live example — a real ahdjs tour over sample elements. */
 function LiveTourDemo() {
   const ahdRef = useRef<AhdInstance | null>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    return () => ahdRef.current?.stop();
-  }, []);
+  useEffect(() => () => ahdRef.current?.stop(), []);
 
   const startTour = async () => {
     setError(null);
@@ -43,39 +58,60 @@ function LiveTourDemo() {
   };
 
   return (
-    <div className="tour-live">
-      <div className="tour-live-actions">
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-3">
         {status === 'running' ? (
-          <button type="button" className="btn btn--ghost" onClick={stopTour}>
+          <button
+            type="button"
+            onClick={stopTour}
+            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand hover:text-brand"
+          >
             Stop Tour
           </button>
         ) : (
           <button
             type="button"
-            className="btn btn--primary"
             onClick={startTour}
             disabled={status === 'loading'}
+            className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
           >
             {status === 'loading' ? 'Starting…' : '▶ Start Tour'}
           </button>
         )}
-        {status === 'running' && <span className="status status--ok">Tour running</span>}
-        {error && <span className="status status--error">{error}</span>}
+        {status === 'running' && (
+          <span className="text-sm font-semibold text-emerald-600">Tour running</span>
+        )}
+        {error && <span className="text-sm font-semibold text-rose-600">{error}</span>}
       </div>
 
-      {/* Sample target elements the tour highlights. The selectors below are
-          what the tour steps point at in the PagePilot admin. */}
-      <div className="demo-stage">
-        <button id="demo-create" className="stage-btn stage-btn--primary" type="button">
+      {/* Sample target elements. The tour steps point at these selectors. */}
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5">
+        <button
+          id="demo-create"
+          type="button"
+          className="rounded-lg bg-brand px-3.5 py-2 text-sm text-white"
+        >
           + Create project
         </button>
-        <button id="demo-search" className="stage-btn" type="button">
+        <button
+          id="demo-search"
+          type="button"
+          className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm"
+        >
           Search
         </button>
-        <button id="demo-settings" className="stage-btn" type="button">
+        <button
+          id="demo-settings"
+          type="button"
+          className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm"
+        >
           Settings
         </button>
-        <div id="demo-profile" className="stage-avatar" title="Profile">
+        <div
+          id="demo-profile"
+          title="Profile"
+          className="ml-auto grid h-9 w-9 place-items-center rounded-full bg-brand-tint text-sm font-bold text-brand"
+        >
           JD
         </div>
       </div>
@@ -83,98 +119,231 @@ function LiveTourDemo() {
   );
 }
 
+/** Reusable section wrapper with an anchor + heading. */
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="mb-12 scroll-mt-24">
+      <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">{title}</h2>
+      <div className="space-y-3 leading-relaxed text-slate-600">{children}</div>
+    </section>
+  );
+}
+
+const Code = ({ children }: { children: React.ReactNode }) => (
+  <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+    {children}
+  </code>
+);
+
 function Tours() {
   return (
-    <DocLayout
-      sections={[
-        { id: 'when-to-use', label: 'When to use' },
-        { id: 'examples', label: 'Examples' },
-        { id: 'how-it-works', label: 'How it works' },
-        { id: 'api', label: 'API' },
-      ]}
-    >
-      <article className="doc-article">
-        <header className="doc-article-head">
-          <h1>Tours</h1>
-          <p className="doc-lead">
-            A tour is a step-by-step guided walkthrough that highlights elements on a page and shows
-            a tooltip with a title, description, and next / previous controls. PagePilot fetches the
-            tour config for a given Target Page (slug) and renders it over your real DOM.
+    <DocLayout title="Tours" sections={SECTIONS}>
+      <article className="max-w-3xl">
+        <header className="mb-8 border-b border-slate-200 pb-6">
+          <span className="text-sm font-semibold uppercase tracking-wide text-brand">
+            Components
+          </span>
+          <h1 className="mt-1 text-3xl font-bold">Tours</h1>
+          <p className="mt-3 text-lg leading-relaxed text-slate-600">
+            A tour is a step-by-step guided walkthrough. Each step highlights an element on a page
+            and shows a tooltip card with content and next / previous controls. PagePilot fetches the
+            tour for a given <strong>Target Page</strong> and renders it over your real DOM.
           </p>
         </header>
 
-        <section id="when-to-use" className="doc-section">
-          <h2>When to use</h2>
-          <ul className="doc-list">
-            <li>Onboarding new users by walking them through key features.</li>
-            <li>Introducing a new or changed feature in your product.</li>
-            <li>Guiding users through a multi-step workflow.</li>
-          </ul>
-        </section>
+        <Section id="overview" title="Overview">
+          <p>
+            A tour has <strong>tour-level</strong> settings (which pages it runs on, scheduling,
+            device) and a list of <strong>steps</strong>. Each step points at an element and
+            controls its own placement and styling. The sections below document every property you
+            configure in the PagePilot admin.
+          </p>
+        </Section>
 
-        <section id="examples" className="doc-section">
-          <h2>Examples</h2>
-
+        <Section id="live-demo" title="Live demo">
+          <p>
+            Press <strong>Start Tour</strong> to run the tour published against the{' '}
+            <Code>{TOUR_SLUG}</Code> slug for this demo app. It highlights the sample buttons below.
+          </p>
           <DemoBlock
-            title="Live tour"
+            title="Start a tour"
             description={
               <>
-                Press <strong>Start Tour</strong> to run the tour published against the{' '}
-                <code>{TOUR_SLUG}</code> slug. It highlights the sample buttons below.
+                Calls <Code>showHighlights("{TOUR_SLUG}", true)</Code> after initializing the client.
               </>
             }
             code={LIVE_DEMO_CODE}
           >
             <LiveTourDemo />
           </DemoBlock>
+        </Section>
 
+        <Section id="target-page" title="Target Page">
+          <p>
+            The page (slug) where the tour appears. PagePilot matches the visitor's current URL path
+            against this slug; when it matches, the tour renders. It must start with a{' '}
+            <Code>/</Code>.
+          </p>
+          <PropertyCard type="string" required defaultValue="'/'">
+            The URL path the tour is bound to, e.g. <Code>/dashboard</Code> or <Code>/tours</Code>.
+            In code this is the first argument to <Code>showHighlights(slug, refetch)</Code>.
+          </PropertyCard>
+        </Section>
+
+        <Section id="alt-target-page" title="Alternative Target Page">
+          <p>
+            Additional slugs the same tour should also run on. Useful when the same screen is reached
+            via multiple URLs (e.g. <Code>/home</Code> and <Code>/dashboard</Code>). Each alternative
+            must also start with <Code>/</Code>.
+          </p>
+          <PropertyCard type="string[]" defaultValue="[]">
+            A list of extra page slugs. The tour shows if the current URL matches the Target Page{' '}
+            <em>or</em> any alternative.
+          </PropertyCard>
+        </Section>
+
+        <Section id="selector" title="Element / Selector">
+          <p>
+            Per step, the <strong>Element ID</strong> (CSS selector) of the element to highlight. The
+            tooltip anchors to this element. On this demo page the selectors are{' '}
+            <Code>#demo-create</Code>, <Code>#demo-search</Code>, <Code>#demo-settings</Code> and{' '}
+            <Code>#demo-profile</Code>.
+          </p>
+          <PropertyCard type="string" required>
+            Any valid CSS selector. If the element isn't present when the tour runs, that step is
+            skipped.
+          </PropertyCard>
+        </Section>
+
+        <Section id="position" title="Position">
+          <p>Where the tooltip card sits relative to the highlighted element.</p>
+          <PropertyCard type="'top' | 'bottom' | 'left' | 'right'" defaultValue="'bottom'">
+            Placement of the step tooltip. Falls back to <Code>bottom</Code> when not set.
+          </PropertyCard>
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {(['top', 'bottom', 'left', 'right'] as const).map((p) => (
+              <div
+                key={p}
+                className="rounded-lg border border-slate-200 bg-white px-3 py-4 text-center text-sm font-medium capitalize text-slate-700"
+              >
+                {p}
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="backdrop" title="Backdrop">
+          <p>
+            The dimmed overlay drawn behind the highlighted element to focus attention. Its color is
+            controlled by <Code>backdropColor</Code> on the step's layout. A cut-out around the
+            target element keeps it bright while the rest of the page is dimmed.
+          </p>
+          <PropertyCard type="string (hex color)" defaultValue="'#F5F5F5'">
+            Backdrop / overlay color for the step. Set per step via the step's EmailLayout{' '}
+            <Code>backdropColor</Code>.
+          </PropertyCard>
+        </Section>
+
+        <Section id="device-language" title="Device & Language">
+          <p>Restrict where the tour shows and which localized content is served.</p>
+          <PropertyCard type="'desktop' | 'tablet' | 'mobile'" defaultValue="'desktop'">
+            Device the tour targets.
+          </PropertyCard>
+          <PropertyCard type="'en' | 'hi'" defaultValue="'en'">
+            Language of the tour content.
+          </PropertyCard>
+        </Section>
+
+        <Section id="scheduling" title="Scheduling">
+          <p>
+            Control when a tour is live with a start date, an end date, or "run forever". Outside the
+            window the tour is not served.
+          </p>
+          <PropertyCard type="Date" defaultValue="now">
+            <strong>Start date</strong> — when the tour goes live.
+          </PropertyCard>
+          <PropertyCard type="Date | null" defaultValue="null">
+            <strong>End date</strong> — when it stops. Turn on <em>Run forever</em> to leave it open.
+          </PropertyCard>
+        </Section>
+
+        <Section id="show-once" title="Show only once">
+          <p>
+            When enabled, a visitor sees the tour a single time; once they finish or dismiss it, it
+            won't show again for them (tracked per <Code>visitorId</Code>).
+          </p>
+          <PropertyCard type="boolean" defaultValue="false">
+            Show the tour only once per visitor.
+          </PropertyCard>
+        </Section>
+
+        <Section id="step-style" title="Step styling">
+          <p>Each step's tooltip card can be styled independently.</p>
+          <ApiTable
+            rows={[
+              {
+                property: 'canvasColor',
+                description: 'Background color of the tooltip card.',
+                type: 'string',
+                default: "'#FFFFFF'",
+              },
+              {
+                property: 'textColor',
+                description: 'Text color inside the card.',
+                type: 'string',
+                default: "'#262626'",
+              },
+              {
+                property: 'fontFamily',
+                description: 'Font family for the card content.',
+                type: 'string',
+                default: "'MODERN_SANS'",
+              },
+              {
+                property: 'borderRadius / borderColor / borderWidth',
+                description: 'Card border styling.',
+                type: 'string | number',
+              },
+              {
+                property: 'width / height / top / left',
+                description: 'Manual size and offset overrides for the card.',
+                type: 'string | number',
+              },
+            ]}
+          />
+        </Section>
+
+        <Section id="integration" title="Integration">
+          <p>Install AHDjs, initialize it once, then render the tour for a slug.</p>
           <DemoBlock
-            title="Basic integration"
-            description="Initialize AHDjs once, then render the tour for a slug."
+            title="React"
+            description="Initialize AHDjs and render the tour on demand."
             code={BASIC_CODE}
           >
-            <div className="demo-static">
-              <code>showHighlights("{TOUR_SLUG}", true)</code> renders the tour for the current page.
+            <div className="text-sm text-slate-600">
+              <Code>showHighlights("{TOUR_SLUG}", true)</Code> renders the tour for the current page.
             </div>
           </DemoBlock>
-
           <DemoBlock
-            title="Script tag install"
+            title="Script tag"
             description="No build step — drop AHDjs into any HTML page."
             code={SCRIPT_TAG_CODE}
             language="html"
           >
-            <div className="demo-static">
-              Loads AHDjs from a CDN and renders the tour on page load.
-            </div>
+            <div className="text-sm text-slate-600">Loads AHDjs from a CDN and runs on load.</div>
           </DemoBlock>
-        </section>
+        </Section>
 
-        <section id="how-it-works" className="doc-section">
-          <h2>How it works</h2>
-          <ol className="doc-steps">
-            <li>
-              <strong>Author</strong> a tour in PagePilot against a Target Page slug (here{' '}
-              <code>{TOUR_SLUG}</code>), pointing each step at a CSS selector on your page.
-            </li>
-            <li>
-              <strong>Install</strong> AHDjs in your app (npm or script tag).
-            </li>
-            <li>
-              <strong>Initialize</strong> the client with your Application ID and call{' '}
-              <code>initializeSiteMap()</code>.
-            </li>
-            <li>
-              <strong>Render</strong> the tour for the current page with{' '}
-              <code>showHighlights("{TOUR_SLUG}", true)</code>.
-            </li>
-          </ol>
-        </section>
-
-        <section id="api" className="doc-section">
-          <h2>API</h2>
-
-          <h3 className="doc-subhead">Constructor options</h3>
+        <Section id="api" title="API reference">
+          <h3 className="mb-2 mt-2 text-base font-semibold text-slate-900">Constructor options</h3>
           <ApiTable
             rows={[
               {
@@ -201,8 +370,7 @@ function Tours() {
               },
             ]}
           />
-
-          <h3 className="doc-subhead">Methods</h3>
+          <h3 className="mb-2 mt-6 text-base font-semibold text-slate-900">Methods</h3>
           <ApiTable
             rows={[
               {
@@ -222,7 +390,7 @@ function Tours() {
               },
             ]}
           />
-        </section>
+        </Section>
       </article>
     </DocLayout>
   );
