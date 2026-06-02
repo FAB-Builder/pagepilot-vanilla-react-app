@@ -47,7 +47,7 @@ function CodeSnippet({ code, language = 'tsx', title }: CodeSnippetProps) {
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto bg-[#181825] py-3">
+      <pre className="scroll-slim overflow-x-auto bg-[#181825] py-3">
         <code className="block font-mono text-[13px] leading-relaxed text-slate-200">
           {lines.map((line, idx) => (
             <span key={idx} className="flex">

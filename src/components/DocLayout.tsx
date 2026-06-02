@@ -44,7 +44,7 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[256px_minmax(0,1fr)]">
       <aside className="hidden lg:block">
-        <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto pb-6 pr-2">
+        <div className="scroll-slim sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto pb-6 pr-2">
           {/* Component list */}
           <span className="mb-2 block px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
             Components

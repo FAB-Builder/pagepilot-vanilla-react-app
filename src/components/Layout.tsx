@@ -10,8 +10,8 @@ function Layout() {
     <div className="min-h-screen">
       <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center px-6">
-          <Link to="/" className="flex shrink-0 items-center" aria-label="PagePilot home">
-            <PagePilotIcon className="h-7 w-auto text-ink" />
+          <Link to="/" className=" font-semibold flex shrink-0 items-center" aria-label="PagePilot home">
+            Page Pilot
           </Link>
 
           <div className="ml-auto flex items-center gap-2">
@@ -21,7 +21,7 @@ function Layout() {
               rel="noreferrer"
               className="flex items-center gap-1.5 rounded-lg bg-brand px-3 py-1.5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
             >
-              Open PagePilot
+              Open Page Pilot
               <ExternalLink size={13} className="opacity-80" />
             </a>
             <a

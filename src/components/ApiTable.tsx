@@ -12,7 +12,7 @@ interface ApiTableProps {
 /** Ant-Design-style API reference table. */
 function ApiTable({ rows }: ApiTableProps) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200">
+    <div className="scroll-slim overflow-x-auto rounded-xl border border-slate-200">
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="bg-slate-50 text-left text-slate-500">
