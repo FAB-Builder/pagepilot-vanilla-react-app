@@ -7,10 +7,11 @@ const AHDJS_REPO_URL = 'https://github.com/ishaan-puniani/ahdjs';
 
 function Layout() {
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
+    <div className="flex h-screen flex-col overflow-hidden">
+      {/* Fixed header */}
+      <header className="z-20 shrink-0 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center px-6">
-          <Link to="/" className=" font-semibold flex shrink-0 items-center" aria-label="PagePilot home">
+          <Link to="/" className="flex shrink-0 items-center font-semibold" aria-label="PagePilot home">
             Page Pilot
           </Link>
 
@@ -37,9 +38,14 @@ function Layout() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1400px] px-6 pb-16 pt-8">
-        <Outlet />
-      </main>
+      {/* Body: only the content area scrolls */}
+      <div className="flex flex-1 overflow-hidden">
+        <main className="scroll-slim flex-1 overflow-y-auto">
+          <div className="mx-auto max-w-[1400px] px-6 pb-16 pt-8">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

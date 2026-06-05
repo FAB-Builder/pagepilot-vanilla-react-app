@@ -1,4 +1,4 @@
-import { Compass, Megaphone, MonitorPlay, Lightbulb, type LucideIcon } from 'lucide-react';
+import { Compass, MonitorPlay, Lightbulb, type LucideIcon } from 'lucide-react';
 
 export interface NavItem {
   to: string;
@@ -17,12 +17,6 @@ export const navItems: NavItem[] = [
     label: 'Tours',
     description: 'Step-by-step guided walkthroughs that highlight parts of your UI.',
     icon: Compass,
-  },
-  {
-    to: '/app-banner',
-    label: 'App Banner',
-    description: 'Announcement banners rendered anywhere in your app.',
-    icon: Megaphone,
   },
   {
     to: '/demos',

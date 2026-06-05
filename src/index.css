@@ -9,31 +9,26 @@
     scroll-behavior: smooth;
     /* subtler default text color than pure black */
     color: #1e293b;
-    /* Reserve the scrollbar gutter so the layout never shifts horizontally
-       when page height changes (keeps the sidebar from jumping). */
-    scrollbar-gutter: stable;
   }
 
-  /* Slim, light page scrollbar (Firefox) so the reserved gutter is subtle,
-     not a fat dark OS band. */
-  html {
+  /* Firefox global slim scrollbar */
+  * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(100, 116, 139, 0.4) transparent;
+    scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
   }
-  /* WebKit/Chromium page scrollbar */
-  html::-webkit-scrollbar {
-    width: 10px;
+  /* WebKit/Chromium global scrollbar — slim 4px */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
   }
-  html::-webkit-scrollbar-track {
+  ::-webkit-scrollbar-track {
     background: transparent;
   }
-  html::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     background-color: rgba(100, 116, 139, 0.35);
     border-radius: 9999px;
-    border: 2px solid transparent;
-    background-clip: content-box;
   }
-  html::-webkit-scrollbar-thumb:hover {
+  ::-webkit-scrollbar-thumb:hover {
     background-color: rgba(100, 116, 139, 0.55);
   }
   body {

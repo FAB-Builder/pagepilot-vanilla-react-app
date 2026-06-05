@@ -42,11 +42,12 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
   }, [sections]);
 
   return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-[256px_minmax(0,1fr)]">
-      <aside className="hidden lg:block">
-        <div className="scroll-slim sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto pb-6 pr-2">
+    <div className="flex gap-10">
+      <aside className="hidden w-64 shrink-0 lg:block">
+        {/* fixed so it never scrolls with the content */}
+        <div className="fixed top-14 w-64 pb-6 pr-2">
           {/* Component list */}
-          <span className="mb-2 block px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
+          <span className=" mt-4 mb-2 block px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
             Components
           </span>
           <nav className="mb-6 flex flex-col gap-0.5">
@@ -95,7 +96,7 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
         </div>
       </aside>
 
-      <div className="min-w-0">{children}</div>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 }
