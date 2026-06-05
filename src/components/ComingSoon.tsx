@@ -11,9 +11,7 @@ function ComingSoon({ title, description }: ComingSoonProps) {
     <DocLayout title={title} sections={[{ id: 'overview', label: 'Overview' }]}>
       <article className="max-w-3xl">
         <header className="mb-8 border-b border-slate-200 pb-6">
-          <span className="text-sm font-semibold uppercase tracking-wide text-brand">
-            Components
-          </span>
+          
           <h1 className="mt-1 text-3xl font-bold">{title}</h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">{description}</p>
         </header>

@@ -169,11 +169,9 @@ const Code = ({ id, children }: { id?: string; children: React.ReactNode }) => (
 function Tours() {
   return (
     <DocLayout title="Tours" sections={SECTIONS}>
-      <article id="tours-article" className="max-w-3xl">
+      <article id="tours-article" className="">
         <header id="tours-header" className="mb-8 border-b border-slate-200 pb-6">
-          <span id="tours-eyebrow" className="text-sm font-semibold uppercase tracking-wide text-brand">
-            Components
-          </span>
+       
           <h1 id="tours-title" className="mt-1 text-3xl font-bold">
             Tours
           </h1>

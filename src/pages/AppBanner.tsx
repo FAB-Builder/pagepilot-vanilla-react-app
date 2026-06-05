@@ -75,11 +75,9 @@ function LiveBannerDemo() {
 function AppBanner() {
   return (
     <DocLayout title="App Banner" sections={SECTIONS}>
-      <article className="max-w-3xl">
+      <article className="">
         <header className="mb-8 border-b border-slate-200 pb-6">
-          <span className="text-sm font-semibold uppercase tracking-wide text-brand">
-            Components
-          </span>
+         
           <h1 className="mt-1 text-3xl font-bold">App Banner</h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
             App banners are announcement blocks fetched by identifier and rendered into a container

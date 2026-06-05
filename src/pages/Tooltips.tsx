@@ -162,14 +162,9 @@ const Code = ({ id, children }: { id?: string; children: React.ReactNode }) => (
 function Tooltips() {
   return (
     <DocLayout title="Tooltips" sections={SECTIONS}>
-      <article id="tooltips-article" className="max-w-3xl">
+      <article id="tooltips-article" className="">
         <header id="tooltips-header" className="mb-8 border-b border-slate-200 pb-6">
-          <span
-            id="tooltips-eyebrow"
-            className="text-sm font-semibold uppercase tracking-wide text-brand"
-          >
-            Components
-          </span>
+          
           <h1 id="tooltips-title" className="mt-1 text-3xl font-bold">
             Tooltips
           </h1>

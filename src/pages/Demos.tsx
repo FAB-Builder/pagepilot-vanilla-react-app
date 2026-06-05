@@ -1,11 +1,15 @@
-import { AHD_API_HOST } from '../lib/ahd';
+import { ExternalLink } from 'lucide-react';
+import { AHD_API_HOST, DEMO_APPLICATION_ID } from '../lib/ahd';
 import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
 import ApiTable from '../components/ApiTable';
 import PropertyCard from '../components/PropertyCard';
 
+const DEMO_ID = '6a22c1d7b237c3d4ae94bf2f';
+
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
+  { id: 'live-demo', label: 'Live demo' },
   { id: 'steps', label: 'Steps' },
   { id: 'integration', label: 'Integration' },
   { id: 'navigation', label: 'Navigation' },
@@ -34,9 +38,9 @@ const Code = ({ children }: { children: React.ReactNode }) => (
 function Demos() {
   return (
     <DocLayout title="Demos" sections={SECTIONS}>
-      <article className="max-w-3xl">
+      <article className="">
         <header className="mb-8 border-b border-slate-200 pb-6">
-          <span className="text-sm font-semibold uppercase tracking-wide text-brand">Components</span>
+          
           <h1 className="mt-1 text-3xl font-bold">Demos</h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
             A demo is a multi-step interactive presentation that showcases product features in
@@ -58,6 +62,44 @@ function Demos() {
             in your app using element selectors. Use a <em>demo</em> for a controlled, self-contained
             presentation that works independently of the page DOM.
           </p>
+        </Section>
+
+        <Section id="live-demo" title="Live demo">
+          <p>
+            The demo below is embedded live — the same iframe your users see after you publish and
+            share. Click through it to experience the step-by-step flow.
+          </p>
+          <div className="mb-3 flex justify-end">
+              <a
+                href={`https://pagepilot-demo-viewer-prod.web.app//?tid=${DEMO_APPLICATION_ID}&did=${DEMO_ID}&type=demo&status=live`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-600 transition-colors hover:border-brand hover:text-brand"
+              >
+                <ExternalLink size={14} />
+                Show on full page
+              </a>
+            </div>
+            <div
+              style={{ position: 'relative', paddingBottom: 'calc(54.75% + 25px)', width: '100%', height: 0 }}
+            >
+              <iframe
+                loading="lazy"
+                src={`https://pagepilot-demo-viewer-prod.web.app//?tid=${DEMO_APPLICATION_ID}&did=${DEMO_ID}&type=demo&status=live`}
+                allow="fullscreen"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  border: '1px solid rgba(63,95,172,0.35)',
+                  boxShadow: '0px 0px 18px rgba(26,19,72,0.15)',
+                  borderRadius: '10px',
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
         </Section>
 
         <Section id="steps" title="Steps">
@@ -218,6 +260,7 @@ function Demos() {
 }
 
 /* ------------------------------- Snippets ------------------------------- */
+
 
 const SHARE_LINK = `https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live`;
 
