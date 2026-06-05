@@ -415,7 +415,7 @@ function Tours() {
               },
               {
                 property: 'visitorId',
-                description: 'Identifier used to track tour progress per visitor.',
+                description: 'The current logged-in user\'s ID from your platform (e.g. user.id or auth.uid). PagePilot uses this to track tour progress per user — so "show only once" and analytics work correctly per individual. Pass your own unique user identifier here, not a generic placeholder.',
                 type: 'string',
               },
               {
@@ -465,9 +465,11 @@ export default function StartTourButton() {
 
   const startTour = async () => {
     const ahdJs = AHDjs(undefined, {
-      applicationId: '${DEMO_APPLICATION_ID}',
+      applicationId: 'YOUR_APPLICATION_ID',
       apiHost: '${AHD_API_HOST}',
-      visitorId: 'visitor-id',
+      // visitorId: the current logged-in user's ID from your platform.
+      // Pass your own user identifier so PagePilot can track per-user progress.
+      visitorId: currentUser.id,
       showProgressbar: false,
     });
     ahdRef.current = ahdJs;
@@ -491,9 +493,11 @@ const BASIC_CODE = `import AHDjs from 'ahdjs';
 import 'ahdjs/build/css/index.css';
 
 const ahdJs = AHDjs(undefined, {
-  applicationId: '${DEMO_APPLICATION_ID}',
+  applicationId: 'YOUR_APPLICATION_ID',
   apiHost: '${AHD_API_HOST}',
-  visitorId: 'visitor-id',
+  // visitorId: the current logged-in user's ID from your platform.
+  // Pass your own user identifier so PagePilot can track per-user progress.
+  visitorId: currentUser.id,
   showProgressbar: false,
 });
 
@@ -505,9 +509,11 @@ const SCRIPT_TAG_CODE = `<link rel="stylesheet" href="https://unpkg.com/ahdjs/bu
 <script>
   const AHDjs = window.AHDjs.default;
   const _ahdJs = new AHDjs(undefined, {
-    applicationId: '${DEMO_APPLICATION_ID}',
+    applicationId: 'YOUR_APPLICATION_ID',
     apiHost: '${AHD_API_HOST}',
-    visitorId: 'visitor-id',
+    // visitorId: the current logged-in user's ID from your platform.
+    // Pass your own user identifier so PagePilot can track per-user progress.
+    visitorId: currentUser.id,
     showProgressbar: false,
   });
   _ahdJs.initializeSiteMap();
