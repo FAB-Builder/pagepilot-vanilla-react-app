@@ -25,6 +25,8 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
   const [activeId, setActiveId] = useState(sections[0]?.id);
 
   useEffect(() => {
+    // The scroll container is the <main> element in Layout — not the window.
+    const scrollRoot = document.querySelector('main') as HTMLElement | null;
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -32,7 +34,7 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible[0]) setActiveId(visible[0].target.id);
       },
-      { rootMargin: '-72px 0px -70% 0px', threshold: 0 }
+      { root: scrollRoot, rootMargin: '0px 0px -60% 0px', threshold: 0 }
     );
     sections.forEach((s) => {
       const el = document.getElementById(s.id);
@@ -82,8 +84,16 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
               <a
                 key={s.id}
                 href={`#${s.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById(s.id);
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setActiveId(s.id);
+                  }
+                }}
                 className={[
-                  'border-l-2 py-1.5 pl-4 pr-2 text-[13px] transition-colors',
+                  'cursor-pointer border-l-2 py-1.5 pl-4 pr-2 text-[13px] transition-colors',
                   activeId === s.id
                     ? 'border-brand font-semibold text-brand'
                     : 'border-slate-200 text-muted hover:border-slate-300 hover:text-ink',

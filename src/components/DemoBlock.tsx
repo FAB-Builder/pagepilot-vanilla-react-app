@@ -5,7 +5,7 @@ import CodeSnippet from './CodeSnippet';
 interface DemoBlockProps {
   title: string;
   description?: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
   code: string;
   language?: string;
 }
@@ -19,9 +19,7 @@ function DemoBlock({ title, description, children, code, language = 'tsx' }: Dem
 
   return (
     <div className="mb-6 overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-card">
-      <div className="px-6 py-8">{children}</div>
-
-      <div className="border-t border-dashed border-slate-200 px-6 pb-4 pt-4">
+      <div className="border-b border-dashed border-slate-200 px-6 pb-4 pt-4">
         <div className="flex items-start justify-between gap-3">
           <div>
             <span className="text-sm font-semibold text-ink">{title}</span>
@@ -43,9 +41,13 @@ function DemoBlock({ title, description, children, code, language = 'tsx' }: Dem
       </div>
 
       {showCode && (
-        <div className="border-t border-slate-200 bg-slate-50 px-6 pb-6 pt-4">
+        <div className="bg-slate-50 px-6 pb-6 pt-4">
           <CodeSnippet code={code} language={language} />
         </div>
+      )}
+
+      {children && (
+        <div className="border-t border-slate-200 px-6 py-6">{children}</div>
       )}
     </div>
   );
