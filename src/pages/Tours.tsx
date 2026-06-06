@@ -489,40 +489,31 @@ function Tours() {
 
 /* ------------------------------- Snippets ------------------------------- */
 
-const AI_PROMPT = `Integrate PagePilot product tours (the "ahdjs" SDK) into my app. Do the following steps automatically:
+const AI_PROMPT = `Do the following steps automatically:
 
-1. Install the ahdjs npm package:
-   npm install ahdjs
+Install the ahdjs npm package.
 
-2. Import AHDjs and its CSS in the app entry file (prefer src/index.tsx or src/main.tsx):
-   import AHDjs from 'ahdjs';
-   import 'ahdjs/build/css/index.css';
+Import AHDjs and its CSS (ahdjs/build/css/index.css) in the application entry file (prefer index.js or main.tsx).
 
-3. Initialize AHDjs with this configuration:
-   applicationId: "YOUR_APPLICATION_ID"   // from PagePilot → Settings → Configurations
-   apiHost: "${AHD_API_HOST}"
-   visitorId: <the logged-in user's id from my auth system, e.g. user.id> // used to track per-user progress and "show only once"
-   showProgressbar: false
+Initialize AHDjs with the following configuration:
 
-   Example:
-   const ahdJs = AHDjs(undefined, {
-     applicationId: "YOUR_APPLICATION_ID",
-     apiHost: "${AHD_API_HOST}",
-     visitorId: currentUser.id,
-     showProgressbar: false,
-   });
+applicationId: "YOUR_APPLICATION_ID"
 
-4. After the page's target elements are mounted, call (run only once per page load — use useEffect in React):
-   await ahdJs.initializeSiteMap(false);
-   await ahdJs.showHighlights("${TOUR_SLUG}", true);  // replace "${TOUR_SLUG}" with the Target Page slug the tour is published against
+apiHost: "${AHD_API_HOST}"
 
-5. On unmount, clean up with:
-   ahdJs.stop();
+visitorId: "visitor-id"
 
-Notes:
-- showHighlights(slug, refetch) renders the tour published for that slug. The slug must match the tour's "Target Page" exactly and start with "/".
-- The step selectors (CSS selectors / element ids) must exist in the DOM when showHighlights runs, otherwise those steps are skipped.
-- Add brief comments explaining what each step does, and detect my framework (React, Vue, plain HTML, etc.) and adapt the integration accordingly.`;
+showProgressbar: false
+
+Call:
+
+initializeSiteMap()
+
+showHighlights("target-page", true) //  Replace 'target-page' with the actual Target Page where you want to show the tour.
+
+Ensure the initialization runs only once when the app loads (use useEffect if needed).
+
+Add brief comments explaining what each step does.`;
 
 const LIVE_DEMO_CODE = `import { useEffect, useRef } from 'react';
 import AHDjs from 'ahdjs';

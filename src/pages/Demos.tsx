@@ -271,32 +271,27 @@ function Demos() {
 
 /* ------------------------------- Snippets ------------------------------- */
 
-const AI_PROMPT = `Embed a PagePilot demo into my web page. A demo is a self-contained, multi-step presentation — it does NOT use the ahdjs SDK or any element selectors. It is added as either a responsive iframe embed or a shareable link. Do the following:
+const AI_PROMPT = `Embed a PagePilot demo into my application. Do the following steps automatically:
 
-1. Get these two values from the PagePilot admin (the integration dialog shows them after the demo is published):
-   - Tenant ID  -> use in place of YOUR_TENANT_ID
-   - Demo ID    -> use in place of YOUR_DEMO_ID
+No npm install or SDK setup is required. PagePilot demos are embedded via an iframe.
 
-2. To embed inline, add this responsive iframe to the page where the demo should appear (keep the wrapper so the aspect ratio stays correct):
+Add the following responsive iframe embed to the page where the demo should appear:
 
-   <div style="position:relative;padding-bottom:calc(54.75% + 25px);width:100%;height:0;">
-     <iframe
-       loading="lazy"
-       src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live"
-       style="position:absolute;top:0;left:0;width:100%;height:100%;"
-       frameborder="0"
-       allowfullscreen
-     ></iframe>
-   </div>
+<div style="position:relative;padding-bottom:calc(54.75% + 25px);width:100%;height:0;">
+  <iframe
+    loading="lazy"
+    src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live"
+    style="position:absolute;top:0;left:0;width:100%;height:100%;"
+    frameborder="0"
+    allowfullscreen
+  ></iframe>
+</div>
 
-   If my project is React/JSX, convert the attributes accordingly (loading="lazy", style as an object, frameBorder, allowFullScreen).
+Replace YOUR_TENANT_ID and YOUR_DEMO_ID with the values shown in the PagePilot admin integration dialog after publishing the demo.
 
-3. Alternatively, if I just want to share the demo (email, Slack, a button link), use this URL directly:
-   https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live
+If my project uses React or JSX, convert the HTML attributes accordingly (style as an object, frameBorder, allowFullScreen).
 
-Notes:
-- No npm install, no SDK init, no showHighlights — demos render entirely inside the iframe viewer.
-- Detect my framework (React, Next.js, Vue, plain HTML, etc.) and produce the embed in the matching syntax, placed where I indicate.`;
+Detect my framework (React, Next.js, Vue, plain HTML, etc.) and produce the embed in the correct syntax.`;
 
 const SHARE_LINK = `https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live`;
 
