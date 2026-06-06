@@ -5,17 +5,27 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
+    "type-check": "tsc --noEmit",
     "deploy": "npm run build"
   },
   "dependencies": {
-    "ahdjs": "^0.0.188",
+    "ahdjs": "^0.0.198",
+    "lucide-react": "^1.17.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.16.0"
   },
   "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@types/react": "^18.3.30",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^6.0.3",
     "vite": "^5.4.10"
   }
 }
