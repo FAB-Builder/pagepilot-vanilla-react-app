@@ -1,14 +1,20 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<script>
-			sessionStorage.redirect = location.href;
-			const projectPages = true; // If you're using the base .github.io domain without a path (i.e. <name>.github.io is your home page), set this to false
-			const l = window.location;
-			const repo = projectPages ? '/' + l.pathname.split('/')[1] : '';
-			l.replace(
-				l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + repo
-			);
-		</script>
-	</head>
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<title>FAB Builder - pagepilot vanilla react-app</title>
+</head>
+
+<body>
+	Redirecting...
+	<script>
+		setTimeout(() => {
+			const pathname = window.location.pathname
+			window.location.href = 'https://fab-builder.github.io/pagepilot-vanilla-react-app/?path=' + pathname
+		}, 500)
+	</script>
+</body>
+
 </html>
