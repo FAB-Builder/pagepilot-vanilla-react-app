@@ -168,9 +168,9 @@ function Demos() {
           <p>Control how users move between steps.</p>
           <ApiTable
             rows={[
-              { property: 'navigationMode', description: '"manual" — visitor clicks next/previous. "auto" — steps advance automatically after a delay.', type: "'manual' | 'auto'", default: "'manual'" },
-              { property: 'navigationDelay', description: 'Milliseconds between auto-advance steps (auto mode only).', type: 'number', default: '3000' },
-              { property: 'dismissSettings', description: 'How the visitor can close the demo mid-flow.', type: "'onOutSideClick' | 'onCloseIcon'", default: "'onOutSideClick'" },
+              { property: 'navigationMode', description: '"manual" — visitor clicks next/previous. "auto" — steps advance automatically after a delay. "both" — auto-advance while still letting the visitor navigate manually.', type: "'manual' | 'auto' | 'both'", default: "'manual'" },
+              { property: 'navigationDelay', description: 'Milliseconds between auto-advance steps (auto / both modes only).', type: 'number', default: '3000' },
+              { property: 'dismissSettings', description: 'How the visitor can close the demo mid-flow.', type: "'onOutSideClick' | 'dismissButtonClickOnly' | 'buttonClickOnly'", default: "'onOutSideClick'" },
               { property: 'showCloseIcon', description: 'Whether the close (×) button is visible on each step.', type: 'boolean', default: 'true' },
             ]}
           />
@@ -225,7 +225,7 @@ function Demos() {
               { property: 'borderColor', description: 'Card border color.', type: 'string (hex)' },
               { property: 'borderWidth', description: 'Card border width in pixels.', type: 'number', default: '0' },
               { property: 'iconCloseColor', description: 'Color of the close (×) icon.', type: 'string (hex)', default: "'#64748B'" },
-              { property: 'animationType', description: 'How each step card enters the screen.', type: "'instant' | 'fadeIn' | 'slideIn'", default: "'fadeIn'" },
+              { property: 'animationType', description: 'How each step card enters the screen. "slide" supports a direction (slideDown / slideLeft / slideRight).', type: "'instant' | 'fadeIn' | 'slide'", default: "'fadeIn'" },
             ]}
           />
         </Section>

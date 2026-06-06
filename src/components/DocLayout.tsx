@@ -68,7 +68,7 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
                     ].join(' ')
                   }
                 >
-                  <Icon size={15} className={undefined} />
+                  <Icon className="h-[15px] w-[15px] shrink-0" />
                   {item.label}
                 </NavLink>
               );

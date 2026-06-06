@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Lightbulb, Square, AlertCircle, CheckCircle2 } from 'lucide-react';
+import {
+  Lightbulb,
+  AlertCircle,
+  CheckCircle2,
+  AlertTriangle,
+  HelpCircle,
+  CircleDot,
+  Info,
+} from 'lucide-react';
 import { createAhd, AHD_API_HOST, DEMO_APPLICATION_ID, type AhdInstance } from '../lib/ahd';
 import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
@@ -28,54 +36,46 @@ type Status = 'idle' | 'loading' | 'running' | 'error';
 
 function LiveTooltipDemo() {
   const ahdRef = useRef<AhdInstance | null>(null);
-  const [status, setStatus] = useState<Status>('idle');
+  const [status, setStatus] = useState<Status>('loading');
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => () => ahdRef.current?.stop(), []);
+  useEffect(() => {
+    let cancelled = false;
 
-  const showTooltips = async () => {
-    setError(null);
-    setStatus('loading');
-    try {
-      const ahd = createAhd({ applicationId: DEMO_APPLICATION_ID });
-      ahdRef.current = ahd;
-      await ahd.initializeSiteMap(false);
-      await ahd.showHighlights(TOOLTIP_SLUG, true);
-      setStatus('running');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load tooltips.');
-      setStatus('error');
-    }
-  };
+    const showTooltips = async () => {
+      setError(null);
+      setStatus('loading');
+      try {
+        const ahd = createAhd({ applicationId: DEMO_APPLICATION_ID });
+        ahdRef.current = ahd;
+        await ahd.initializeSiteMap(false);
+        await ahd.showHighlights(TOOLTIP_SLUG, true);
+        if (!cancelled) setStatus('running');
+      } catch (err) {
+        if (cancelled) return;
+        setError(err instanceof Error ? err.message : 'Failed to load tooltips.');
+        setStatus('error');
+      }
+    };
 
-  const stop = () => {
-    ahdRef.current?.stop();
-    setStatus('idle');
-  };
+    showTooltips();
+
+    return () => {
+      cancelled = true;
+      ahdRef.current?.stop();
+    };
+  }, []);
 
   return (
     <div id="tooltips-live-demo" className="flex flex-col gap-4">
       <div id="tooltips-live-controls" className="flex items-center gap-3">
-        {status === 'running' ? (
-          <button
-            id="tooltips-stop-button"
-            type="button"
-            onClick={stop}
-            className="flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand hover:text-brand"
+        {status === 'loading' && (
+          <span
+            id="tooltips-status-loading"
+            className="flex items-center gap-1.5 text-sm font-semibold text-slate-500"
           >
-            <Square size={15} /> Stop
-          </button>
-        ) : (
-          <button
-            id="tooltips-start-button"
-            type="button"
-            onClick={showTooltips}
-            disabled={status === 'loading'}
-            className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
-          >
-            <Lightbulb size={15} />
-            {status === 'loading' ? 'Loading…' : 'Show Tooltips'}
-          </button>
+            <Lightbulb size={15} /> Loading tooltips…
+          </span>
         )}
         {status === 'running' && (
           <span
@@ -165,7 +165,7 @@ function Tooltips() {
       <article id="tooltips-article" className="">
         <header id="tooltips-header" className="mb-8 border-b border-slate-200 pb-6">
           
-          <h1 id="tooltips-title" className="mt-1 text-3xl font-bold">
+          <h1 id="tooltips-title" className="mt-1 text-3xl font-bold" style={{width:"fit-content"}}>
             Tooltips
           </h1>
           <p id="tooltips-intro" className="mt-3 text-lg leading-relaxed text-slate-600">
@@ -189,9 +189,10 @@ function Tooltips() {
 
         <Section id="live-demo" title="Live demo">
           <p id="live-demo-text">
-            Press <strong id="live-demo-cta-text">Show Tooltips</strong> to load the tooltips
-            published against the <Code id="live-demo-slug">{TOOLTIP_SLUG}</Code> slug. Hover or
-            click the sample buttons below to see them in action.
+            The tooltips published against the <Code id="live-demo-slug">{TOOLTIP_SLUG}</Code> slug
+            load <strong id="live-demo-cta-text">automatically</strong> as soon as you open this
+            page — exactly as they would on a real route. Hover or click the sample buttons below to
+            see them in action.
           </p>
           <DemoBlock
             title="Show tooltips"
@@ -245,54 +246,103 @@ function Tooltips() {
 
         <Section id="trigger" title="Trigger behaviour">
           <p id="trigger-text">
-            Controls <em>how</em> the tooltip card appears after the trigger activates.
+            Two settings work together: <strong>Trigger Behaviour</strong> decides{' '}
+            <em>which interaction</em> opens the tooltip card, and{' '}
+            <strong>Trigger Label and Icons</strong> decides <em>what the visitor sees</em> on the
+            element beforehand to discover it.
           </p>
           <ApiTable
             rows={[
               {
                 property: 'triggerBehaviour',
-                description: 'Interaction that opens the tooltip card.',
-                type: "'onClick' | 'onHover' | 'onPageLoad'",
-                default: "'onPageLoad'",
+                description:
+                  'Interaction that opens the tooltip card. "onPageLoad" is only available for tooltips.',
+                type: "'onClick' | 'onHover' | 'onMouseEnter' | 'onMouseLeave' | 'onPageLoad'",
+                default: "'onClick'",
               },
               {
                 property: 'triggerMode',
                 description:
-                  'What is shown on the element before the card opens. "icon" shows a beacon; "label" shows a text label; "hidden" opens automatically.',
-                type: "'icon' | 'label' | 'hidden'",
-                default: "'hidden'",
+                  'How users discover the tooltip. "icon" shows an icon/beacon; "label" shows a text label; "noIcon" attaches the trigger to the element itself with no marker.',
+                type: "'icon' | 'noIcon' | 'label'",
+                default: "'noIcon'",
               },
               {
                 property: 'triggerIcon.type',
-                description: 'Icon variant for the beacon.',
-                type: "'help' | 'question' | 'info'",
-                default: "'help'",
+                description: 'Icon variant shown when triggerMode is "icon" (see styles below).',
+                type: "'warning' | 'helpIcon' | 'beacon' | 'info'",
+                default: "'helpIcon'",
               },
               {
                 property: 'triggerIcon.color',
-                description: 'Beacon icon color.',
+                description: 'Icon / beacon color.',
                 type: 'string (hex)',
                 default: "'#6366F1'",
               },
               {
                 property: 'triggerIcon.isAnimated',
-                description: 'Pulse animation on the beacon.',
+                description: 'Pulse animation — only applies to the "beacon" icon type.',
                 type: 'boolean',
                 default: 'false',
               },
               {
                 property: 'triggerLabel.text',
-                description: 'Text shown in a label-mode trigger.',
+                description: 'Text shown when triggerMode is "label".',
                 type: 'string',
               },
               {
+                property: 'triggerLabel.color',
+                description: 'Text color of the label trigger.',
+                type: 'string (hex)',
+                default: "'#FFFFFF'",
+              },
+              {
+                property: 'triggerLabel.background',
+                description: 'Background color of the label trigger.',
+                type: 'string (hex)',
+                default: "'#000000'",
+              },
+              {
                 property: 'delay',
-                description: 'Milliseconds to wait before showing the card (onPageLoad only).',
+                description: 'Milliseconds to wait before showing the card.',
                 type: 'number',
-                default: '0',
+                default: '300',
               },
             ]}
           />
+
+          <h3 id="trigger-icon-styles-heading" className="mb-3 mt-6 text-base font-semibold text-ink">
+            Icon styles
+          </h3>
+          <p id="trigger-icon-styles-text" className="mb-3">
+            When <Code id="trigger-icon-mode">triggerMode</Code> is{' '}
+            <Code id="trigger-icon-icon">'icon'</Code>, pick one of four beacon styles. The{' '}
+            <strong>Animated Beacon</strong> toggle is only shown for the{' '}
+            <Code id="trigger-icon-beacon">beacon</Code> style.
+          </p>
+          <div
+            id="trigger-icon-grid"
+            className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+          >
+            {(
+              [
+                { type: 'warning', label: 'Warning', Icon: AlertTriangle },
+                { type: 'helpIcon', label: 'Help', Icon: HelpCircle },
+                { type: 'beacon', label: 'Beacon', Icon: CircleDot },
+                { type: 'info', label: 'Info', Icon: Info },
+              ] as const
+            ).map(({ type, label, Icon }) => (
+              <div
+                key={type}
+                id={`trigger-icon-option-${type}`}
+                className="flex flex-col items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-4 text-center"
+              >
+                <Icon size={22} className="text-brand" />
+                <span className="text-sm font-medium text-slate-700">{label}</span>
+                <code className="font-mono text-[11px] text-slate-400">{type}</code>
+              </div>
+            ))}
+          </div>
         </Section>
 
         <Section id="position" title="Position">
@@ -300,12 +350,14 @@ function Tooltips() {
             Where the tooltip card is placed relative to its target element.
           </p>
           <PropertyCard
-            type="'top' | 'bottom' | 'left' | 'right' | 'center'"
-            defaultValue="'bottom'"
+            type="'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right' | 'left' | 'right' | 'center'"
+            defaultValue="'right'"
           >
             <span id="position-prop">
-              PagePilot uses this as the <em>preferred</em> placement. If there is not enough
-              viewport space the card automatically flips to the opposite side.
+              Stored as <Code id="position-preferred">preferredPosition</Code>. PagePilot uses it as
+              the <em>preferred</em> placement — if there is not enough viewport space the card
+              automatically flips to the opposite side. Available placements depend on the anchor
+              element's room on screen.
             </span>
           </PropertyCard>
           <PropertyCard type="boolean" defaultValue="false">
@@ -314,12 +366,24 @@ function Tooltips() {
               element.
             </span>
           </PropertyCard>
-          <div id="position-grid" className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
-            {(['top', 'bottom', 'left', 'right', 'center'] as const).map((p) => (
+          <div id="position-grid" className="mt-4 grid grid-cols-3 gap-2">
+            {(
+              [
+                'top-left',
+                'top',
+                'top-right',
+                'left',
+                'center',
+                'right',
+                'bottom-left',
+                'bottom',
+                'bottom-right',
+              ] as const
+            ).map((p) => (
               <div
                 key={p}
                 id={`position-option-${p}`}
-                className="rounded-lg border border-slate-200 bg-white px-3 py-4 text-center text-sm font-medium capitalize text-slate-700"
+                className="rounded-lg border border-slate-200 bg-white px-3 py-4 text-center text-sm font-medium text-slate-700"
               >
                 {p}
               </div>
@@ -438,10 +502,23 @@ function Tooltips() {
                 default: 'true',
               },
               {
+                property: 'closeIconPosition',
+                description: 'Where the close icon sits on the card.',
+                type: "'left' | 'center' | 'right'",
+                default: "'right'",
+              },
+              {
                 property: 'animationType',
-                description: 'How the card enters the screen.',
-                type: "'instant' | 'fadeIn' | 'slideIn'",
+                description:
+                  'How the card enters the screen. "slide" supports a direction (slideDown / slideLeft / slideRight).',
+                type: "'instant' | 'fadeIn' | 'slide' | 'slideDown' | 'slideLeft' | 'slideRight'",
                 default: "'fadeIn'",
+              },
+              {
+                property: 'dismissSettings',
+                description: 'How the visitor is allowed to close the tooltip card.',
+                type: "'onOutSideClick' | 'dismissButtonClickOnly' | 'buttonClickOnly'",
+                default: "'onOutSideClick'",
               },
             ]}
           />
@@ -533,26 +610,33 @@ const LIVE_DEMO_CODE = `import { useEffect, useRef } from 'react';
 import AHDjs from 'ahdjs';
 import 'ahdjs/build/css/index.css';
 
-export default function ShowTooltipsButton() {
+// Tooltips load automatically when the route mounts — no button needed.
+export default function TooltipsPage() {
   const ahdRef = useRef(null);
 
-  const showTooltips = async () => {
-    const ahdJs = AHDjs(undefined, {
-      applicationId: '${DEMO_APPLICATION_ID}',
-      apiHost: '${AHD_API_HOST}',
-      visitorId: 'visitor-id',
-    });
-    ahdRef.current = ahdJs;
+  useEffect(() => {
+    let cancelled = false;
 
-    await ahdJs.initializeSiteMap(false);
-    await ahdJs.showHighlights('${TOOLTIP_SLUG}', true);
-  };
+    (async () => {
+      const ahdJs = AHDjs(undefined, {
+        applicationId: '${DEMO_APPLICATION_ID}',
+        apiHost: '${AHD_API_HOST}',
+        visitorId: 'visitor-id',
+      });
+      ahdRef.current = ahdJs;
 
-  useEffect(() => () => ahdRef.current?.stop(), []);
+      await ahdJs.initializeSiteMap(false);
+      if (!cancelled) await ahdJs.showHighlights('${TOOLTIP_SLUG}', true);
+    })();
+
+    return () => {
+      cancelled = true;
+      ahdRef.current?.stop();
+    };
+  }, []);
 
   return (
     <>
-      <button onClick={showTooltips}>Show Tooltips</button>
       <button id="tooltip-new-project">+ New project</button>
       <button id="tooltip-invite">Invite members</button>
     </>

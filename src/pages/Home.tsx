@@ -39,7 +39,7 @@ function Home() {
               className="group flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-brand hover:shadow-lg hover:shadow-brand/10"
             >
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-tint text-brand transition-colors group-hover:bg-brand group-hover:text-white">
-                <Icon size={22} />
+                <Icon className="h-[22px] w-[22px]" />
               </span>
               <span className="text-lg font-bold">{item.label}</span>
               <span className="flex-1 text-sm leading-relaxed text-slate-500">

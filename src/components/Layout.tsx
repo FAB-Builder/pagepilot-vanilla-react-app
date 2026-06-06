@@ -1,6 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
 import { ExternalLink } from 'lucide-react';
-import { GithubIcon } from './Icons';
+import { GithubIcon, PagePilotIcon } from './Icons';
 
 const PAGEPILOT_URL = 'https://pagepilot.fabbuilder.com/';
 const AHDJS_REPO_URL = 'https://github.com/ishaan-puniani/ahdjs';
@@ -11,9 +11,13 @@ function Layout() {
       {/* Fixed header */}
       <header className="z-20 shrink-0 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center px-6">
-          <Link to="/" className="flex shrink-0 items-center font-semibold" aria-label="PagePilot home">
-            Page Pilot
-          </Link>
+          <Link
+            to="/"
+            className="flex shrink-0 items-center gap-2 font-semibold text-ink"
+            aria-label="PagePilot home"
+          >
+            <PagePilotIcon className="h-10 w-auto" />
+           </Link>
 
           <div className="ml-auto flex items-center gap-2">
             <a
