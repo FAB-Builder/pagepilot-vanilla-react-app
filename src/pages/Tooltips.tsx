@@ -13,12 +13,15 @@ import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
 import ApiTable from '../components/ApiTable';
 import PropertyCard from '../components/PropertyCard';
+import AiPromptBlock from '../components/AiPromptBlock';
 
 const TOOLTIP_SLUG = '/tooltips';
 
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'live-demo', label: 'Live demo' },
+  { id: 'integration', label: 'Integration' },
+  { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'target-page', label: 'Target Page' },
   { id: 'selector', label: 'Element / Selector' },
   { id: 'trigger', label: 'Trigger behaviour' },
@@ -28,7 +31,6 @@ const SECTIONS: DocSection[] = [
   { id: 'scheduling', label: 'Scheduling' },
   { id: 'show-once', label: 'Show only once' },
   { id: 'styling', label: 'Styling' },
-  { id: 'integration', label: 'Integration' },
   { id: 'api', label: 'API reference' },
 ];
 
@@ -206,6 +208,74 @@ function Tooltips() {
           >
             <LiveTooltipDemo />
           </DemoBlock>
+        </Section>
+
+        <Section id="integration" title="Integration">
+          <p id="integration-text">
+            Tooltips use the exact same SDK call as tours —{' '}
+            <Code id="integration-method">showHighlights(slug, true)</Code>. PagePilot looks up
+            everything published for that slug (tooltips and tours) and renders it. So if you've
+            already wired PagePilot for tours, tooltips work with no extra code.
+          </p>
+
+          <ol
+            id="integration-steps"
+            className="my-4 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600"
+          >
+            <li>
+              <strong className="text-ink">1. Install</strong> — add the package with{' '}
+              <Code id="integration-step-install">npm install ahdjs</Code> (or load it from a CDN
+              via a script tag).
+            </li>
+            <li>
+              <strong className="text-ink">2. Configure</strong> — create the client with your{' '}
+              <Code id="integration-step-appid">applicationId</Code> and pass the logged-in user's
+              id as <Code id="integration-step-visitor">visitorId</Code> (used for "show only once"
+              tracking).
+            </li>
+            <li>
+              <strong className="text-ink">3. Run on mount</strong> — call{' '}
+              <Code id="integration-step-init">initializeSiteMap()</Code> then{' '}
+              <Code id="integration-step-show">showHighlights("{TOOLTIP_SLUG}", true)</Code> once
+              the target elements exist on the page.
+            </li>
+          </ol>
+
+          <h3 id="integration-react-heading" className="mt-6 text-base font-semibold text-ink">
+            React / framework app (npm)
+          </h3>
+          <p id="integration-react-text" className="text-sm text-slate-600">
+            Call <Code id="integration-react-method">showHighlights("{TOOLTIP_SLUG}", true)</Code>{' '}
+            after the page mounts to register every tooltip published for that slug.
+          </p>
+          <DemoBlock
+            title="Initialize and load tooltips"
+            description="Runs once when the component mounts; cleans up on unmount."
+            code={BASIC_CODE}
+          />
+
+          <h3 id="integration-script-heading" className="mt-6 text-base font-semibold text-ink">
+            Plain HTML (script tag)
+          </h3>
+          <p id="integration-script-text" className="text-sm text-slate-600">
+            No build step. Drop this into the <Code id="integration-head">&lt;head&gt;</Code> of any
+            page where the tooltips should appear.
+          </p>
+          <DemoBlock
+            title="CDN script tag"
+            description="Loads AHDjs from unpkg and registers tooltips on page load."
+            code={SCRIPT_TAG_CODE}
+            language="html"
+          />
+        </Section>
+
+        <Section id="ai-prompt" title="Integrate using AI">
+          <p id="ai-prompt-text" className="text-sm text-slate-600">
+            Don't want to wire it by hand? Hand this prompt to Cursor, Claude, or GitHub Copilot —
+            it covers install, config, and the{' '}
+            <Code id="ai-prompt-call">showHighlights</Code> call so tooltips load on the right page.
+          </p>
+          <AiPromptBlock id="tooltips-ai-prompt" prompt={AI_PROMPT} />
         </Section>
 
         <Section id="target-page" title="Target Page">
@@ -524,33 +594,6 @@ function Tooltips() {
           />
         </Section>
 
-        <Section id="integration" title="Integration">
-          <p id="integration-text">
-            The same <Code>showHighlights</Code> call used for tours also loads tooltips. PagePilot
-            determines what to render based on the published content for the slug.
-          </p>
-          <DemoBlock
-            title="React"
-            description="Initialize AHDjs and load tooltips on demand."
-            code={BASIC_CODE}
-          >
-            <div id="integration-react-note" className="text-sm text-slate-600">
-              Call <Code id="integration-react-method">showHighlights("{TOOLTIP_SLUG}", true)</Code>{' '}
-              after the page mounts to register tooltips for the current slug.
-            </div>
-          </DemoBlock>
-          <DemoBlock
-            title="Script tag"
-            description="No build step — drop AHDjs into any HTML page."
-            code={SCRIPT_TAG_CODE}
-            language="html"
-          >
-            <div id="integration-script-note" className="text-sm text-slate-600">
-              Loads AHDjs from a CDN and registers tooltips on page load.
-            </div>
-          </DemoBlock>
-        </Section>
-
         <Section id="api" title="API reference">
           <h3 id="api-constructor-heading" className="mb-2 mt-2 text-base font-semibold text-ink">
             Constructor options
@@ -606,6 +649,40 @@ function Tooltips() {
 
 /* ------------------------------- Snippets ------------------------------- */
 
+const AI_PROMPT = `Integrate PagePilot tooltips (the "ahdjs" SDK) into my app. Do the following steps automatically:
+
+1. Install the ahdjs npm package:
+   npm install ahdjs
+
+2. Import AHDjs and its CSS in the app entry file (prefer src/index.tsx or src/main.tsx):
+   import AHDjs from 'ahdjs';
+   import 'ahdjs/build/css/index.css';
+
+3. Initialize AHDjs with this configuration:
+   applicationId: "YOUR_APPLICATION_ID"   // from PagePilot → Settings → Configurations
+   apiHost: "${AHD_API_HOST}"
+   visitorId: <the logged-in user's id from my auth system, e.g. user.id> // used for "show only once" tracking
+   showProgressbar: false
+
+   Example:
+   const ahdJs = AHDjs(undefined, {
+     applicationId: "YOUR_APPLICATION_ID",
+     apiHost: "${AHD_API_HOST}",
+     visitorId: currentUser.id,
+   });
+
+4. On the page where the tooltips are published, after the target elements are mounted, call (run once per page load — use useEffect in React):
+   await ahdJs.initializeSiteMap(false);
+   await ahdJs.showHighlights("${TOOLTIP_SLUG}", true);  // replace "${TOOLTIP_SLUG}" with the tooltip's Target Page slug
+
+5. On unmount, clean up with:
+   ahdJs.stop();
+
+Notes:
+- showHighlights(slug, refetch) loads BOTH tooltips and tours published for that slug. The slug must match the tooltip's "Target Page" exactly and start with "/".
+- Each tooltip is anchored to a CSS selector (an element id or class). That element must exist in the DOM when showHighlights runs, otherwise the tooltip is skipped.
+- Add brief comments explaining what each step does, and detect my framework (React, Vue, plain HTML, etc.) and adapt the integration accordingly.`;
+
 const LIVE_DEMO_CODE = `import { useEffect, useRef } from 'react';
 import AHDjs from 'ahdjs';
 import 'ahdjs/build/css/index.css';
@@ -643,17 +720,40 @@ export default function TooltipsPage() {
   );
 }`;
 
-const BASIC_CODE = `import AHDjs from 'ahdjs';
+const BASIC_CODE = `import { useEffect, useRef } from 'react';
+import AHDjs from 'ahdjs';
 import 'ahdjs/build/css/index.css';
 
-const ahdJs = AHDjs(undefined, {
-  applicationId: '${DEMO_APPLICATION_ID}',
-  apiHost: '${AHD_API_HOST}',
-  visitorId: 'visitor-id',
-});
+export function useTooltips(slug) {
+  const ahdRef = useRef(null);
 
-await ahdJs.initializeSiteMap(false);
-await ahdJs.showHighlights('${TOOLTIP_SLUG}', true);`;
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      const ahdJs = AHDjs(undefined, {
+        applicationId: 'YOUR_APPLICATION_ID',
+        apiHost: '${AHD_API_HOST}',
+        // Pass the logged-in user's id from your auth system so PagePilot
+        // can track "show only once" per user. e.g. currentUser.id
+        visitorId: currentUser.id,
+      });
+      ahdRef.current = ahdJs;
+
+      await ahdJs.initializeSiteMap(false);
+      if (!cancelled) await ahdJs.showHighlights(slug, true);
+    })();
+
+    // Clean up tooltips when the component unmounts.
+    return () => {
+      cancelled = true;
+      ahdRef.current?.stop();
+    };
+  }, [slug]);
+}
+
+// Usage: call it on the page where the tooltips are published.
+// useTooltips('${TOOLTIP_SLUG}');`;
 
 const SCRIPT_TAG_CODE = `<link rel="stylesheet" href="https://unpkg.com/ahdjs/build/css/index.css" />
 <script type="text/javascript" src="https://unpkg.com/ahdjs/build/index.js"></script>

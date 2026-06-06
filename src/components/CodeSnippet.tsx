@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
+import { useToast } from './Toast';
 
 interface CodeSnippetProps {
   code: string;
@@ -9,11 +10,13 @@ interface CodeSnippetProps {
 
 function CodeSnippet({ code, language = 'tsx', title }: CodeSnippetProps) {
   const [copied, setCopied] = useState(false);
+  const toast = useToast();
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
+      toast.show('Code copied to clipboard');
       setTimeout(() => setCopied(false), 2000);
     } catch {
       /* clipboard unavailable */

@@ -5,6 +5,7 @@ import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
 import ApiTable from '../components/ApiTable';
 import PropertyCard from '../components/PropertyCard';
+import AiPromptBlock from '../components/AiPromptBlock';
 
 /**
  * The slug a tour is attached to. In PagePilot a "Target Page" is just a
@@ -16,6 +17,8 @@ const TOUR_SLUG = '/tours';
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'live-demo', label: 'Live demo' },
+  { id: 'integration', label: 'Integration' },
+  { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'target-page', label: 'Target Page' },
   { id: 'alt-target-page', label: 'Alternative Target Page' },
   { id: 'selector', label: 'Element / Selector' },
@@ -25,7 +28,6 @@ const SECTIONS: DocSection[] = [
   { id: 'scheduling', label: 'Scheduling' },
   { id: 'show-once', label: 'Show only once' },
   { id: 'step-style', label: 'Step styling' },
-  { id: 'integration', label: 'Integration' },
   { id: 'api', label: 'API reference' },
 ];
 
@@ -196,6 +198,79 @@ function Tours() {
           </DemoBlock>
         </Section>
 
+        <Section id="integration" title="Integration">
+          <p id="integration-text">
+            Integrating a tour takes three things: install the SDK, create the client once, then
+            call <Code id="integration-method">showHighlights(slug, true)</Code> for the page you
+            want the tour to run on. Pick the path that matches your stack below.
+          </p>
+
+          <ol
+            id="integration-steps"
+            className="my-4 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600"
+          >
+            <li>
+              <strong className="text-ink">1. Install</strong> — add the package with{' '}
+              <Code id="integration-step-install">npm install ahdjs</Code> (or load it from a CDN
+              via a script tag).
+            </li>
+            <li>
+              <strong className="text-ink">2. Configure</strong> — create the client with your{' '}
+              <Code id="integration-step-appid">applicationId</Code> and pass the logged-in user's
+              id as <Code id="integration-step-visitor">visitorId</Code>.
+            </li>
+            <li>
+              <strong className="text-ink">3. Run once</strong> — call{' '}
+              <Code id="integration-step-init">initializeSiteMap()</Code> then{' '}
+              <Code id="integration-step-show">showHighlights("{TOUR_SLUG}", true)</Code> after the
+              target elements are mounted (a React <Code id="integration-step-effect">useEffect</Code>{' '}
+              is the usual place).
+            </li>
+          </ol>
+
+          <h3 id="integration-react-heading" className="mt-6 text-base font-semibold text-ink">
+            React / framework app (npm)
+          </h3>
+          <p id="integration-react-text" className="text-sm text-slate-600">
+            Best when PagePilot lives inside a bundled web app. Import the SDK and its CSS once,
+            then run it from a component or your app entry.
+          </p>
+          <DemoBlock
+            title="Initialize and run a tour"
+            description={
+              <>
+                <Code id="integration-react-method">showHighlights("{TOUR_SLUG}", true)</Code>{' '}
+                renders the tour for that slug once the sitemap is ready.
+              </>
+            }
+            code={BASIC_CODE}
+          />
+
+          <h3 id="integration-script-heading" className="mt-6 text-base font-semibold text-ink">
+            Plain HTML (script tag)
+          </h3>
+          <p id="integration-script-text" className="text-sm text-slate-600">
+            No build step. Drop this into the <Code id="integration-head">&lt;head&gt;</Code> of any
+            page where the tour should be available.
+          </p>
+          <DemoBlock
+            title="CDN script tag"
+            description="Loads AHDjs from unpkg and runs on page load."
+            code={SCRIPT_TAG_CODE}
+            language="html"
+          />
+        </Section>
+
+        <Section id="ai-prompt" title="Integrate using AI">
+          <p id="ai-prompt-text" className="text-sm text-slate-600">
+            Don't want to wire it by hand? Hand this prompt to Cursor, Claude, or GitHub Copilot —
+            it walks through install, config, and the{' '}
+            <Code id="ai-prompt-call">showHighlights</Code> call so the tour loads on the right
+            page.
+          </p>
+          <AiPromptBlock id="tours-ai-prompt" prompt={AI_PROMPT} />
+        </Section>
+
         <Section id="target-page" title="Target Page">
           <p id="target-page-text">
             The page (slug) where the tour appears. PagePilot matches the visitor's current URL path
@@ -354,32 +429,6 @@ function Tours() {
           />
         </Section>
 
-        <Section id="integration" title="Integration">
-          <p id="integration-text">
-            Install AHDjs, initialize it once, then render the tour for a slug.
-          </p>
-          <DemoBlock
-            title="React"
-            description="Initialize AHDjs and render the tour on demand."
-            code={BASIC_CODE}
-          >
-            <div id="integration-react-note" className="text-sm text-slate-600">
-              <Code id="integration-react-method">showHighlights("{TOUR_SLUG}", true)</Code> renders
-              the tour for the current page.
-            </div>
-          </DemoBlock>
-          <DemoBlock
-            title="Script tag"
-            description="No build step — drop AHDjs into any HTML page."
-            code={SCRIPT_TAG_CODE}
-            language="html"
-          >
-            <div id="integration-script-note" className="text-sm text-slate-600">
-              Loads AHDjs from a CDN and runs on load.
-            </div>
-          </DemoBlock>
-        </Section>
-
         <Section id="api" title="API reference">
           <h3 id="api-constructor-heading" className="mb-2 mt-2 text-base font-semibold text-ink">
             Constructor options
@@ -439,6 +488,41 @@ function Tours() {
 }
 
 /* ------------------------------- Snippets ------------------------------- */
+
+const AI_PROMPT = `Integrate PagePilot product tours (the "ahdjs" SDK) into my app. Do the following steps automatically:
+
+1. Install the ahdjs npm package:
+   npm install ahdjs
+
+2. Import AHDjs and its CSS in the app entry file (prefer src/index.tsx or src/main.tsx):
+   import AHDjs from 'ahdjs';
+   import 'ahdjs/build/css/index.css';
+
+3. Initialize AHDjs with this configuration:
+   applicationId: "YOUR_APPLICATION_ID"   // from PagePilot → Settings → Configurations
+   apiHost: "${AHD_API_HOST}"
+   visitorId: <the logged-in user's id from my auth system, e.g. user.id> // used to track per-user progress and "show only once"
+   showProgressbar: false
+
+   Example:
+   const ahdJs = AHDjs(undefined, {
+     applicationId: "YOUR_APPLICATION_ID",
+     apiHost: "${AHD_API_HOST}",
+     visitorId: currentUser.id,
+     showProgressbar: false,
+   });
+
+4. After the page's target elements are mounted, call (run only once per page load — use useEffect in React):
+   await ahdJs.initializeSiteMap(false);
+   await ahdJs.showHighlights("${TOUR_SLUG}", true);  // replace "${TOUR_SLUG}" with the Target Page slug the tour is published against
+
+5. On unmount, clean up with:
+   ahdJs.stop();
+
+Notes:
+- showHighlights(slug, refetch) renders the tour published for that slug. The slug must match the tour's "Target Page" exactly and start with "/".
+- The step selectors (CSS selectors / element ids) must exist in the DOM when showHighlights runs, otherwise those steps are skipped.
+- Add brief comments explaining what each step does, and detect my framework (React, Vue, plain HTML, etc.) and adapt the integration accordingly.`;
 
 const LIVE_DEMO_CODE = `import { useEffect, useRef } from 'react';
 import AHDjs from 'ahdjs';

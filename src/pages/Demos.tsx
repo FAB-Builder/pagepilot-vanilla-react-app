@@ -4,14 +4,16 @@ import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
 import ApiTable from '../components/ApiTable';
 import PropertyCard from '../components/PropertyCard';
+import AiPromptBlock from '../components/AiPromptBlock';
 
 const DEMO_ID = '6a22c1d7b237c3d4ae94bf2f';
 
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'live-demo', label: 'Live demo' },
-  { id: 'steps', label: 'Steps' },
   { id: 'integration', label: 'Integration' },
+  { id: 'ai-prompt', label: 'Integrate using AI' },
+  { id: 'steps', label: 'Steps' },
   { id: 'navigation', label: 'Navigation' },
   { id: 'backdrop', label: 'Backdrop' },
   { id: 'device-language', label: 'Device & Language' },
@@ -102,25 +104,6 @@ function Demos() {
             </div>
         </Section>
 
-        <Section id="steps" title="Steps">
-          <p>
-            A demo is made up of one or more steps. Each step is a full-canvas card that floats on
-            screen — <strong>no element selector is needed or used</strong>. Steps are shown in order;
-            visitors advance with next / previous controls or automatically.
-          </p>
-          <ApiTable
-            rows={[
-              { property: 'title', description: 'Heading text shown at the top of the step card.', type: 'string' },
-              { property: 'content', description: 'Body copy for the step (supports rich text / HTML).', type: 'string | HTML' },
-              { property: 'backgroundImage', description: 'URL of an image rendered as the step card background.', type: 'string (URL)' },
-              { property: 'position', description: 'Placement of the card on screen.', type: "'top' | 'bottom' | 'left' | 'right' | 'center'", default: "'center'" },
-              { property: 'width / height', description: 'Canvas dimensions of the step card in pixels.', type: 'number (px)' },
-              { property: 'top / left', description: 'Absolute canvas offset for the step card.', type: 'number (px)' },
-              { property: 'canvasWidth / canvasHeight', description: 'Reference canvas size used to scale the step proportionally.', type: 'number (px)' },
-            ]}
-          />
-        </Section>
-
         <Section id="integration" title="Integration">
           <p>
             After publishing, PagePilot shows an integration dialog with two options. No SDK or build
@@ -162,6 +145,33 @@ function Demos() {
             Replace <Code>YOUR_TENANT_ID</Code> and <Code>YOUR_DEMO_ID</Code> with the values shown
             in the PagePilot admin after publishing.
           </p>
+        </Section>
+
+        <Section id="ai-prompt" title="Integrate using AI">
+          <p className="text-sm text-slate-600">
+            Want the embed dropped into the right place automatically? Hand this prompt to Cursor,
+            Claude, or GitHub Copilot — it adds the responsive iframe (or share link) to your page.
+          </p>
+          <AiPromptBlock id="demos-ai-prompt" prompt={AI_PROMPT} />
+        </Section>
+
+        <Section id="steps" title="Steps">
+          <p>
+            A demo is made up of one or more steps. Each step is a full-canvas card that floats on
+            screen — <strong>no element selector is needed or used</strong>. Steps are shown in order;
+            visitors advance with next / previous controls or automatically.
+          </p>
+          <ApiTable
+            rows={[
+              { property: 'title', description: 'Heading text shown at the top of the step card.', type: 'string' },
+              { property: 'content', description: 'Body copy for the step (supports rich text / HTML).', type: 'string | HTML' },
+              { property: 'backgroundImage', description: 'URL of an image rendered as the step card background.', type: 'string (URL)' },
+              { property: 'position', description: 'Placement of the card on screen.', type: "'top' | 'bottom' | 'left' | 'right' | 'center'", default: "'center'" },
+              { property: 'width / height', description: 'Canvas dimensions of the step card in pixels.', type: 'number (px)' },
+              { property: 'top / left', description: 'Absolute canvas offset for the step card.', type: 'number (px)' },
+              { property: 'canvasWidth / canvasHeight', description: 'Reference canvas size used to scale the step proportionally.', type: 'number (px)' },
+            ]}
+          />
         </Section>
 
         <Section id="navigation" title="Navigation">
@@ -261,6 +271,32 @@ function Demos() {
 
 /* ------------------------------- Snippets ------------------------------- */
 
+const AI_PROMPT = `Embed a PagePilot demo into my web page. A demo is a self-contained, multi-step presentation — it does NOT use the ahdjs SDK or any element selectors. It is added as either a responsive iframe embed or a shareable link. Do the following:
+
+1. Get these two values from the PagePilot admin (the integration dialog shows them after the demo is published):
+   - Tenant ID  -> use in place of YOUR_TENANT_ID
+   - Demo ID    -> use in place of YOUR_DEMO_ID
+
+2. To embed inline, add this responsive iframe to the page where the demo should appear (keep the wrapper so the aspect ratio stays correct):
+
+   <div style="position:relative;padding-bottom:calc(54.75% + 25px);width:100%;height:0;">
+     <iframe
+       loading="lazy"
+       src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live"
+       style="position:absolute;top:0;left:0;width:100%;height:100%;"
+       frameborder="0"
+       allowfullscreen
+     ></iframe>
+   </div>
+
+   If my project is React/JSX, convert the attributes accordingly (loading="lazy", style as an object, frameBorder, allowFullScreen).
+
+3. Alternatively, if I just want to share the demo (email, Slack, a button link), use this URL directly:
+   https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live
+
+Notes:
+- No npm install, no SDK init, no showHighlights — demos render entirely inside the iframe viewer.
+- Detect my framework (React, Next.js, Vue, plain HTML, etc.) and produce the embed in the matching syntax, placed where I indicate.`;
 
 const SHARE_LINK = `https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live`;
 
