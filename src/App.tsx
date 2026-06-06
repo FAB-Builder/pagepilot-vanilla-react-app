@@ -16,10 +16,10 @@ function App() {
   useEffect(() => {
     // check is there any redirect?
     if (searchParams?.get('path')?.includes(baseName)) {
-      const redirectUrl = searchParams?.get('path')?.split('/').pop()
+      const redirectUrl = searchParams?.get('path')?.replace(baseName,"");
 
       if (redirectUrl) {
-        navigate('/' + redirectUrl) // redirect
+        navigate(redirectUrl) // redirect
       }
     }
   }, [])
