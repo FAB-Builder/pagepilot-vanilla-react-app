@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Play, Square, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Play, CheckCircle2, AlertCircle } from 'lucide-react';
 import { createAhd, AHD_API_HOST, DEMO_APPLICATION_ID, type AhdInstance } from '../lib/ahd';
 import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
@@ -53,35 +53,19 @@ function LiveTourDemo() {
     }
   };
 
-  const stopTour = () => {
-    ahdRef.current?.stop();
-    setStatus('idle');
-  };
-
   return (
     <div id="tours-live-demo" className="flex flex-col gap-4">
       <div id="tours-live-controls" className="flex items-center gap-3">
-        {status === 'running' ? (
-          <button
-            id="tours-stop-button"
-            type="button"
-            onClick={stopTour}
-            className="flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand hover:text-brand"
-          >
-            <Square size={15} /> Stop Tour
-          </button>
-        ) : (
-          <button
-            id="tours-start-button"
-            type="button"
-            onClick={startTour}
-            disabled={status === 'loading'}
-            className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
-          >
-            <Play size={15} />
-            {status === 'loading' ? 'Starting…' : 'Start Tour'}
-          </button>
-        )}
+        <button
+          id="tours-start-button"
+          type="button"
+          onClick={startTour}
+          disabled={status === 'loading'}
+          className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
+        >
+          <Play size={15} />
+          {status === 'loading' ? 'Starting…' : 'Start Tour'}
+        </button>
         {status === 'running' && (
           <span
             id="tours-status-running"
@@ -150,7 +134,7 @@ function Section({
 }) {
   return (
     <section id={id} className="mb-12 scroll-mt-24">
-      <h2 id={`${id}-heading`} className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
+      <h2 id={`${id}-heading`} style={{width:"fit-content"}} className="mb-4 pb-2 text-xl font-bold">
         {title}
       </h2>
       <div id={`${id}-body`} className="space-y-3 leading-relaxed text-slate-600">
@@ -172,7 +156,7 @@ function Tours() {
       <article id="tours-article" className="">
         <header id="tours-header" className="mb-8 border-b border-slate-200 pb-6">
        
-          <h1 id="tours-title" className="mt-1 text-3xl font-bold">
+          <h1 id="tours-title" className="mt-1 text-3xl font-bold" style={{width:"fit-content"}}>
             Tours
           </h1>
           <p id="tours-intro" className="mt-3 text-lg leading-relaxed text-slate-600">
