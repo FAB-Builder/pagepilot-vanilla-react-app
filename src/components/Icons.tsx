@@ -157,6 +157,38 @@ export function TooltipsIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/**
+ * Pages icon. A document/page glyph for the "Pages" module — used in the
+ * sidebar and on the home cards. Uses `currentColor` for the stroke so it
+ * inherits text color, matching the other module icons.
+ */
+export function PagesIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      {...props}
+    >
+      <path
+        d="M14 2.5H7a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5L14 2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 2.5V7.5H19M9 13H15M9 16.5H15M9 9.5H10.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /** GitHub mark (octocat). Plain SVG, inherits `currentColor`. */
 export function GithubIcon(props: SVGProps<SVGSVGElement>) {
   return (
