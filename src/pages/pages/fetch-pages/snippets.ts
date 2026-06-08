@@ -146,6 +146,55 @@ export const PAGE_SELECT_CODE = `// pageSelect controls which fields come back f
   },
 }`;
 
+export const COMBINED_CODE = `// Replace ${LEAD_APPLICATION_ID} with your workspace id.
+const PAGEPILOT_API = '${PP_BASE_SNIPPET}';
+
+// Fetch the page plus its blogs, FAQs and a menu — all in ONE request.
+async function fetchPageData(slug = 'fab-website') {
+  const res = await fetch(\`\${PAGEPILOT_API}/pagebyslug/\${slug}\`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      data: {
+        includes: [
+          {
+            key: 'relatedBlogs',                  // -> data.relatedBlogs   (pages)
+            entity: 'pages',
+            filter: { groups: ['blog'], status: 'live' },
+            limit: 10,
+          },
+          {
+            key: 'faqs',                          // -> data.faqs           (FAQs)
+            entity: 'faq-group-list',
+            filter: { slug, status: 'published', orderBy: 'order_ASC' },
+            limit: 1,
+          },
+          {
+            key: 'headerMenu',                    // -> data.headerMenu     (menu)
+            entity: 'menu-by-name',
+            filter: { name: 'code-gen-header-features' },
+          },
+        ],
+        // fields for the page itself
+        pageSelect: {
+          select: { title: 1, metaTitle: 1, metaDescription: 1, metaImageUrl: 1, editor: 1 },
+          sectionSelect: { content: 1 },
+        },
+      },
+    }),
+  });
+
+  if (!res.ok) throw new Error(\`Failed to fetch: \${res.status}\`);
+
+  const data = await res.json();
+  return {
+    pageInfo: data.page || {},        // the page itself
+    blogs: data.relatedBlogs || [],   // list of blog pages
+    faqs: data.faqs || [],            // FAQ group
+    headerMenu: data.headerMenu || [], // menu items
+  };
+}`;
+
 export const AI_PROMPT = `You are helping me read content from Page Pilot in my app. Write a helper that fetches a page by slug and, in the same request, a related list of pages. Follow every instruction below.
 
 API
