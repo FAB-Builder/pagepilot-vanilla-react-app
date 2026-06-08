@@ -8,11 +8,26 @@ export interface DocSection {
   label: string;
 }
 
+export interface SubModule {
+  /** Route to navigate to, e.g. "/pages/lead-form". */
+  to: string;
+  /** Label shown in the left rail. */
+  label: string;
+}
+
 interface DocLayoutProps {
   /** The page title shown above the section list. */
   title: string;
   /** Section anchors — drive BOTH the left nav and scroll-spy highlighting. */
   sections: DocSection[];
+  /**
+   * Optional sub-modules for a parent module (e.g. "Pages" → Lead Form,
+   * Fetch Pages). When provided they render as a list in the left rail,
+   * above the on-this-page sections.
+   */
+  subModules?: SubModule[];
+  /** Heading shown above the sub-module list. Defaults to the title. */
+  subModulesLabel?: string;
   children: ReactNode;
 }
 
@@ -21,7 +36,13 @@ interface DocLayoutProps {
  * list at top, then the sections of the CURRENT page with scroll-spy
  * highlighting.
  */
-function DocLayout({ title, sections, children }: DocLayoutProps) {
+function DocLayout({
+  title,
+  sections,
+  subModules,
+  subModulesLabel,
+  children,
+}: DocLayoutProps) {
   const [activeId, setActiveId] = useState(sections[0]?.id);
 
   useEffect(() => {
@@ -74,6 +95,33 @@ function DocLayout({ title, sections, children }: DocLayoutProps) {
               );
             })}
           </nav>
+
+          {/* Sub-modules of the current module (e.g. Pages → Lead Form) */}
+          {subModules && subModules.length > 0 && (
+            <>
+              <span className="mb-2 block border-t border-slate-200/80 px-3 pt-5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
+                {subModulesLabel ?? title}
+              </span>
+              <nav className="mb-6 flex flex-col gap-0.5">
+                {subModules.map((sm) => (
+                  <NavLink
+                    key={sm.to}
+                    to={sm.to}
+                    className={({ isActive }) =>
+                      [
+                        'rounded-md px-3 py-1.5 text-[13px] transition-colors',
+                        isActive
+                          ? 'bg-brand-tint font-semibold text-brand'
+                          : 'font-medium text-slate-600 hover:bg-slate-100 hover:text-ink',
+                      ].join(' ')
+                    }
+                  >
+                    {sm.label}
+                  </NavLink>
+                ))}
+              </nav>
+            </>
+          )}
 
           {/* On-this-page sections for the current component */}
           <span className="mb-2 block border-t border-slate-200/80 px-3 pt-5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">

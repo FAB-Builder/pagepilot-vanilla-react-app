@@ -3,17 +3,17 @@ import {
   LEAD_APPLICATION_ID,
   leadApiBase,
   CS_GENERAL_SETTINGS_URL,
-} from '../lib/ahd';
-import DocLayout, { type DocSection } from '../components/DocLayout';
-import DemoBlock from '../components/DemoBlock';
-import ApiTable from '../components/ApiTable';
-import PropertyCard from '../components/PropertyCard';
-import AiPromptBlock from '../components/AiPromptBlock';
+} from '../../lib/ahd';
+import DocLayout, { type DocSection } from '../../components/DocLayout';
+import DemoBlock from '../../components/DemoBlock';
+import ApiTable from '../../components/ApiTable';
+import PropertyCard from '../../components/PropertyCard';
+import AiPromptBlock from '../../components/AiPromptBlock';
+import { PAGES_SUBMODULES } from './subModules';
 
 /**
- * "Pages" module — standalone page-level components. The first one is the
- * Lead Form: a contact / lead capture form that posts submissions to the
- * FabBuilder lead API.
+ * Lead Form — a sub-module of "Pages". A contact / lead capture form that
+ * posts submissions to the FabBuilder lead API.
  */
 
 // Lead API base, shown in docs/snippets with a placeholder application id.
@@ -67,9 +67,14 @@ const FORM_FIELDS = [
   { name: 'message', note: 'Free-text enquiry. Sent inside `messageInfo.text`.' },
 ];
 
-function Pages() {
+function LeadForm() {
   return (
-    <DocLayout title="Lead Form" sections={SECTIONS}>
+    <DocLayout
+      title="Lead Form"
+      sections={SECTIONS}
+      subModules={PAGES_SUBMODULES}
+      subModulesLabel="Pages"
+    >
       <article>
         <header className="mb-8 border-b border-slate-200 pb-6">
           <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
@@ -531,4 +536,4 @@ function LeadFormWithCaptcha() {
 //   <App />
 // </GoogleReCaptchaProvider>`;
 
-export default Pages;
+export default LeadForm;
