@@ -203,7 +203,7 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
       onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}
       style={{ position: 'fixed', inset: 0, zIndex: 1300, background: 'rgba(0,0,0,0.35)', display: 'flex', justifyContent: 'flex-end' }}
     >
-      <div style={{ position: 'relative', width: 'min(35vw, 480px)', minWidth: 320, height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', boxShadow: '-4px 0 24px rgba(0,0,0,0.12)' }}>
+      <div style={{ position: 'relative', width: 'min(45vw, 540px)', minWidth: 360, height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', boxShadow: '-4px 0 24px rgba(0,0,0,0.12)' }}>
 
         {/* Close — absolute top-right of panel */}
         <button
@@ -226,13 +226,13 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
               >
                 <ChevronLeft size={20} strokeWidth={2.5} color={BRAND} />
               </button>
-              <span style={{ fontSize: 16, fontWeight: 600, color: GREY_900, lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: 16, fontWeight: 600, color: GREY_900, lineHeight: 1.3, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                 {activeItem?.name}
               </span>
             </div>
 
             {/* Content body */}
-            <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#f9fafb' }}>
+            <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#fff' }}>
               {pageLoading && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 32px', gap: 12 }}>
                   <Loader2 size={28} color={BRAND} className="animate-spin" />
@@ -251,7 +251,7 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
                 </div>
               )}
               {!pageLoading && !pageError && pageContent && (
-                <div style={{ fontSize: 15, lineHeight: 1.7, color: GREY_700, padding: 16 }}>
+                <div style={{ fontSize: 15, lineHeight: 1.7, color: GREY_700, padding: 20, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                   {pageContent.sections?.map((sec) => (
                     <div key={sec.id} dangerouslySetInnerHTML={{ __html: sec.content }} />
                   ))}
