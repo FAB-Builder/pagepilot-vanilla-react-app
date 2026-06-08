@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -33,5 +33,11 @@ export const navItems: NavItem[] = [
     label: 'Tooltips',
     description: 'Contextual hints attached to individual elements.',
     icon: TooltipsIcon,
+  },
+  {
+    to: '/pages',
+    label: 'Pages',
+    description: 'Standalone page components — starting with the Lead Form that posts to the FabBuilder lead API.',
+    icon: PagesIcon,
   },
 ];
