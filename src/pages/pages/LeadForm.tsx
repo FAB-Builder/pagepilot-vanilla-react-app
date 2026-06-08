@@ -27,9 +27,9 @@ const SECTIONS: DocSection[] = [
   { id: 'integration', label: 'Integration' },
   { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'fields', label: 'Form fields' },
-  { id: 'payload', label: 'Request payload' },
-  { id: 'recaptcha', label: 'reCAPTCHA' },
-  { id: 'success', label: 'Success & errors' },
+  { id: 'payload', label: 'What gets sent' },
+  { id: 'recaptcha', label: 'Stopping spam' },
+  { id: 'success', label: 'After submitting' },
   { id: 'api', label: 'API reference' },
 ];
 
@@ -60,11 +60,11 @@ const Code = ({ children }: { children: React.ReactNode }) => (
 
 /** The fields collected by the form — dynamic, so listed not tabled. */
 const FORM_FIELDS = [
-  { name: 'firstName', note: "Visitor's first name. Sent as `firstName`." },
-  { name: 'businessEmail', note: 'Email address. Sent as `email`.' },
-  { name: 'phoneNumber', note: 'Phone number. Sent as `phone`.' },
-  { name: 'companyName', note: 'Company name. Folded into `description`.' },
-  { name: 'message', note: 'Free-text enquiry. Sent inside `messageInfo.text`.' },
+  { name: 'First name', note: 'Who the lead is.' },
+  { name: 'Email', note: 'Where to reach them.' },
+  { name: 'Phone', note: 'An alternate way to contact them.' },
+  { name: 'Company', note: 'The company they represent.' },
+  { name: 'Message', note: 'What they want to talk to you about.' },
 ];
 
 function LeadForm() {
@@ -84,22 +84,22 @@ function LeadForm() {
             Lead Form
           </h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
-            A self-contained contact / lead capture form that posts submissions to the FabBuilder
-            lead API. Drop it into any React app — it has no dependencies beyond React.
+            A ready-to-use contact form that captures leads and saves them straight to your
+            FabBuilder dashboard. Copy it into any React project — there's nothing to install, and no
+            backend to set up.
           </p>
         </header>
 
         <Section id="overview" title="Overview">
           <p>
-            The Lead Form collects a visitor's name, email, phone, company, and message, then sends
-            it to the lead endpoint at <Code>{`${LEAD_BASE}/lead`}</Code> using an{' '}
-            <Code>XMLHttpRequest</Code>. On success it clears and shows a thank-you state; on failure
-            it surfaces the server error inline.
+            When a visitor fills in the form and clicks submit, the form sends their details to
+            FabBuilder, where they appear as a new lead on your dashboard. Once it's saved, the form
+            resets and thanks the visitor; if anything goes wrong, a short error message is shown so
+            they can try again.
           </p>
           <p>
-            The endpoint is scoped to your <strong>application id</strong> — replace{' '}
-            <Code>{LEAD_APPLICATION_ID}</Code> in the URL with yours. You can find it in the CS app
-            under{' '}
+            Every lead is tied to your <strong>application&nbsp;id</strong>, so FabBuilder knows which
+            account it belongs to. Copy yours from the CS app under{' '}
             <a
               href={CS_GENERAL_SETTINGS_URL}
               target="_blank"
@@ -107,27 +107,27 @@ function LeadForm() {
               className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
             >
               Settings → General Settings
-            </a>
-            .
+            </a>{' '}
+            and paste it into the form's <Code>LEAD_API</Code> URL in place of{' '}
+            <Code>{LEAD_APPLICATION_ID}</Code>.
           </p>
         </Section>
 
         <Section id="integration" title="Integration">
           <p>
-            Drop the component into any page. It has no external runtime dependency beyond React; the
-            request is sent with a plain <Code>XMLHttpRequest</Code>.
+            Getting the form working takes three short steps. Follow them in order and you'll be
+            capturing leads in a few minutes.
           </p>
 
           <ol className="my-4 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             <li>
-              <strong className="text-ink">1. Copy the component</strong> — drop{' '}
-              <Code>LeadForm</Code> into your <Code>components/</Code> (or <Code>pages/</Code>)
-              folder.
+              <strong className="text-ink">1. Add the component</strong> — copy the{' '}
+              <Code>LeadForm</Code> code below into your project, for example as{' '}
+              <Code>components/LeadForm.tsx</Code>, and render it wherever you want the form to
+              appear.
             </li>
             <li>
-              <strong className="text-ink">2. Set your application id</strong> — replace{' '}
-              <Code>{LEAD_APPLICATION_ID}</Code> in <Code>LEAD_API</Code> with your own. Get it from
-              the CS app at{' '}
+              <strong className="text-ink">2. Connect your account</strong> — open the CS app at{' '}
               <a
                 href={CS_GENERAL_SETTINGS_URL}
                 target="_blank"
@@ -136,122 +136,140 @@ function LeadForm() {
               >
                 Settings → General Settings
               </a>
-              .
+              , copy your application id, and paste it into the <Code>LEAD_API</Code> URL in place of{' '}
+              <Code>{LEAD_APPLICATION_ID}</Code>.
             </li>
             <li>
-              <strong className="text-ink">3. Tag your leads</strong> — set the <Code>tags</Code>{' '}
-              array (e.g. <Code>['CX']</Code>) so leads are categorised on the dashboard.
-            </li>
-            <li>
-              <strong className="text-ink">4. (Optional) Add reCAPTCHA</strong> — generate a token
-              and add it to the payload as <Code>token</Code> (see the reCAPTCHA section).
+              <strong className="text-ink">3. Label your leads</strong> — set the <Code>tags</Code>{' '}
+              array (for example <Code>['CX']</Code>) so you can tell at a glance which form a lead
+              came from on the dashboard.
             </li>
           </ol>
 
-          <h3 className="mt-6 text-base font-semibold text-ink">React component (copy-paste)</h3>
           <p className="text-sm text-slate-600">
-            The complete component. The fields are driven by a config array, so add or remove inputs
-            by editing it.
+            That's all you need for a working form. To stop spam submissions, you can also add Google
+            reCAPTCHA — see the <Code>reCAPTCHA</Code> section below.
+          </p>
+
+          <h3 className="mt-6 text-base font-semibold text-ink">The full component</h3>
+          <p className="text-sm text-slate-600">
+            Copy this in as-is. The list of inputs lives in a single <Code>FIELDS</Code> array near
+            the top, so you can add, remove, or rename fields without touching the rest of the code.
           </p>
           <DemoBlock
             title="LeadForm.tsx"
-            description="Collects the fields and posts the lead via XMLHttpRequest."
+            description="A complete, ready-to-use lead capture form."
             code={COMPONENT_CODE}
           />
 
-          <h3 className="mt-6 text-base font-semibold text-ink">Just the API call</h3>
+          <h3 className="mt-6 text-base font-semibold text-ink">Already have a form?</h3>
           <p className="text-sm text-slate-600">
-            If you already have a form, you only need this submit helper.
+            If you've already built your own form, you don't need the component above — just call this
+            helper with your form values to send the lead.
           </p>
           <DemoBlock
             title="submitLead()"
-            description="Builds the payload and posts it via XMLHttpRequest."
+            description="A small helper that sends a single lead to FabBuilder."
             code={HELPER_CODE}
           />
         </Section>
 
         <Section id="ai-prompt" title="Integrate using AI">
           <p className="text-sm text-slate-600">
-            Hand this prompt to Cursor, Claude, or GitHub Copilot to scaffold the Lead Form and wire
-            the API call in your own codebase.
+            Prefer to let your AI assistant do the work? Copy the prompt below into Cursor, Claude, or
+            GitHub Copilot and it will build the form and connect it to FabBuilder for you.
           </p>
           <AiPromptBlock id="pages-ai-prompt" prompt={AI_PROMPT} />
         </Section>
 
         <Section id="fields" title="Form fields">
           <p>
-            The form is built from a <strong>dynamic field config</strong> — add, remove, or reorder
-            fields by editing the config array. Each field maps to an API key as noted.
+            Out of the box the form asks for the details below. The fields are listed in one place at
+            the top of the component, so you can drop any you don't need or add new ones to suit your
+            use case.
           </p>
           <ul className="my-2 space-y-2.5 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             {FORM_FIELDS.map((f) => (
               <li key={f.name} className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                <Code>{f.name}</Code>
+                <span className="font-semibold text-ink">{f.name}</span>
                 <span>— {f.note}</span>
               </li>
             ))}
           </ul>
         </Section>
 
-        <Section id="payload" title="Request payload">
+        <Section id="payload" title="What gets sent">
           <p>
-            The form fields are mapped to the API's field names and split across the query string and
-            the JSON body. The flat <Code>payload</Code> object is sent <em>both</em> as the query
-            string and nested under <Code>data</Code> in the body.
+            You usually won't need to touch this, but it helps to know what leaves the browser. Before
+            sending, the form renames its inputs to the names FabBuilder expects (for example{' '}
+            <Code>phone</Code> instead of <Code>phoneNumber</Code>) and bundles them up into the
+            request below.
           </p>
           <DemoBlock
-            title="Field mapping → request"
-            description="How the inputs become the request to /lead."
+            title="The request"
+            description="How the form's inputs are packaged before they're sent."
             code={PAYLOAD_CODE}
           />
+          <p className="text-sm text-slate-600">
+            Two extra pieces of information ride along automatically:
+          </p>
           <PropertyCard type="string[]" defaultValue="['CX']">
             <span>
-              <strong>tags</strong> — categorises the lead on the dashboard.
+              <strong>tags</strong> — a label that helps you group and filter leads on the dashboard.
             </span>
           </PropertyCard>
           <PropertyCard type="{ pageUrl: string }" defaultValue="window.location.href">
             <span>
-              <strong>sourceDetail</strong> — where the lead came from; includes the current page
-              URL. Merge in any tracking params you want to capture.
+              <strong>sourceDetail</strong> — records which page the lead came from, so you know where
+              your leads are coming from. Add your own tracking details here if you like.
             </span>
           </PropertyCard>
         </Section>
 
-        <Section id="recaptcha" title="reCAPTCHA (optional)">
+        <Section id="recaptcha" title="Stopping spam (optional)">
           <p>
-            To protect the endpoint with Google reCAPTCHA v3, generate a token on submit and send it
-            as <Code>token</Code> in the payload. Wire it in only if your endpoint enforces it.
+            Public forms attract bots. If you start seeing junk submissions, add Google reCAPTCHA: it
+            quietly checks each submission in the background and attaches a one-time{' '}
+            <Code>token</Code> to the request so FabBuilder can verify it's a real person. This step
+            is optional — only add it if your account requires it or you run into spam.
           </p>
           <DemoBlock
-            title="Adding reCAPTCHA v3"
-            description="Generate a token on submit, then include it in the payload."
+            title="Adding reCAPTCHA"
+            description="Get a token when the form is submitted, then send it along with the lead."
             code={RECAPTCHA_CODE}
           />
         </Section>
 
-        <Section id="success" title="Success & errors">
+        <Section id="success" title="After submitting">
           <p>
-            On a <Code>2xx</Code> response the form clears and shows a success state. You can also
-            redirect to a thank-you route or fire a conversion event in the success branch.
+            Here's what the visitor experiences once they hit submit, and how the form handles each
+            outcome:
           </p>
           <ul className="my-2 list-disc space-y-1.5 pl-5 text-sm text-slate-600">
             <li>
-              <strong className="text-ink">Success</strong> — reset the form, show a thank-you
-              message (or redirect / fire a conversion event).
+              <strong className="text-ink">It worked</strong> — the lead is saved, the form clears,
+              and a thank-you message appears. You can also redirect to a thank-you page or track the
+              conversion here.
             </li>
             <li>
-              <strong className="text-ink">Server error</strong> — parse{' '}
-              <Code>xhr.responseText</Code> and show the message inline.
+              <strong className="text-ink">Something was rejected</strong> — FabBuilder sends back a
+              reason, which the form shows beneath the submit button so the visitor can fix it.
             </li>
             <li>
-              <strong className="text-ink">Network error</strong> — the <Code>xhr.onerror</Code>{' '}
-              handler fires; show a generic "check your connection" message.
+              <strong className="text-ink">The request didn't reach the server</strong> — usually a
+              connection problem; the form shows a "please check your connection and try again"
+              message.
             </li>
           </ul>
         </Section>
 
         <Section id="api" title="API reference">
-          <h3 className="mb-2 mt-2 text-base font-semibold text-ink">Endpoint</h3>
+          <p>
+            The technical details, for reference. If you're using the component or helper above, this
+            is all handled for you — these tables are here for anyone integrating the endpoint
+            directly.
+          </p>
+          <h3 className="mb-2 mt-4 text-base font-semibold text-ink">Endpoint</h3>
           <ApiTable
             rows={[
               {
