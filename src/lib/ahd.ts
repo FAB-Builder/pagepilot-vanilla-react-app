@@ -39,6 +39,28 @@ export const CS_GENERAL_SETTINGS_URL = 'https://cs.fabbuilder.com/settings/gener
 export const leadApiBase = (applicationId: string) =>
   `${LEAD_API_HOST}/tenant/${applicationId}`;
 
+/**
+ * Page Pilot content API host. The "fetch pages" endpoints are scoped to a
+ * workspace id: `${PAGEPILOT_API_HOST}/tenant/{WORKSPACE_ID}/...`.
+ */
+export const PAGEPILOT_API_HOST = 'https://pagepilot.fabbuilder.com/api';
+
+/**
+ * Page Pilot app — where pages are authored and where a user finds their
+ * workspace id for the fetch-pages API.
+ */
+export const PAGEPILOT_APP_URL = 'https://pagepilot.fabbuilder.com/tenant';
+
+/**
+ * Page Pilot groups configuration — where a user creates and manages the
+ * groups they can filter pages by.
+ */
+export const PAGEPILOT_GROUPS_URL = 'https://pagepilot.fabbuilder.com/configurations/groups';
+
+/** Builds the Page Pilot content API base for a given workspace id. */
+export const pagePilotApiBase = (workspaceId: string) =>
+  `${PAGEPILOT_API_HOST}/tenant/${workspaceId}`;
+
 export interface AhdInstance {
   initializeSiteMap: (refetch: boolean) => Promise<void>;
   showHighlights: (slug: string, refetch: boolean) => Promise<void>;

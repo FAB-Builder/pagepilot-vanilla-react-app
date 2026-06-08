@@ -5,7 +5,7 @@ import Tours from './pages/Tours';
 import Demos from './pages/Demos';
 import Tooltips from './pages/Tooltips';
 import LeadForm from './pages/pages/LeadForm';
-import FetchPages from './pages/pages/FetchPages';
+import FetchPages from './pages/pages/fetch-pages';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import { useEffect } from 'react';
 

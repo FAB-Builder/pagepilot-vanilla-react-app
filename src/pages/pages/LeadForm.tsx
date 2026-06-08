@@ -6,6 +6,7 @@ import {
   FAB_CRM_URL,
 } from "../../lib/ahd";
 import DocLayout, { type DocSection } from "../../components/DocLayout";
+import { Section, Code } from "../../components/DocSection";
 import DemoBlock from "../../components/DemoBlock";
 import ApiTable from "../../components/ApiTable";
 import PropertyCard from "../../components/PropertyCard";
@@ -34,32 +35,6 @@ const SECTIONS: DocSection[] = [
   { id: "api", label: "API reference" },
 ];
 
-/* ------------------------------- Layout -------------------------------- */
-
-function Section({
-  id,
-  title,
-  children,
-}: {
-  id: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="mb-12 scroll-mt-24">
-      <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
-        {title}
-      </h2>
-      <div className="space-y-3 leading-relaxed text-slate-600">{children}</div>
-    </section>
-  );
-}
-
-const Code = ({ children }: { children: React.ReactNode }) => (
-  <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
-    {children}
-  </code>
-);
 
 /** The fields collected by the form — dynamic, so listed not tabled. */
 const FORM_FIELDS = [
