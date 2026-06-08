@@ -71,56 +71,61 @@ async function fetchBlogs(slug = 'website-blogs', group = 'blogs') {
   };
 }`;
 
-export const MULTIPLE_INCLUDES_CODE = `// Replace ${LEAD_APPLICATION_ID} with your workspace id.
-const PAGEPILOT_API = '${PP_BASE_SNIPPET}';
-
-// Fetch a page along with TWO related lists — blogs and FAQs — in one request.
-async function fetchHome(slug = 'website-home') {
-  const res = await fetch(\`\${PAGEPILOT_API}/pagebyslug/\${slug}\`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      data: {
-        includes: [
-          {
-            key: 'relatedBlogs',                      // -> data.relatedBlogs
-            entity: 'pages',
-            filter: { groups: ['blog'], status: 'live' },
-            limit: 10,
-          },
-          {
-            key: 'faqs',                              // -> data.faqs
-            entity: 'faq-group-list',                 // FAQs use a different entity
-            filter: { slug, status: 'published', orderBy: 'order_ASC' },
-            limit: 1,
-          },
-        ],
-        // pageSelect controls which fields come back for the page ITSELF.
-        pageSelect: {
-          select: {
-            title: 1,
-            metaTitle: 1,
-            metaDescription: 1,
-            metaImageUrl: 1,
-            metaKeywords: 1,
-            editor: 1,
-            head: 1,
-            bodyBottom: 1,
-          },
-          sectionSelect: { content: 1 },
-        },
+export const MULTIPLE_INCLUDES_CODE = `// Each item in "includes" returns its own list, under its own key.
+// Request as many as you need in a single call.
+{
+  data: {
+    includes: [
+      {
+        key: 'relatedBlogs',        // -> data.relatedBlogs
+        entity: 'pages',
+        filter: { groups: ['blog'], status: 'live' },
+        limit: 10,
       },
-    }),
-  });
+      {
+        key: 'popularPosts',        // -> data.popularPosts
+        entity: 'pages',
+        filter: { groups: ['popular'], status: 'live' },
+        limit: 5,
+      },
+    ],
+  },
+}`;
 
-  if (!res.ok) throw new Error(\`Failed to fetch: \${res.status}\`);
+export const FAQS_CODE = `// FAQs live in a different entity ("faq-group-list") and are matched by
+// the PAGE slug — not by group. Add this as another item in "includes".
+{
+  key: 'faqs',                                  // -> data.faqs
+  entity: 'faq-group-list',                     // <- the FAQ entity
+  filter: {
+    slug,                                       // the page these FAQs belong to
+    status: 'published',                        // only published FAQs
+    orderBy: 'order_ASC',                       // keep the order you set in Page Pilot
+  },
+  limit: 1,                                     // one FAQ group
+}`;
 
-  const data = await res.json();
-  return {
-    pageInfo: data.page || {},
-    blogs: data.relatedBlogs || [],
-    faqs: data.faqs || [],
-  };
+export const PAGE_SELECT_CODE = `// pageSelect controls which fields come back for the PAGE ITSELF
+// (the includes have their own "select"). It sits next to "includes".
+{
+  data: {
+    includes: [ /* ... */ ],
+    pageSelect: {
+      // fields of the page document
+      select: {
+        title: 1,
+        metaTitle: 1,
+        metaDescription: 1,
+        metaImageUrl: 1,
+        metaKeywords: 1,
+        editor: 1,
+        head: 1,
+        bodyBottom: 1,
+      },
+      // fields of the page's content sections
+      sectionSelect: { content: 1 },
+    },
+  },
 }`;
 
 export const AI_PROMPT = `You are helping me read content from Page Pilot in my app. Write a helper that fetches a page by slug and, in the same request, a related list of pages. Follow every instruction below.

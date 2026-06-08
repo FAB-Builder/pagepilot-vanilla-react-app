@@ -6,8 +6,10 @@ import {
   FullExample,
   Includes,
   MultipleIncludes,
+  FetchFaqs,
   Filter,
   SelectFields,
+  PageSelect,
   AiPrompt,
   ApiReference,
   PageFields,
@@ -27,8 +29,10 @@ const SECTIONS: DocSection[] = [
   { id: 'example', label: 'Full example' },
   { id: 'includes', label: 'Includes' },
   { id: 'multiple-includes', label: 'Multiple includes' },
+  { id: 'faqs', label: 'Fetch FAQs' },
   { id: 'filter', label: 'Filter' },
   { id: 'select', label: 'Select fields' },
+  { id: 'page-select', label: 'Page select' },
   { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'api', label: 'API reference' },
   { id: 'page-fields', label: 'What you can fetch' },
@@ -59,8 +63,10 @@ function FetchPages() {
         <FullExample />
         <Includes />
         <MultipleIncludes />
+        <FetchFaqs />
         <Filter />
         <SelectFields />
+        <PageSelect />
         <AiPrompt />
         <ApiReference />
         <PageFields />
