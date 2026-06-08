@@ -8,6 +8,8 @@ import {
   RenderItYourself,
   LiveDemo,
   ApiReference,
+  AiPrompt,
+  OpenHelpButton,
 } from './sections';
 
 const SECTIONS: DocSection[] = [
@@ -19,6 +21,7 @@ const SECTIONS: DocSection[] = [
   { id: 'fetch-page-content', label: 'Fetch page on item click' },
   { id: 'render-yourself', label: 'Render it yourself' },
   { id: 'api-reference', label: 'API reference' },
+  { id: 'ai-prompt', label: 'Integrate using AI' },
 ];
 
 function ContextHelpMenu() {
@@ -43,6 +46,9 @@ function ContextHelpMenu() {
             , fetch it by name, and render it as a help drawer — no code changes needed when
             you add or rearrange topics.
           </p>
+          <div className="mt-5">
+            <OpenHelpButton />
+          </div>
         </header>
 
         <Overview />
@@ -53,6 +59,7 @@ function ContextHelpMenu() {
         <FetchPageContent />
         <RenderItYourself />
         <ApiReference />
+        <AiPrompt />
       </article>
     </DocLayout>
   );

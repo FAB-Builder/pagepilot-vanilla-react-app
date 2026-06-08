@@ -349,32 +349,33 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ── Page entry ── */
-function LiveDemo() {
+/* ── Exported trigger button — used in the page header ── */
+export function OpenHelpButton() {
   const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
+      >
+        <HelpCircle size={16} />
+        Open Help Drawer
+      </button>
+      {open && <HelpDrawerDemo onClose={() => setOpen(false)} />}
+    </>
+  );
+}
 
+/* ── Section (button lives in the page header — this just anchors the nav) ── */
+function LiveDemo() {
   return (
     <Section id="live-demo" title="Live demo">
       <p>
-        Click the button to open the Context Help Menu drawer. It fetches the live{' '}
-        <strong>fab-docs-site</strong> menu from Page Pilot — click any item to load its full
-        page content inline, exactly as the built-in ahd-fe drawer does.
+        The drawer above fetches the <strong>fab-docs-site</strong> menu from Page Pilot. Click
+        any item to load its full page content inline. The menu is cached in{' '}
+        <strong>localStorage</strong> for 1 hour so the API is only called once per session.
       </p>
-      <p>
-        The menu is cached in <strong>localStorage</strong> for 1 hour (same as ahd-fe) so the
-        API is only called once per session.
-      </p>
-      <div className="mt-4">
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
-        >
-          <HelpCircle size={16} />
-          Open Help Drawer
-        </button>
-      </div>
-      {open && <HelpDrawerDemo onClose={() => setOpen(false)} />}
     </Section>
   );
 }
