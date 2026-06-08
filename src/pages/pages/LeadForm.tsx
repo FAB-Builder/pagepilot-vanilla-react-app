@@ -405,38 +405,46 @@ function LeadForm() {
 
 /* ------------------------------- Snippets ------------------------------- */
 
-const AI_PROMPT = `Do the following steps automatically:
+const AI_PROMPT = `You are helping me add a lead capture form to my React app. Build a single, self-contained component called LeadForm that submits to the FAB CRM lead API. Follow every instruction below.
 
-Create a React "Lead Form" component (LeadForm.tsx) driven by a dynamic field config:
-- firstName
-- businessEmail
-- phoneNumber
-- companyName
-- message (textarea)
+GOAL
+Create LeadForm.tsx — a contact form that, on submit, creates a lead in FAB CRM.
 
-On submit, POST the lead to the FAB CRM lead API (replace ${LEAD_APPLICATION_ID} with your application id, found in the CS app under Settings -> General Settings at ${CS_GENERAL_SETTINGS_URL}):
+API
+- Endpoint: const LEAD_API = "${LEAD_BASE_SNIPPET}";
+- Replace ${LEAD_APPLICATION_ID} with my workspace/application id (found in the CS app under Settings -> General Settings: ${CS_GENERAL_SETTINGS_URL}).
+- Method: POST, header Content-Type: application/json, sent with XMLHttpRequest.
 
-const LEAD_API = "${LEAD_BASE_SNIPPET}";
+FIELDS (drive these from a single config array so they're easy to change)
+- firstName     (label "First Name",   text)
+- businessEmail (label "Email",        email)
+- phoneNumber   (label "Phone Number", tel)
+- companyName   (label "Company Name", text)
+- message       (label "Message",      textarea)
 
-Map the fields to this flat payload:
-  firstName  -> firstName
-  phoneNumber-> phone
-  businessEmail -> email
-  companyName -> companyName
-  description -> \`\${companyName}-\${message}\`
-  source -> "website"
+ON SUBMIT
+1. Build a flat payload that maps the inputs to the API's field names:
+     firstName     -> firstName
+     phoneNumber   -> phone
+     businessEmail -> email
+     companyName   -> companyName
+     description   -> \`\${companyName}-\${message}\`
+     source        -> "website"
+2. Build the request body as: { data: { ...payload, messageInfo: { text: message }, tags: ["CX"], sourceDetail: { pageUrl: window.location.href } } }
+3. Append the flat payload to the URL as a query string AND send the body as JSON:
+     POST \`\${LEAD_API}/lead?\${new URLSearchParams(payload)}\`
 
-Send the payload BOTH as a URL query string and nested under "data" in the JSON body. The body should also include:
-  messageInfo: { text: message }
-  tags: ["CX"]
-  sourceDetail: { pageUrl: window.location.href }
+STATES & UX
+- Track a status: "idle" | "submitting" | "success" | "error".
+- While submitting, disable the submit button and show a loading label.
+- On status 200: clear the form and show a friendly thank-you message.
+- On any other status: read the error message from xhr.responseText (JSON, "message" field) and show it inline.
+- On a network error (xhr.onerror): show a generic "check your connection" message.
 
-Send the request with an XMLHttpRequest: method POST, Content-Type application/json.
-
-On status 200, clear the form and show a success/thank-you message.
-On any other status, parse xhr.responseText and show the message inline.
-
-Add brief comments explaining each step. Use plain React (hooks).`;
+CONSTRAINTS
+- Use plain React with hooks only — no form libraries, no antd, no styled-components.
+- Keep it dependency-free apart from React.
+- Add short comments explaining each step.`;
 
 const COMPONENT_CODE = `import { useState } from 'react';
 
