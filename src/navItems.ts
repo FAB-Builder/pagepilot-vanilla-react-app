@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -39,5 +39,11 @@ export const navItems: NavItem[] = [
     label: 'Pages',
     description: 'Standalone page components — starting with the Lead Form that posts to the FabBuilder lead API.',
     icon: PagesIcon,
+  },
+  {
+    to: '/context-help-menu',
+    label: 'Context Help Menu',
+    description: 'A right-anchored help drawer driven by a Page Pilot menu — configure topics without any code changes.',
+    icon: ContextHelpMenuIcon,
   },
 ];
