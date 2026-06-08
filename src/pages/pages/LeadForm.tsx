@@ -4,13 +4,13 @@ import {
   leadApiBase,
   CS_GENERAL_SETTINGS_URL,
   FAB_CRM_URL,
-} from '../../lib/ahd';
-import DocLayout, { type DocSection } from '../../components/DocLayout';
-import DemoBlock from '../../components/DemoBlock';
-import ApiTable from '../../components/ApiTable';
-import PropertyCard from '../../components/PropertyCard';
-import AiPromptBlock from '../../components/AiPromptBlock';
-import { PAGES_SUBMODULES } from './subModules';
+} from "../../lib/ahd";
+import DocLayout, { type DocSection } from "../../components/DocLayout";
+import DemoBlock from "../../components/DemoBlock";
+import ApiTable from "../../components/ApiTable";
+import PropertyCard from "../../components/PropertyCard";
+import AiPromptBlock from "../../components/AiPromptBlock";
+import { PAGES_SUBMODULES } from "./subModules";
 
 /**
  * Lead Form — a sub-module of "Pages". A contact / lead capture form that
@@ -24,14 +24,14 @@ const LEAD_BASE = leadApiBase(LEAD_APPLICATION_ID);
 const LEAD_BASE_SNIPPET = `${LEAD_API_HOST}/tenant/${LEAD_APPLICATION_ID}`;
 
 const SECTIONS: DocSection[] = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'integration', label: 'Integration' },
-  { id: 'ai-prompt', label: 'Integrate using AI' },
-  { id: 'fields', label: 'Form fields' },
-  { id: 'payload', label: 'What gets sent' },
-  { id: 'recaptcha', label: 'Stopping spam' },
-  { id: 'success', label: 'After submitting' },
-  { id: 'api', label: 'API reference' },
+  { id: "overview", label: "Overview" },
+  { id: "integration", label: "Integration" },
+  { id: "ai-prompt", label: "Integrate using AI" },
+  { id: "fields", label: "Form fields" },
+  { id: "payload", label: "What gets sent" },
+  { id: "recaptcha", label: "Stopping spam" },
+  { id: "success", label: "After submitting" },
+  { id: "api", label: "API reference" },
 ];
 
 /* ------------------------------- Layout -------------------------------- */
@@ -47,7 +47,9 @@ function Section({
 }) {
   return (
     <section id={id} className="mb-12 scroll-mt-24">
-      <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">{title}</h2>
+      <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
+        {title}
+      </h2>
       <div className="space-y-3 leading-relaxed text-slate-600">{children}</div>
     </section>
   );
@@ -61,11 +63,11 @@ const Code = ({ children }: { children: React.ReactNode }) => (
 
 /** The fields collected by the form — dynamic, so listed not tabled. */
 const FORM_FIELDS = [
-  { name: 'First name', note: 'Who the lead is.' },
-  { name: 'Email', note: 'Where to reach them.' },
-  { name: 'Phone', note: 'An alternate way to contact them.' },
-  { name: 'Company', note: 'The company they represent.' },
-  { name: 'Message', note: 'What they want to talk to you about.' },
+  { name: "First name", note: "Who the lead is." },
+  { name: "Email", note: "Where to reach them." },
+  { name: "Phone", note: "An alternate way to contact them." },
+  { name: "Company", note: "The company they represent." },
+  { name: "Message", note: "What they want to talk to you about." },
 ];
 
 function LeadForm() {
@@ -78,14 +80,15 @@ function LeadForm() {
     >
       <article>
         <header className="mb-8 border-b border-slate-200 pb-6">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
-            Pages
-          </span>
-          <h1 className="mt-1 text-3xl font-bold" style={{ width: 'fit-content' }}>
+          <h1
+            className="mt-1 text-3xl font-bold"
+            style={{ width: "fit-content" }}
+          >
             Lead Form
           </h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
-            A ready-to-use contact form that captures leads and saves them straight to your{' '}
+            A ready-to-use contact form that captures leads and saves them
+            straight to your{" "}
             <a
               href={FAB_CRM_URL}
               target="_blank"
@@ -94,13 +97,15 @@ function LeadForm() {
             >
               FAB CRM dashboard
             </a>
-            . Copy it into any React project — there's nothing to install, and no backend to set up.
+            . Copy it into any React project — there's nothing to install, and
+            no backend to set up.
           </p>
         </header>
 
         <Section id="overview" title="Overview">
           <p>
-            When a visitor fills in the form and clicks submit, the form sends their details to your{' '}
+            When a visitor fills in the form and clicks submit, the form sends
+            their details to your{" "}
             <a
               href={FAB_CRM_URL}
               target="_blank"
@@ -109,12 +114,14 @@ function LeadForm() {
             >
               FAB CRM dashboard
             </a>
-            , where they appear as a new lead. Once it's saved, the form resets and thanks the
-            visitor; if anything goes wrong, a short error message is shown so they can try again.
+            , where they appear as a new lead. Once it's saved, the form resets
+            and thanks the visitor; if anything goes wrong, a short error
+            message is shown so they can try again.
           </p>
           <p>
-            Every lead is tied to your <strong>application&nbsp;id</strong>, so FAB CRM knows which
-            account it belongs to. Copy yours from the CS app under{' '}
+            Every lead is tied to your <strong>application&nbsp;id</strong>, so
+            FAB CRM knows which account it belongs to. Copy yours from the CS
+            app under{" "}
             <a
               href={CS_GENERAL_SETTINGS_URL}
               target="_blank"
@@ -122,27 +129,28 @@ function LeadForm() {
               className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
             >
               Settings → General Settings
-            </a>{' '}
-            and paste it into the form's <Code>LEAD_API</Code> URL in place of{' '}
+            </a>{" "}
+            and paste it into the form's <Code>LEAD_API</Code> URL in place of{" "}
             <Code>{LEAD_APPLICATION_ID}</Code>.
           </p>
         </Section>
 
         <Section id="integration" title="Integration">
           <p>
-            Getting the form working takes three short steps. Follow them in order and you'll be
-            capturing leads in a few minutes.
+            Getting the form working takes three short steps. Follow them in
+            order and you'll be capturing leads in a few minutes.
           </p>
 
           <ol className="my-4 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             <li>
-              <strong className="text-ink">1. Add the component</strong> — copy the{' '}
-              <Code>LeadForm</Code> code below into your project, for example as{' '}
-              <Code>components/LeadForm.tsx</Code>, and render it wherever you want the form to
-              appear.
+              <strong className="text-ink">1. Add the component</strong> — copy
+              the <Code>LeadForm</Code> code below into your project, for
+              example as <Code>components/LeadForm.tsx</Code>, and render it
+              wherever you want the form to appear.
             </li>
             <li>
-              <strong className="text-ink">2. Connect your account</strong> — open the CS app at{' '}
+              <strong className="text-ink">2. Connect your account</strong> —
+              open the CS app at{" "}
               <a
                 href={CS_GENERAL_SETTINGS_URL}
                 target="_blank"
@@ -151,25 +159,31 @@ function LeadForm() {
               >
                 Settings → General Settings
               </a>
-              , copy your application id, and paste it into the <Code>LEAD_API</Code> URL in place of{' '}
+              , copy your application id, and paste it into the{" "}
+              <Code>LEAD_API</Code> URL in place of{" "}
               <Code>{LEAD_APPLICATION_ID}</Code>.
             </li>
             <li>
-              <strong className="text-ink">3. Label your leads</strong> — set the <Code>tags</Code>{' '}
-              array (for example <Code>['CX']</Code>) so you can tell at a glance which form a lead
-              came from on your FAB CRM dashboard.
+              <strong className="text-ink">3. Label your leads</strong> — set
+              the <Code>tags</Code> array (for example <Code>['CX']</Code>) so
+              you can tell at a glance which form a lead came from on your FAB
+              CRM dashboard.
             </li>
           </ol>
 
           <p className="text-sm text-slate-600">
-            That's all you need for a working form. To stop spam submissions, you can also add Google
-            reCAPTCHA — see the <Code>reCAPTCHA</Code> section below.
+            That's all you need for a working form. To stop spam submissions,
+            you can also add Google reCAPTCHA — see the <Code>reCAPTCHA</Code>{" "}
+            section below.
           </p>
 
-          <h3 className="mt-6 text-base font-semibold text-ink">The full component</h3>
+          <h3 className="mt-6 text-base font-semibold text-ink">
+            The full component
+          </h3>
           <p className="text-sm text-slate-600">
-            Copy this in as-is. The list of inputs lives in a single <Code>FIELDS</Code> array near
-            the top, so you can add, remove, or rename fields without touching the rest of the code.
+            Copy this in as-is. The list of inputs lives in a single{" "}
+            <Code>FIELDS</Code> array near the top, so you can add, remove, or
+            rename fields without touching the rest of the code.
           </p>
           <DemoBlock
             title="LeadForm.tsx"
@@ -177,10 +191,13 @@ function LeadForm() {
             code={COMPONENT_CODE}
           />
 
-          <h3 className="mt-6 text-base font-semibold text-ink">Already have a form?</h3>
+          <h3 className="mt-6 text-base font-semibold text-ink">
+            Already have a form?
+          </h3>
           <p className="text-sm text-slate-600">
-            If you've already built your own form, you don't need the component above — just call this
-            helper with your form values to send the lead.
+            If you've already built your own form, you don't need the component
+            above — just call this helper with your form values to send the
+            lead.
           </p>
           <DemoBlock
             title="submitLead()"
@@ -191,21 +208,25 @@ function LeadForm() {
 
         <Section id="ai-prompt" title="Integrate using AI">
           <p className="text-sm text-slate-600">
-            Prefer to let your AI assistant do the work? Copy the prompt below into Cursor, Claude, or
-            GitHub Copilot and it will build the form and connect it to FAB CRM for you.
+            Prefer to let your AI assistant do the work? Copy the prompt below
+            into Cursor, Claude, or GitHub Copilot and it will build the form
+            and connect it to FAB CRM for you.
           </p>
           <AiPromptBlock id="pages-ai-prompt" prompt={AI_PROMPT} />
         </Section>
 
         <Section id="fields" title="Form fields">
           <p>
-            Out of the box the form asks for the details below. The fields are listed in one place at
-            the top of the component, so you can drop any you don't need or add new ones to suit your
-            use case.
+            Out of the box the form asks for the details below. The fields are
+            listed in one place at the top of the component, so you can drop any
+            you don't need or add new ones to suit your use case.
           </p>
           <ul className="my-2 space-y-2.5 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             {FORM_FIELDS.map((f) => (
-              <li key={f.name} className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <li
+                key={f.name}
+                className="flex flex-wrap items-baseline gap-x-2 gap-y-1"
+              >
                 <span className="font-semibold text-ink">{f.name}</span>
                 <span>— {f.note}</span>
               </li>
@@ -215,10 +236,11 @@ function LeadForm() {
 
         <Section id="payload" title="What gets sent">
           <p>
-            You usually won't need to touch this, but it helps to know what leaves the browser. Before
-            sending, the form renames its inputs to the names FAB CRM expects (for example{' '}
-            <Code>phone</Code> instead of <Code>phoneNumber</Code>) and bundles them up into the
-            request below.
+            You usually won't need to touch this, but it helps to know what
+            leaves the browser. Before sending, the form renames its inputs to
+            the names FAB CRM expects (for example <Code>phone</Code> instead of{" "}
+            <Code>phoneNumber</Code>) and bundles them up into the request
+            below.
           </p>
           <DemoBlock
             title="The request"
@@ -230,23 +252,29 @@ function LeadForm() {
           </p>
           <PropertyCard type="string[]" defaultValue="['CX']">
             <span>
-              <strong>tags</strong> — a label that helps you group and filter leads in FAB CRM.
+              <strong>tags</strong> — a label that helps you group and filter
+              leads in FAB CRM.
             </span>
           </PropertyCard>
-          <PropertyCard type="{ pageUrl: string }" defaultValue="window.location.href">
+          <PropertyCard
+            type="{ pageUrl: string }"
+            defaultValue="window.location.href"
+          >
             <span>
-              <strong>sourceDetail</strong> — records which page the lead came from, so you know where
-              your leads are coming from. Add your own tracking details here if you like.
+              <strong>sourceDetail</strong> — records which page the lead came
+              from, so you know where your leads are coming from. Add your own
+              tracking details here if you like.
             </span>
           </PropertyCard>
         </Section>
 
         <Section id="recaptcha" title="Stopping spam (optional)">
           <p>
-            Public forms attract bots. If you start seeing junk submissions, add Google reCAPTCHA: it
-            quietly checks each submission in the background and attaches a one-time{' '}
-            <Code>token</Code> to the request so FAB CRM can verify it's a real person. This step
-            is optional — only add it if your account requires it or you run into spam.
+            Public forms attract bots. If you start seeing junk submissions, add
+            Google reCAPTCHA: it quietly checks each submission in the
+            background and attaches a one-time <Code>token</Code> to the request
+            so FAB CRM can verify it's a real person. This step is optional —
+            only add it if your account requires it or you run into spam.
           </p>
           <DemoBlock
             title="Adding reCAPTCHA"
@@ -257,78 +285,116 @@ function LeadForm() {
 
         <Section id="success" title="After submitting">
           <p>
-            Here's what the visitor experiences once they hit submit, and how the form handles each
-            outcome:
+            Here's what the visitor experiences once they hit submit, and how
+            the form handles each outcome:
           </p>
           <ul className="my-2 list-disc space-y-1.5 pl-5 text-sm text-slate-600">
             <li>
-              <strong className="text-ink">It worked</strong> — the lead is saved, the form clears,
-              and a thank-you message appears. You can also redirect to a thank-you page or track the
-              conversion here.
+              <strong className="text-ink">It worked</strong> — the lead is
+              saved, the form clears, and a thank-you message appears. You can
+              also redirect to a thank-you page or track the conversion here.
             </li>
             <li>
-              <strong className="text-ink">Something was rejected</strong> — FAB CRM sends back a
-              reason, which the form shows beneath the submit button so the visitor can fix it.
+              <strong className="text-ink">Something was rejected</strong> — FAB
+              CRM sends back a reason, which the form shows beneath the submit
+              button so the visitor can fix it.
             </li>
             <li>
-              <strong className="text-ink">The request didn't reach the server</strong> — usually a
-              connection problem; the form shows a "please check your connection and try again"
-              message.
+              <strong className="text-ink">
+                The request didn't reach the server
+              </strong>{" "}
+              — usually a connection problem; the form shows a "please check
+              your connection and try again" message.
             </li>
           </ul>
         </Section>
 
         <Section id="api" title="API reference">
           <p>
-            The technical details, for reference. If you're using the component or helper above, this
-            is all handled for you — these tables are here for anyone integrating the endpoint
-            directly.
+            The technical details, for reference. If you're using the component
+            or helper above, this is all handled for you — these tables are here
+            for anyone integrating the endpoint directly.
           </p>
-          <h3 className="mb-2 mt-4 text-base font-semibold text-ink">Endpoint</h3>
+          <h3 className="mb-2 mt-4 text-base font-semibold text-ink">
+            Endpoint
+          </h3>
           <ApiTable
             rows={[
               {
-                property: 'POST /lead',
-                description: 'Creates a lead. The base URL is scoped to your application id.',
+                property: "POST /lead",
+                description:
+                  "Creates a lead. The base URL is scoped to your application id.",
                 type: `${LEAD_BASE}/lead`,
               },
               {
-                property: 'Content-Type',
-                description: 'Request body is JSON.',
-                type: 'application/json',
+                property: "Content-Type",
+                description: "Request body is JSON.",
+                type: "application/json",
               },
               {
-                property: 'query string',
-                description: 'The flat payload fields, URL-encoded, appended to the URL.',
-                type: '?firstName=…&email=…',
+                property: "query string",
+                description:
+                  "The flat payload fields, URL-encoded, appended to the URL.",
+                type: "?firstName=…&email=…",
               },
             ]}
           />
-          <h3 className="mb-2 mt-6 text-base font-semibold text-ink">Body fields (under `data`)</h3>
+          <h3 className="mb-2 mt-6 text-base font-semibold text-ink">
+            Body fields (under `data`)
+          </h3>
           <ApiTable
             rows={[
-              { property: 'firstName', description: "Lead's first name.", type: 'string' },
-              { property: 'email', description: 'Email address.', type: 'string' },
-              { property: 'phone', description: 'Phone number, digits only.', type: 'string' },
-              { property: 'companyName', description: 'Company name.', type: 'string' },
               {
-                property: 'description',
-                description: 'Combined `${companyName}-${message}` summary.',
-                type: 'string',
+                property: "firstName",
+                description: "Lead's first name.",
+                type: "string",
               },
-              { property: 'source', description: 'Lead source.', type: 'string', default: "'website'" },
               {
-                property: 'messageInfo.text',
+                property: "email",
+                description: "Email address.",
+                type: "string",
+              },
+              {
+                property: "phone",
+                description: "Phone number, digits only.",
+                type: "string",
+              },
+              {
+                property: "companyName",
+                description: "Company name.",
+                type: "string",
+              },
+              {
+                property: "description",
+                description: "Combined `${companyName}-${message}` summary.",
+                type: "string",
+              },
+              {
+                property: "source",
+                description: "Lead source.",
+                type: "string",
+                default: "'website'",
+              },
+              {
+                property: "messageInfo.text",
                 description: "The visitor's free-text message.",
-                type: 'string',
+                type: "string",
               },
-              { property: 'tags', description: 'Lead categories.', type: 'string[]' },
               {
-                property: 'sourceDetail.pageUrl',
-                description: 'URL of the page the form was submitted from.',
-                type: 'string',
+                property: "tags",
+                description: "Lead categories.",
+                type: "string[]",
               },
-              { property: 'token', description: 'reCAPTCHA v3 token (optional).', type: 'string' },
+              {
+                property: "sourceDetail.pageUrl",
+                description: "URL of the page the form was submitted from.",
+                type: "string",
+              },
+              {
+                property: "token",
+                description: "reCAPTCHA v3 token (optional).",
+                type: "string",
+              },
             ]}
           />
         </Section>

@@ -38,6 +38,8 @@ function App() {
         <Route path="pages" element={<Navigate to={PAGES_DEFAULT} replace />} />
         <Route path="pages/lead-form" element={<LeadForm />} />
         <Route path="pages/fetch-pages" element={<FetchPages />} />
+        {/* Unknown slug → send the user back home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );
