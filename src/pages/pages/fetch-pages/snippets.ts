@@ -83,10 +83,10 @@ export const MULTIPLE_INCLUDES_CODE = `// Each item in "includes" returns its ow
         limit: 10,
       },
       {
-        key: 'popularPosts',        // -> data.popularPosts
-        entity: 'pages',
-        filter: { groups: ['popular'], status: 'live' },
-        limit: 5,
+        key: 'faqs',                // -> data.faqs
+        entity: 'faq-group-list',   // FAQs use a different entity (see Fetch FAQs)
+        filter: { slug, status: 'published', orderBy: 'order_ASC' },
+        limit: 1,
       },
     ],
   },
@@ -103,6 +103,24 @@ export const FAQS_CODE = `// FAQs live in a different entity ("faq-group-list") 
     orderBy: 'order_ASC',                       // keep the order you set in Page Pilot
   },
   limit: 1,                                     // one FAQ group
+}`;
+
+export const MENU_CODE = `// Fetch a named menu you built in Page Pilot with the "menu-by-name"
+// entity. Match it by its name; the items come back under your key.
+// Add as many menu includes as you need (e.g. a header menu and a footer menu).
+{
+  includes: [
+    {
+      key: 'headerMenu',                          // -> data.headerMenu
+      entity: 'menu-by-name',                     // <- the menu entity
+      filter: { name: 'code-gen-header-features' }, // the menu's name in Page Pilot
+    },
+    {
+      key: 'featureMenu',                         // -> data.featureMenu
+      entity: 'menu-by-name',
+      filter: { name: 'code-gen-features' },
+    },
+  ],
 }`;
 
 export const PAGE_SELECT_CODE = `// pageSelect controls which fields come back for the PAGE ITSELF
@@ -139,10 +157,11 @@ REQUEST
 - URL: \`\${PAGEPILOT_API}/pagebyslug/\${slug}\`  (slug is MY page's slug, passed in as an argument — do not hardcode it)
 - Body: { data: { includes: [ ... ], pageSelect: { ... } } }
 - includes is an ARRAY — support fetching multiple related lists at once, each under its own key. Each include has:
-    key:    response key the list is returned under (e.g. "relatedBlogs", "faqs")
-    entity: "pages" for pages, or "faq-group-list" for FAQs
+    key:    response key the list is returned under (e.g. "relatedBlogs", "faqs", "headerMenu")
+    entity: "pages" for pages, "faq-group-list" for FAQs, or "menu-by-name" for menus
     filter: for pages -> { groups: [<group>], status: "live" } (groups are user-created in Page Pilot — pass the group(s) as a parameter, don't hardcode)
             for faqs  -> { slug, status: "published", orderBy: "order_ASC" }
+            for menus -> { name: "<menu-name>" }
     select: fields to return per record (field: 1)
     limit:  max records to return
 - pageSelect controls fields for the PAGE itself:

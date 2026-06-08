@@ -7,6 +7,7 @@ import {
   Includes,
   MultipleIncludes,
   FetchFaqs,
+  FetchMenu,
   Filter,
   SelectFields,
   PageSelect,
@@ -30,6 +31,7 @@ const SECTIONS: DocSection[] = [
   { id: 'includes', label: 'Includes' },
   { id: 'multiple-includes', label: 'Multiple includes' },
   { id: 'faqs', label: 'Fetch FAQs' },
+  { id: 'menu', label: 'Fetch a menu' },
   { id: 'filter', label: 'Filter' },
   { id: 'select', label: 'Select fields' },
   { id: 'page-select', label: 'Page select' },
@@ -64,6 +66,7 @@ function FetchPages() {
         <Includes />
         <MultipleIncludes />
         <FetchFaqs />
+        <FetchMenu />
         <Filter />
         <SelectFields />
         <PageSelect />

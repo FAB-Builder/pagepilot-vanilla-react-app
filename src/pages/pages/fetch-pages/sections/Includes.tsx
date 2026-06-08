@@ -20,14 +20,15 @@ function Includes() {
           {
             property: 'entity',
             description:
-              'What to fetch. "pages" for pages (blogs, landing pages…); "faq-group-list" for FAQ groups.',
-            type: "'pages' | 'faq-group-list'",
+              'What to fetch. "pages" for pages (blogs, landing pages…); "faq-group-list" for FAQ groups; "menu-by-name" for menus.',
+            type: "'pages' | 'faq-group-list' | 'menu-by-name'",
             default: "'pages'",
           },
           {
             property: 'filter',
-            description: 'Which records to include — narrow the list by group, slug, and status.',
-            type: '{ groups, slug, status, orderBy }',
+            description:
+              'Which records to include — narrow by group/status (pages), slug (FAQs), or name (menus).',
+            type: '{ groups, slug, name, status, orderBy }',
           },
           {
             property: 'select',
