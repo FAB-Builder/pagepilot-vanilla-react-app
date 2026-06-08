@@ -3,6 +3,7 @@ import {
   LEAD_APPLICATION_ID,
   leadApiBase,
   CS_GENERAL_SETTINGS_URL,
+  FAB_CRM_URL,
 } from '../../lib/ahd';
 import DocLayout, { type DocSection } from '../../components/DocLayout';
 import DemoBlock from '../../components/DemoBlock';
@@ -13,7 +14,7 @@ import { PAGES_SUBMODULES } from './subModules';
 
 /**
  * Lead Form — a sub-module of "Pages". A contact / lead capture form that
- * posts submissions to the FabBuilder lead API.
+ * posts submissions to the FAB CRM lead API.
  */
 
 // Lead API base, shown in docs/snippets with a placeholder application id.
@@ -84,21 +85,35 @@ function LeadForm() {
             Lead Form
           </h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
-            A ready-to-use contact form that captures leads and saves them straight to your
-            FabBuilder dashboard. Copy it into any React project — there's nothing to install, and no
-            backend to set up.
+            A ready-to-use contact form that captures leads and saves them straight to your{' '}
+            <a
+              href={FAB_CRM_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
+            >
+              FAB CRM dashboard
+            </a>
+            . Copy it into any React project — there's nothing to install, and no backend to set up.
           </p>
         </header>
 
         <Section id="overview" title="Overview">
           <p>
-            When a visitor fills in the form and clicks submit, the form sends their details to
-            FabBuilder, where they appear as a new lead on your dashboard. Once it's saved, the form
-            resets and thanks the visitor; if anything goes wrong, a short error message is shown so
-            they can try again.
+            When a visitor fills in the form and clicks submit, the form sends their details to your{' '}
+            <a
+              href={FAB_CRM_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
+            >
+              FAB CRM dashboard
+            </a>
+            , where they appear as a new lead. Once it's saved, the form resets and thanks the
+            visitor; if anything goes wrong, a short error message is shown so they can try again.
           </p>
           <p>
-            Every lead is tied to your <strong>application&nbsp;id</strong>, so FabBuilder knows which
+            Every lead is tied to your <strong>application&nbsp;id</strong>, so FAB CRM knows which
             account it belongs to. Copy yours from the CS app under{' '}
             <a
               href={CS_GENERAL_SETTINGS_URL}
@@ -142,7 +157,7 @@ function LeadForm() {
             <li>
               <strong className="text-ink">3. Label your leads</strong> — set the <Code>tags</Code>{' '}
               array (for example <Code>['CX']</Code>) so you can tell at a glance which form a lead
-              came from on the dashboard.
+              came from on your FAB CRM dashboard.
             </li>
           </ol>
 
@@ -169,7 +184,7 @@ function LeadForm() {
           </p>
           <DemoBlock
             title="submitLead()"
-            description="A small helper that sends a single lead to FabBuilder."
+            description="A small helper that sends a single lead to FAB CRM."
             code={HELPER_CODE}
           />
         </Section>
@@ -177,7 +192,7 @@ function LeadForm() {
         <Section id="ai-prompt" title="Integrate using AI">
           <p className="text-sm text-slate-600">
             Prefer to let your AI assistant do the work? Copy the prompt below into Cursor, Claude, or
-            GitHub Copilot and it will build the form and connect it to FabBuilder for you.
+            GitHub Copilot and it will build the form and connect it to FAB CRM for you.
           </p>
           <AiPromptBlock id="pages-ai-prompt" prompt={AI_PROMPT} />
         </Section>
@@ -201,7 +216,7 @@ function LeadForm() {
         <Section id="payload" title="What gets sent">
           <p>
             You usually won't need to touch this, but it helps to know what leaves the browser. Before
-            sending, the form renames its inputs to the names FabBuilder expects (for example{' '}
+            sending, the form renames its inputs to the names FAB CRM expects (for example{' '}
             <Code>phone</Code> instead of <Code>phoneNumber</Code>) and bundles them up into the
             request below.
           </p>
@@ -215,7 +230,7 @@ function LeadForm() {
           </p>
           <PropertyCard type="string[]" defaultValue="['CX']">
             <span>
-              <strong>tags</strong> — a label that helps you group and filter leads on the dashboard.
+              <strong>tags</strong> — a label that helps you group and filter leads in FAB CRM.
             </span>
           </PropertyCard>
           <PropertyCard type="{ pageUrl: string }" defaultValue="window.location.href">
@@ -230,7 +245,7 @@ function LeadForm() {
           <p>
             Public forms attract bots. If you start seeing junk submissions, add Google reCAPTCHA: it
             quietly checks each submission in the background and attaches a one-time{' '}
-            <Code>token</Code> to the request so FabBuilder can verify it's a real person. This step
+            <Code>token</Code> to the request so FAB CRM can verify it's a real person. This step
             is optional — only add it if your account requires it or you run into spam.
           </p>
           <DemoBlock
@@ -252,7 +267,7 @@ function LeadForm() {
               conversion here.
             </li>
             <li>
-              <strong className="text-ink">Something was rejected</strong> — FabBuilder sends back a
+              <strong className="text-ink">Something was rejected</strong> — FAB CRM sends back a
               reason, which the form shows beneath the submit button so the visitor can fix it.
             </li>
             <li>
@@ -333,7 +348,7 @@ Create a React "Lead Form" component (LeadForm.tsx) driven by a dynamic field co
 - companyName
 - message (textarea)
 
-On submit, POST the lead to the FabBuilder lead API (replace ${LEAD_APPLICATION_ID} with your application id, found in the CS app under Settings -> General Settings at ${CS_GENERAL_SETTINGS_URL}):
+On submit, POST the lead to the FAB CRM lead API (replace ${LEAD_APPLICATION_ID} with your application id, found in the CS app under Settings -> General Settings at ${CS_GENERAL_SETTINGS_URL}):
 
 const LEAD_API = "${LEAD_BASE_SNIPPET}";
 

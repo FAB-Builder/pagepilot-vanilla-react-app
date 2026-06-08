@@ -25,6 +25,11 @@ export const LEAD_API_HOST = 'https://cs.fabbuilder.com/api';
 export const LEAD_APPLICATION_ID = 'YOUR_WORKSPACE_ID';
 
 /**
+ * FAB CRM dashboard — where leads land and are managed.
+ */
+export const FAB_CRM_URL = 'https://cs.fabbuilder.com/';
+
+/**
  * CS app general settings page — where a user finds their application id to
  * plug into the lead API URL.
  */
