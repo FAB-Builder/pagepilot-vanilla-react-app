@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { navItems } from '../navItems';
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { navItems } from "../navItems";
 
 function Home() {
   return (
     <div className="mx-auto max-w-5xl">
-
       {/* ── Hero ── */}
       <section className="pb-10 pt-4 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-tint px-3.5 py-1 text-xs font-semibold text-brand mb-5">
@@ -15,8 +14,8 @@ function Home() {
           Build smarter in-app experiences
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted">
-          Explore live demos of Page Pilot components — tours, tooltips, help menus, and more —
-          ready to drop into any React application.
+          Explore live demos of Page Pilot components — tours, tooltips, help
+          menus, and more — ready to drop into any React application.
         </p>
         <div className="mt-7 flex justify-center gap-3">
           <Link
@@ -40,7 +39,9 @@ function Home() {
       {/* ── Divider ── */}
       <div className="mb-8 flex items-center gap-3">
         <div className="h-px flex-1 bg-slate-200" />
-        <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">Components</span>
+        <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+          Components
+        </span>
         <div className="h-px flex-1 bg-slate-200" />
       </div>
 
@@ -52,7 +53,7 @@ function Home() {
             <Link
               key={item.to}
               to={item.to}
-              className="group relative flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-200 hover:-translate-y-1 hover:border-brand/40"
+              className="group relative flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-200   hover:border-brand/40 hover:shadow-lg"
             >
               {/* Icon */}
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-tint text-brand transition-colors duration-200 group-hover:bg-brand group-hover:text-white">
@@ -61,7 +62,9 @@ function Home() {
 
               {/* Label + description */}
               <div className="flex flex-1 flex-col gap-1.5">
-                <span className="text-base font-bold text-ink">{item.label}</span>
+                <span className="text-base font-bold text-ink">
+                  {item.label}
+                </span>
                 <span className="text-sm leading-relaxed text-muted">
                   {item.description}
                 </span>
@@ -69,13 +72,12 @@ function Home() {
 
               {/* Footer CTA */}
               <span className="flex items-center gap-1 text-sm font-semibold text-brand">
-                View demo
+                View docs
                 <ArrowRight
                   size={14}
                   className="transition-transform duration-200 group-hover:translate-x-1"
                 />
               </span>
-
             </Link>
           );
         })}

@@ -49,7 +49,7 @@ export const navItems: NavItem[] = [
   {
     to: '/webinar',
     label: 'Webinar',
-    description: 'Host pre-recorded video sessions with timed messages, polls, and reactions — then share or embed anywhere.',
+    description: 'Create webinars via the Page Pilot dashboard, or use the REST APIs to embed live sessions, calendars, and countdowns in your product.',
     icon: WebinarIcon,
   },
 ];

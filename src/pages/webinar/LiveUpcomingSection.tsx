@@ -478,7 +478,7 @@ export default function LiveUpcomingSection() {
         language="bash"
       />
 
-      <h3 className="pt-4 text-base font-bold text-slate-800">Live demo</h3>
+      <h3 className="pt-4 text-base font-bold text-slate-800">Interactive preview</h3>
       <p>
         The widget below calls both endpoints in real time against the Page
         Pilot demo workspace and renders the results.
