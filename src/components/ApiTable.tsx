@@ -32,7 +32,7 @@ function ApiTable({ rows }: ApiTableProps) {
           {rows.map((row) => (
             <tr key={row.property} className="align-top last:[&>td]:border-b-0">
               <td className="border-b border-slate-200 px-4 py-2.5">
-                <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+                <code className="inline-block max-w-full break-all rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
                   {row.property}
                 </code>
               </td>

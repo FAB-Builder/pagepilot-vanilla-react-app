@@ -10,7 +10,7 @@ function Layout() {
     <div className="flex h-screen flex-col overflow-hidden">
       {/* Fixed header */}
       <header className="z-20 shrink-0 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-[1700px] items-center px-6">
+        <div className="mx-auto flex h-14 max-w-[1700px] items-center gap-2 px-4 sm:px-6">
           <Link
             to="/"
             className="flex shrink-0 items-center gap-2 font-semibold text-ink"
@@ -45,7 +45,7 @@ function Layout() {
       {/* Body: only the content area scrolls */}
       <div className="flex flex-1 overflow-hidden">
         <main className="scroll-slim flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-[1700px] px-6 pb-16 pt-8">
+          <div className="mx-auto max-w-[1700px] px-4 pb-16 pt-8 sm:px-6">
             <Outlet />
           </div>
         </main>

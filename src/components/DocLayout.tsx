@@ -65,11 +65,11 @@ function DocLayout({
   }, [sections]);
 
   return (
-    <div className="flex gap-10">
+    <div className="flex gap-6 lg:gap-10">
       {/* Left rail: sub-modules + on-this-page sections for the current page */}
-      <aside className="hidden w-64 shrink-0 lg:block">
+      <aside className="hidden w-56 shrink-0 lg:block xl:w-64">
         {/* fixed so it never scrolls with the content */}
-        <div className="fixed top-14 w-64 pb-6 pr-2 pt-6">
+        <div className="fixed top-14 w-56 pb-6 pr-2 pt-6 xl:w-64">
           {/* Sub-modules of the current module (e.g. Pages → Lead Form) */}
           {subModules && subModules.length > 0 && (
             <>
@@ -136,7 +136,7 @@ function DocLayout({
       </aside>
 
       {/* Center: the page content */}
-      <div className="min-w-0 flex-1">{children}</div>
+      <div className="min-w-0 w-0 flex-1 overflow-x-hidden">{children}</div>
 
       {/* Right rail: the top-level component list */}
       <aside className="hidden w-56 shrink-0 xl:block">

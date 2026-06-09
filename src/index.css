@@ -9,6 +9,27 @@
     scroll-behavior: smooth;
     /* subtler default text color than pure black */
     color: #1e293b;
+    /* prevent horizontal overflow on all screens */
+    overflow-x: hidden;
+  }
+
+  /* Inline code and highlighted text must wrap on small screens */
+  code {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  /* Long URLs and paths must break */
+  a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* All content containers should not overflow their parent */
+  p, li, td, th {
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   /* Firefox global slim scrollbar */

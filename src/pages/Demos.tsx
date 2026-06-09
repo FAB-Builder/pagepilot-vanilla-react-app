@@ -32,7 +32,7 @@ function Section({ id, title, children }: { id: string; title: string; children:
 }
 
 const Code = ({ children }: { children: React.ReactNode }) => (
-  <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+  <code className="inline-block max-w-full break-all rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
     {children}
   </code>
 );

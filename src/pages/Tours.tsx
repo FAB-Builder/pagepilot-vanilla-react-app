@@ -147,7 +147,7 @@ function Section({
 }
 
 const Code = ({ id, children }: { id?: string; children: React.ReactNode }) => (
-  <code id={id} className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+  <code id={id} className="inline-block max-w-full break-all rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
     {children}
   </code>
 );
