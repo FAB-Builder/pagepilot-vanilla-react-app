@@ -1,4 +1,4 @@
-import { Routes, Route, useSearchParams, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useSearchParams, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Tours from './pages/Tours';
@@ -10,6 +10,14 @@ import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
 import Webinar from './pages/webinar';
 import { useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    document.querySelector('main')?.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname]);
+  return null;
+}
 
 const baseName = "/pagepilot-vanilla-react-app"
 
@@ -31,7 +39,7 @@ function App() {
 
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route element={<><ScrollToTop /><Layout /></>}>
         <Route index element={<Home />} />
         <Route path="tours" element={<Tours />} />
         <Route path="demos" element={<Demos />} />
