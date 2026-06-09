@@ -1,12 +1,14 @@
 import DocLayout, { type DocSection } from '../../components/DocLayout';
 import { MessageIcon, PollIcon, ReactionIcon, ViewsIcon } from '../../components/Icons';
 import { Section, Code, Step, Note } from './shared';
-import CalendarSection from './CalendarSection';
+import { CalendarViewSection, ScheduleApiSection } from './CalendarSection';
 import LiveUpcomingSection from './LiveUpcomingSection';
 
 const SECTIONS: DocSection[] = [
-  { id: 'calendar',      label: 'Calendar view' },
   { id: 'overview',      label: 'Overview' },
+  { id: 'calendar',      label: 'Calendar view' },
+  { id: 'schedule-api',  label: 'Schedule API' },
+  { id: 'live-upcoming', label: 'Live & Upcoming API' },
   { id: 'create',        label: 'Creating a webinar' },
   { id: 'video',         label: 'Uploading a video' },
   { id: 'schedule',      label: 'Scheduling' },
@@ -22,7 +24,6 @@ const SECTIONS: DocSection[] = [
   { id: 'cs-channel',    label: 'CS Channel' },
   { id: 'share-link',    label: 'Shareable link' },
   { id: 'social',        label: 'Social sharing' },
-  { id: 'live-upcoming', label: 'Live & Upcoming API' },
   { id: 'status',        label: 'Live status' },
 ];
 
@@ -43,8 +44,6 @@ export default function Webinar() {
           </p>
         </header>
 
-        <CalendarSection />
-
         <Section id="overview" title="Overview">
           <p>
             A webinar is a scheduled video session you publish to an audience through a shareable
@@ -64,6 +63,10 @@ export default function Webinar() {
             <li><strong>Share &amp; social</strong> — a permanent public viewer link and one-click sharing for LinkedIn and X.</li>
           </ul>
         </Section>
+
+        <CalendarViewSection />
+        <ScheduleApiSection />
+        <LiveUpcomingSection />
 
         <Section id="create" title="Creating a webinar">
           <p>
@@ -268,8 +271,6 @@ export default function Webinar() {
             <li>A preview image is auto-generated from the webinar thumbnail and attached to the post so it stands out in social feeds.</li>
           </ul>
         </Section>
-
-        <LiveUpcomingSection />
 
         <Section id="status" title="Live status">
           <p>The webinar list includes a <strong>Status</strong> panel on the right side that groups sessions by their current state so you always have a clear picture of what is happening across your entire webinar programme.</p>

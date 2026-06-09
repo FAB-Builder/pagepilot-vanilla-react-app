@@ -255,7 +255,7 @@ export default function CalendarDemo() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
       <SessionDialog
         event={selectedEvent}
         events={moreEvents}
@@ -263,51 +263,54 @@ export default function CalendarDemo() {
         onClose={handleClose}
       />
 
-      {loading && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80">
-          <SpinnerIcon className="h-7 w-7 animate-spin text-brand" />
-        </div>
-      )}
-
-      {error ? (
-        <p className="p-6 text-sm text-rose-600">{error}</p>
-      ) : (
-        <Calendar<CalEvent>
-          localizer={localizer}
-          events={events}
-          view={view}
-          date={date}
-          onNavigate={(d) => setDate(d)}
-          onView={(v) => setView(v)}
-          onDrillDown={(d) => { setDate(d); setView('day'); }}
-          doShowMoreDrillDown={false}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 580 }}
-          components={components}
-          eventPropGetter={eventPropGetter}
-          onSelectEvent={(ev) => {
-            setSelectedEvent(ev);
-            setMoreEvents([]);
-            setMoreDate(null);
-          }}
-          onShowMore={(evs, d) => {
-            setMoreEvents(evs);
-            setMoreDate(d);
-            setSelectedEvent(null);
-          }}
-          messages={{
-            today: 'Today',
-            previous: 'Back',
-            next: 'Next',
-            month: 'Month',
-            week: 'Week',
-            day: 'Day',
-            agenda: 'Agenda',
-            showMore: (total) => `+${total} more`,
-          }}
+      {/* Fixed-height wrapper prevents any layout shift while loading */}
+      <div className="relative" style={{ height: 580 }}>
+        {/* Thin top bar — indicates loading without covering the calendar */}
+        <div
+          className="absolute inset-x-0 top-0 z-10 h-0.5 bg-brand transition-opacity duration-300"
+          style={{ opacity: loading ? 1 : 0 }}
         />
-      )}
+
+        {error ? (
+          <p className="p-6 text-sm text-rose-600">{error}</p>
+        ) : (
+          <Calendar<CalEvent>
+            localizer={localizer}
+            events={events}
+            view={view}
+            date={date}
+            onNavigate={(d) => setDate(d)}
+            onView={(v) => setView(v)}
+            onDrillDown={(d) => { setDate(d); setView('day'); }}
+            doShowMoreDrillDown={false}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: '100%' }}
+            components={components}
+            eventPropGetter={eventPropGetter}
+            onSelectEvent={(ev) => {
+              setSelectedEvent(ev);
+              setMoreEvents([]);
+              setMoreDate(null);
+            }}
+            onShowMore={(evs, d) => {
+              setMoreEvents(evs);
+              setMoreDate(d);
+              setSelectedEvent(null);
+            }}
+            messages={{
+              today: 'Today',
+              previous: 'Back',
+              next: 'Next',
+              month: 'Month',
+              week: 'Week',
+              day: 'Day',
+              agenda: 'Agenda',
+              showMore: (total) => `+${total} more`,
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }
