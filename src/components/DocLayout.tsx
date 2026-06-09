@@ -46,21 +46,50 @@ function DocLayout({
   const [activeId, setActiveId] = useState(sections[0]?.id);
 
   useEffect(() => {
-    // The scroll container is the <main> element in Layout — not the window.
     const scrollRoot = document.querySelector('main') as HTMLElement | null;
+    // Track the heading closest to the top of the viewport as active.
+    // We keep a map of id → ratio so we can pick the best candidate across
+    // all concurrent IntersectionObserver callbacks.
+    const visible = new Map<string, number>();
+
+    const pick = () => {
+      if (visible.size === 0) return;
+      // Prefer the entry with the highest intersectionRatio; on a tie, the
+      // one whose bounding top is smallest (i.e. closest to the top).
+      let bestId = '';
+      let bestRatio = -1;
+      visible.forEach((ratio, id) => {
+        if (ratio > bestRatio) { bestRatio = ratio; bestId = id; }
+      });
+      if (bestId) setActiveId(bestId);
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveId(visible[0].target.id);
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visible.set(entry.target.id, entry.intersectionRatio);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        });
+        pick();
       },
-      { root: scrollRoot, rootMargin: '0px 0px -60% 0px', threshold: 0 }
+      {
+        root: scrollRoot,
+        // Top band: fire when heading enters the top ~15% of the scroll pane.
+        // Bottom margin cuts off the lower 80% so only headings near the top
+        // are considered "active". Negative top margin accounts for fixed header.
+        rootMargin: '-80px 0px -80% 0px',
+        threshold: [0, 1],
+      },
     );
+
     sections.forEach((s) => {
       const el = document.getElementById(s.id);
       if (el) observer.observe(el);
     });
+
     return () => observer.disconnect();
   }, [sections]);
 

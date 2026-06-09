@@ -66,7 +66,10 @@ type UpcomingItem = {
   event: { _id: string; name: string; startDate: string; endDate: string; formUrl?: string };
   nextOccurrence: string;
 };
-type LiveItem = { _id: string; name: string; startDate: string; endDate: string; formUrl?: string };
+type LiveItem = {
+  event: { _id: string; name: string; startDate: string; endDate: string; formUrl?: string };
+  nextOccurrence: string;
+};
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -175,21 +178,19 @@ function LiveNowPanel({ items, loading }: { items: LiveItem[]; loading: boolean 
           </div>
         ) : (
           <div className="space-y-2.5">
-            {items.map((w) => (
-              <div key={w._id} className="flex items-center justify-between gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
+            {items.map(({ event }) => (
+              <div key={event._id} className="flex items-center justify-between gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-slate-800">{w.name}</p>
+                  <p className="truncate text-sm font-semibold text-slate-800">{event.name}</p>
                   <p className="mt-0.5 flex items-center gap-1 text-xs text-slate-500">
                     <ClockIcon className="h-3 w-3 shrink-0" />
-                    {fmtDate(w.startDate)} · {fmtTime(w.startDate)} – {fmtTime(w.endDate)}
+                    {fmtDate(event.startDate)} · {fmtTime(event.startDate)} – {fmtTime(event.endDate)}
                   </p>
                 </div>
-                {w.formUrl && (
-                  <a href={w.formUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex shrink-0 items-center gap-1.5 rounded-lg bg-green-600 px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-green-700">
-                    Join now <ArrowRightIcon className="h-3 w-3" />
-                  </a>
-                )}
+                <a href={`https://webinar-fab-builder.web.app/?w=${event._id}&type=webinar`} target="_blank" rel="noopener noreferrer"
+                  className="flex shrink-0 items-center gap-1.5 rounded-lg bg-green-600 px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-green-700">
+                  Join now <ArrowRightIcon className="h-3 w-3" />
+                </a>
               </div>
             ))}
           </div>
@@ -235,12 +236,10 @@ function UpcomingPanel({ items, loading }: { items: UpcomingItem[]; loading: boo
                       {fmtDate(nextOccurrence)} · {fmtTime(nextOccurrence)}
                     </p>
                   </div>
-                  {event.formUrl && (
-                    <a href={event.formUrl} target="_blank" rel="noopener noreferrer"
-                      className="flex shrink-0 items-center gap-1.5 rounded-lg border border-brand px-3.5 py-1.5 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-white">
-                      Register <ArrowRightIcon className="h-3 w-3" />
-                    </a>
-                  )}
+                  <a href={`https://webinar-fab-builder.web.app/?w=${event._id}&type=webinar`} target="_blank" rel="noopener noreferrer"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-brand px-3.5 py-1.5 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-white">
+                    Register <ArrowRightIcon className="h-3 w-3" />
+                  </a>
                 </div>
                 <div className="mt-3 border-t border-indigo-100 pt-3">
                   <Countdown to={nextOccurrence} />
