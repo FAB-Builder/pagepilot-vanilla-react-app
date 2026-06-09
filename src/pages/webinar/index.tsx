@@ -34,13 +34,10 @@ export default function Webinar() {
         <header className="mb-8 border-b border-slate-200 pb-6">
           <h1 className="mt-1 text-3xl font-bold" style={{ width: 'fit-content' }}>Webinar</h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
-            Host pre-recorded video sessions with timed messages, polls, emoji reactions, and
-            live audience engagement — all configured inside{' '}
-            <a href="https://pagepilot.fabbuilder.com/webinar" target="_blank" rel="noreferrer"
-              className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark">
-              Page Pilot → Webinars
-            </a>
-            , no coding required.
+            Host pre-recorded video sessions with timed messages, polls, emoji reactions, and live
+            audience engagement. Page Pilot supports two approaches — a no-code setup via the
+            dashboard, and a set of REST APIs for developers to embed webinar data directly in their
+            own product.
           </p>
         </header>
 
@@ -51,7 +48,17 @@ export default function Webinar() {
             timed content — messages, polls, reactions, and viewer count badges — appearing
             automatically at precisely the right moments without interrupting playback.
           </p>
-          <p>Everything is managed from <strong>Page Pilot → Webinars</strong>. The full feature set includes:</p>
+
+          <h3 className="mt-4 font-semibold text-slate-800">No-code setup</h3>
+          <p>
+            Everything is managed from{' '}
+            <a href="https://pagepilot.fabbuilder.com/webinar" target="_blank" rel="noreferrer"
+              className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark">
+              Page Pilot → Webinars
+            </a>
+            . Create a webinar, upload a video, schedule sessions, add timeline events, configure
+            registration, and share the link — no code required. The full feature set includes:
+          </p>
           <ul className="ml-4 list-disc space-y-1.5">
             <li><strong>Video upload</strong> — attach a pre-recorded MP4 directly in the editor. Page Pilot stores and serves it via CDN.</li>
             <li><strong>Flexible scheduling</strong> — one-time or recurring sessions (daily, weekly, monthly, yearly). Page Pilot tracks every occurrence automatically.</li>
@@ -61,6 +68,17 @@ export default function Webinar() {
             <li><strong>Registration forms</strong> — gate access with a Page Pilot form or any external survey link. Responses are collected automatically.</li>
             <li><strong>CS Channel integration</strong> — forward registrant data straight into a Fab CS communication channel for follow-up and reminders.</li>
             <li><strong>Share &amp; social</strong> — a permanent public viewer link and one-click sharing for LinkedIn and X.</li>
+          </ul>
+
+          <h3 className="mt-4 font-semibold text-slate-800">Developer APIs</h3>
+          <p>
+            If you want to surface webinar data in your own product, Page Pilot exposes three REST
+            endpoints you can call from any frontend or backend:
+          </p>
+          <ul className="ml-4 list-disc space-y-1.5">
+            <li><strong>Schedule API</strong> — fetch all occurrences within a date range to build a calendar view.</li>
+            <li><strong>Upcoming API</strong> — list sessions starting within the next N hours for countdown banners or "starting soon" widgets.</li>
+            <li><strong>Live API</strong> — list sessions currently in progress for live badges and "Join now" prompts.</li>
           </ul>
         </Section>
 
