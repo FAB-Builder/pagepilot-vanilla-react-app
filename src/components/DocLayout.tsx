@@ -47,50 +47,53 @@ function DocLayout({
 
   useEffect(() => {
     const scrollRoot = document.querySelector('main') as HTMLElement | null;
-    // Track the heading closest to the top of the viewport as active.
-    // We keep a map of id → ratio so we can pick the best candidate across
-    // all concurrent IntersectionObserver callbacks.
-    const visible = new Map<string, number>();
+    if (!scrollRoot) return;
 
-    const pick = () => {
-      if (visible.size === 0) return;
-      // Prefer the entry with the highest intersectionRatio; on a tie, the
-      // one whose bounding top is smallest (i.e. closest to the top).
-      let bestId = '';
-      let bestRatio = -1;
-      visible.forEach((ratio, id) => {
-        if (ratio > bestRatio) { bestRatio = ratio; bestId = id; }
-      });
-      if (bestId) setActiveId(bestId);
+    // The line near the top of the viewport that decides the active section.
+    const TRIGGER_OFFSET = 120;
+
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+
+      const els = sections
+        .map((s) => document.getElementById(s.id))
+        .filter((el): el is HTMLElement => Boolean(el));
+      if (!els.length) return;
+
+      // If we're scrolled to (or near) the bottom, the last section is active
+      // even if it never reaches the trigger line — short trailing sections
+      // can't scroll all the way to the top.
+      const atBottom =
+        scrollRoot.scrollTop + scrollRoot.clientHeight >= scrollRoot.scrollHeight - 2;
+      if (atBottom) {
+        setActiveId(els[els.length - 1].id);
+        return;
+      }
+
+      const rootTop = scrollRoot.getBoundingClientRect().top;
+
+      // Active = the last section whose top has crossed the trigger line.
+      let current = els[0].id;
+      for (const el of els) {
+        const top = el.getBoundingClientRect().top - rootTop;
+        if (top <= TRIGGER_OFFSET) current = el.id;
+        else break;
+      }
+      setActiveId(current);
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            visible.set(entry.target.id, entry.intersectionRatio);
-          } else {
-            visible.delete(entry.target.id);
-          }
-        });
-        pick();
-      },
-      {
-        root: scrollRoot,
-        // Top band: fire when heading enters the top ~15% of the scroll pane.
-        // Bottom margin cuts off the lower 80% so only headings near the top
-        // are considered "active". Negative top margin accounts for fixed header.
-        rootMargin: '-80px 0px -80% 0px',
-        threshold: [0, 1],
-      },
-    );
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
 
-    sections.forEach((s) => {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    });
+    scrollRoot.addEventListener('scroll', onScroll, { passive: true });
+    update();
 
-    return () => observer.disconnect();
+    return () => scrollRoot.removeEventListener('scroll', onScroll);
   }, [sections]);
 
   return (
