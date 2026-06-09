@@ -317,12 +317,6 @@ export default function LiveUpcomingSection() {
         code={UPCOMING_ENDPOINT_CODE}
         language="bash"
       />
-      <DemoBlock
-        title="Example response"
-        description={<>Results are in the <Code>rows</Code> array. Each item includes the webinar name and its next scheduled occurrence time.</>}
-        code={UPCOMING_RESPONSE_CODE}
-        language="json"
-      />
 
       <h3 className="pt-4 text-base font-bold text-slate-800">Currently running</h3>
       <p>
@@ -334,12 +328,6 @@ export default function LiveUpcomingSection() {
         description="No query params required. Returns sessions happening right now."
         code={LIVE_ENDPOINT_CODE}
         language="bash"
-      />
-      <DemoBlock
-        title="Example response"
-        description={<>Same <Code>rows</Code> shape as the upcoming endpoint.</>}
-        code={LIVE_RESPONSE_CODE}
-        language="json"
       />
 
       <h3 className="pt-4 text-base font-bold text-slate-800">Live demo</h3>
