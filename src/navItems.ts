@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -45,5 +45,11 @@ export const navItems: NavItem[] = [
     label: 'Context Help Menu',
     description: 'A right-anchored help drawer driven by a Page Pilot menu — configure topics without any code changes.',
     icon: ContextHelpMenuIcon,
+  },
+  {
+    to: '/webinar',
+    label: 'Webinar',
+    description: 'Host pre-recorded video sessions with timed messages, polls, and reactions — then share or embed anywhere.',
+    icon: WebinarIcon,
   },
 ];

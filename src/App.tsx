@@ -8,6 +8,7 @@ import LeadForm from './pages/pages/LeadForm';
 import FetchPages from './pages/pages/fetch-pages';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
+import Webinar from './pages/webinar';
 import { useEffect } from 'react';
 
 const baseName = "/pagepilot-vanilla-react-app"
@@ -40,6 +41,7 @@ function App() {
         <Route path="pages/lead-form" element={<LeadForm />} />
         <Route path="pages/fetch-pages" element={<FetchPages />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
+        <Route path="webinar" element={<Webinar />} />
         {/* Unknown slug → send the user back home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
