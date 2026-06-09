@@ -114,19 +114,9 @@
   overflow: hidden;
 }
 
-/* Isolate the calendar from page scroll — prevents row height recalculation on scroll */
-.rbc-calendar {
-  contain: layout style;
-}
-
+/* Month rows: natural height from calendar container, overflow collapses to +N more */
 .rbc-month-view {
   overflow: hidden;
-}
-
-/* GPU-composite the rows so scroll repaints skip layout */
-.rbc-month-row {
-  will-change: transform;
-  transform: translateZ(0);
 }
 
 /* +N more link */

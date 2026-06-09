@@ -1,32 +1,38 @@
 import CalendarDemo from './CalendarDemo';
 import DemoBlock from '../../components/DemoBlock';
 import AiPromptBlock from '../../components/AiPromptBlock';
-import { Section, Code, Note } from './shared';
+import { Section, Code } from './shared';
+import { LEAD_APPLICATION_ID, PAGEPILOT_APP_URL } from '../../lib/ahd';
+
+const SCHEDULE_ENDPOINT_CODE = `GET https://pagepilot.fabbuilder.com/api/tenant/${LEAD_APPLICATION_ID}/get-webinars-schedule?filter[startTime]=2026-06-01T00:00:00.000Z&filter[endTime]=2026-06-30T23:59:59.999Z`;
 
 const CALENDAR_AI_PROMPT = `Build a WebinarCalendar React component using react-big-calendar and the Page Pilot schedule API.
 
-API: GET https://pagepilot.fabbuilder.com/api/tenant/<WORKSPACE_ID>/get-webinars-schedule
+API
+- Endpoint: GET https://pagepilot.fabbuilder.com/api/tenant/${LEAD_APPLICATION_ID}/get-webinars-schedule?filter[startTime]=<ISO_8601_UTC>&filter[endTime]=<ISO_8601_UTC>
+- Replace ${LEAD_APPLICATION_ID} with my workspace id (found in Page Pilot: ${PAGEPILOT_APP_URL}).
+- Response: { occurrences: [{ _id, name, occurrenceStart, occurrenceEnd }] }
 
-Requirements:
+Requirements
 - Support Month, Week, Day, and Agenda views
-- Re-fetch on every view or date navigation
-- Pass date range filters as literal bracket-notation query params (not URLSearchParams)
+- Re-fetch on every view or date navigation, deriving filter[startTime]/filter[endTime] from the visible range
+- Pass the date range filters as literal bracket-notation query params (not URLSearchParams — it percent-encodes the brackets and the server ignores them)
+- Map each occurrence to { title: name, start: new Date(occurrenceStart), end: new Date(occurrenceEnd) }
 - Show a loading overlay while fetching
-- Read WORKSPACE_ID from an environment variable (e.g. import.meta.env.VITE_WORKSPACE_ID)
 - Handle errors gracefully with a visible error state`;
 
 const SCHEDULE_API_AI_PROMPT = `Build a reusable useWebinarSchedule React hook for the Page Pilot schedule API.
 
-API: GET https://pagepilot.fabbuilder.com/api/tenant/<WORKSPACE_ID>/get-webinars-schedule
+API
+- Endpoint: GET https://pagepilot.fabbuilder.com/api/tenant/${LEAD_APPLICATION_ID}/get-webinars-schedule?filter[startTime]=<ISO_8601_UTC>&filter[endTime]=<ISO_8601_UTC>
+- Replace ${LEAD_APPLICATION_ID} with my workspace id (found in Page Pilot: ${PAGEPILOT_APP_URL}).
+- Response: { occurrences: [{ _id, name, occurrenceStart, occurrenceEnd }] }
 
-Requirements:
-- Accept startTime and endTime (ISO 8601) as parameters
+Requirements
+- Accept startTime and endTime (ISO 8601 UTC) as parameters
 - Return { occurrences, loading, error }
-- Pass date filters as literal bracket-notation query params (not URLSearchParams)
-- Abort in-flight requests on re-fetch using AbortController
-- Read WORKSPACE_ID from an environment variable`;
-
-const SCHEDULE_ENDPOINT_CODE = `GET https://pagepilot.fabbuilder.com/api/tenant/<WORKSPACE_ID>/get-webinars-schedule?filter[startTime]=2026-06-01T00:00:00.000Z&filter[endTime]=2026-06-30T23:59:59.999Z`;
+- Pass the date filters as literal bracket-notation query params (not URLSearchParams — it percent-encodes the brackets and the server ignores them)
+- Abort in-flight requests on re-fetch using AbortController`;
 
 const SCHEDULE_RESPONSE_CODE = `{
   "occurrences": [
@@ -52,7 +58,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
-const WORKSPACE_ID = '<YOUR_WORKSPACE_ID>';
+// Replace ${LEAD_APPLICATION_ID} with your workspace id.
+const WORKSPACE_ID = '${LEAD_APPLICATION_ID}';
 const API_BASE = \`https://pagepilot.fabbuilder.com/api/tenant/\${WORKSPACE_ID}\`;
 
 export default function WebinarCalendar() {
@@ -122,6 +129,19 @@ export function ScheduleApiSection() {
         <Code>occurrenceEnd</Code> timestamps, ready to map directly to a calendar event without
         any extra computation.
       </p>
+      <p>
+        Requests are scoped to your <strong>workspace&nbsp;id</strong>. Replace{' '}
+        <Code>{LEAD_APPLICATION_ID}</Code> in the URL with yours — find it in{' '}
+        <a
+          href={PAGEPILOT_APP_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
+        >
+          Page Pilot
+        </a>
+        .
+      </p>
 
       <DemoBlock
         title="Endpoint"
@@ -177,14 +197,6 @@ export function ScheduleApiSection() {
         code={SCHEDULE_CALENDAR_CODE}
         language="tsx"
       />
-      <Note>
-        Find your <strong>Workspace ID</strong> at{' '}
-        <a href="https://pagepilot.fabbuilder.com/tenant" target="_blank" rel="noreferrer"
-          className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark">
-          pagepilot.fabbuilder.com/tenant
-        </a>
-        . Replace <Code>{'<WORKSPACE_ID>'}</Code> in the endpoint URL with that value.
-      </Note>
       <AiPromptBlock id="schedule-api-ai-prompt" prompt={SCHEDULE_API_AI_PROMPT} />
     </Section>
   );

@@ -230,6 +230,20 @@ function CalendarDemo() {
 
   useEffect(() => { load(date, view); }, [date, view, load]);
 
+  const handleNavigate = useCallback((d: Date, v: View) => {
+    setDate(d);
+    setView(v);
+  }, []);
+
+  const handleView = useCallback((v: View) => {
+    setView(v);
+  }, []);
+
+  const handleDrillDown = useCallback((d: Date) => {
+    setDate(d);
+    setView('day');
+  }, []);
+
   const components = useMemo<Components<CalEvent>>(
     () => ({ event: ({ event }) => <EventChip event={event} /> }),
     [],
@@ -275,11 +289,11 @@ function CalendarDemo() {
           <Calendar<CalEvent>
             localizer={localizer}
             events={events}
-            view={view}
-            date={date}
-            onNavigate={(d) => setDate(d)}
-            onView={(v) => setView(v)}
-            onDrillDown={(d) => { setDate(d); setView('day'); }}
+            defaultView="month"
+            views={['month', 'week', 'day', 'agenda']}
+            onNavigate={handleNavigate}
+            onView={handleView}
+            onDrillDown={handleDrillDown}
             doShowMoreDrillDown={false}
             startAccessor="start"
             endAccessor="end"

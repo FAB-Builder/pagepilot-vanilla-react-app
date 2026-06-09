@@ -2,35 +2,36 @@ import { useState, useEffect } from "react";
 import DemoBlock from "../../components/DemoBlock";
 import AiPromptBlock from "../../components/AiPromptBlock";
 import { SpinnerIcon } from "../../components/Icons";
-import { PAGEPILOT_API_HOST, DEMO_APPLICATION_ID } from "../../lib/ahd";
+import { PAGEPILOT_API_HOST, DEMO_APPLICATION_ID, LEAD_APPLICATION_ID, PAGEPILOT_APP_URL } from "../../lib/ahd";
 import { Section, Code } from "./shared";
 
 const LIVE_UPCOMING_AI_PROMPT = `Build a live and upcoming webinar widget using the Page Pilot API.
 
-Endpoints:
-- Upcoming: GET https://pagepilot.fabbuilder.com/api/tenant/<WORKSPACE_ID>/webinars/upcoming?inNextHours=36
-- Currently running: GET https://pagepilot.fabbuilder.com/api/tenant/<WORKSPACE_ID>/webinars/currently-running
+API
+- Upcoming: GET https://pagepilot.fabbuilder.com/api/tenant/${LEAD_APPLICATION_ID}/webinars/upcoming?inNextHours=36
+- Currently running: GET https://pagepilot.fabbuilder.com/api/tenant/${LEAD_APPLICATION_ID}/webinars/currently-running
+- Replace ${LEAD_APPLICATION_ID} with my workspace id (found in Page Pilot: ${PAGEPILOT_APP_URL}).
+- Both endpoints return an array of { event: { _id, name, startDate, endDate }, nextOccurrence }.
+- Viewer URL pattern: https://webinar-fab-builder.web.app/?w=<EVENT_ID>&type=webinar
 
-Viewer URL pattern: https://webinar-fab-builder.web.app/?w=<EVENT_ID>&type=webinar
-
-Requirements:
+Requirements
 - Fetch both endpoints in parallel using Promise.all
 - Show a "Live now" panel with an animated green ping indicator and a "Join now" button
 - Show an "Upcoming" panel with a live countdown timer (days / hours / mins / secs) and a "Register" button
-- Both buttons link to the viewer URL using the event ID
+- Both buttons link to the viewer URL using event._id
 - Auto-refresh every 60 seconds
-- Read WORKSPACE_ID from an environment variable
 - Handle loading and empty states for each panel independently`;
 
 // ── Code snippets ────────────────────────────────────────────────────────────
 
-const UPCOMING_ENDPOINT_CODE = `GET https://pagepilot.fabbuilder.com/api/tenant/<WORKSPACE_ID>/webinars/upcoming?inNextHours=36`;
+const UPCOMING_ENDPOINT_CODE = `GET https://pagepilot.fabbuilder.com/api/tenant/${LEAD_APPLICATION_ID}/webinars/upcoming?inNextHours=36`;
 
-const LIVE_ENDPOINT_CODE = `GET https://pagepilot.fabbuilder.com/api/tenant/<WORKSPACE_ID>/webinars/currently-running`;
+const LIVE_ENDPOINT_CODE = `GET https://pagepilot.fabbuilder.com/api/tenant/${LEAD_APPLICATION_ID}/webinars/currently-running`;
 
 const UPCOMING_COMPONENT_CODE = `import { useState, useEffect } from 'react';
 
-const WORKSPACE_ID = '<YOUR_WORKSPACE_ID>';
+// Replace ${LEAD_APPLICATION_ID} with your workspace id.
+const WORKSPACE_ID = '${LEAD_APPLICATION_ID}';
 const API_BASE = \`https://pagepilot.fabbuilder.com/api/tenant/\${WORKSPACE_ID}\`;
 
 export default function UpcomingWebinars() {
@@ -40,7 +41,7 @@ export default function UpcomingWebinars() {
   useEffect(() => {
     fetch(\`\${API_BASE}/webinars/upcoming?inNextHours=36\`)
       .then((r) => r.json())
-      .then((data) => setWebinars(data.rows ?? []))
+      .then((data) => setWebinars(Array.isArray(data) ? data : []))
       .finally(() => setLoading(false));
   }, []);
 
@@ -49,9 +50,9 @@ export default function UpcomingWebinars() {
 
   return (
     <ul>
-      {webinars.map((w) => (
-        <li key={w._id}>
-          <strong>{w.name}</strong> — {new Date(w.nextOccurrence).toLocaleString()}
+      {webinars.map(({ event, nextOccurrence }) => (
+        <li key={event._id}>
+          <strong>{event.name}</strong> — {new Date(nextOccurrence).toLocaleString()}
         </li>
       ))}
     </ul>
@@ -428,6 +429,19 @@ export default function LiveUpcomingSection() {
         Page Pilot exposes two lightweight endpoints that let you surface live
         and upcoming webinar sessions anywhere in your product — a banner, a
         sidebar widget, a notification badge, or a dashboard card.
+      </p>
+      <p>
+        Both endpoints are scoped to your <strong>workspace&nbsp;id</strong>. Replace{" "}
+        <Code>{LEAD_APPLICATION_ID}</Code> in the URL with yours — find it in{" "}
+        <a
+          href={PAGEPILOT_APP_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
+        >
+          Page Pilot
+        </a>
+        .
       </p>
 
       <h3 className="pt-2 text-base font-bold text-slate-800">
