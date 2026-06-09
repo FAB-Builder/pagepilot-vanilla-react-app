@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, memo } from 'react';
 import { Calendar, momentLocalizer, type View, type Components } from 'react-big-calendar';
 import moment from 'moment-timezone';
 import { PAGEPILOT_API_HOST, DEMO_APPLICATION_ID } from '../../lib/ahd';
@@ -97,8 +97,7 @@ async function fetchWebinars(rangeStart: Date, rangeEnd: Date, view: View): Prom
   const startTime = moment.tz(rangeStart, TZ).utc().toISOString();
   const endTime   = moment.tz(rangeEnd,   TZ).utc().toISOString();
 
-  // Brackets must NOT be percent-encoded — build query string manually
-  const qs = `filter[startTime]=${encodeURIComponent(startTime)}&filter[endTime]=${encodeURIComponent(endTime)}`;
+  const qs = `filter[startTime]=${startTime}&filter[endTime]=${endTime}`;
 
   const res = await fetch(
     `${PAGEPILOT_API_HOST}/tenant/${DEMO_APPLICATION_ID}/get-webinars-schedule?${qs}`,
@@ -204,7 +203,7 @@ function EventChip({ event }: { event: CalEvent }) {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
-export default function CalendarDemo() {
+function CalendarDemo() {
   const [view, setView]       = useState<View>('month');
   const [date, setDate]       = useState(new Date());
   const [events, setEvents]   = useState<CalEvent[]>([]);
@@ -255,7 +254,7 @@ export default function CalendarDemo() {
   }, []);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <div className="overflow-hidden border border-slate-200 bg-white">
       <SessionDialog
         event={selectedEvent}
         events={moreEvents}
@@ -263,13 +262,12 @@ export default function CalendarDemo() {
         onClose={handleClose}
       />
 
-      {/* Fixed-height wrapper prevents any layout shift while loading */}
-      <div className="relative" style={{ height: 580 }}>
-        {/* Thin top bar — indicates loading without covering the calendar */}
-        <div
-          className="absolute inset-x-0 top-0 z-10 h-0.5 bg-brand transition-opacity duration-300"
-          style={{ opacity: loading ? 1 : 0 }}
-        />
+      <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/70">
+            <SpinnerIcon className="h-7 w-7 animate-spin text-brand" />
+          </div>
+        )}
 
         {error ? (
           <p className="p-6 text-sm text-rose-600">{error}</p>
@@ -285,7 +283,7 @@ export default function CalendarDemo() {
             doShowMoreDrillDown={false}
             startAccessor="start"
             endAccessor="end"
-            style={{ height: '100%' }}
+            style={{ height: 580 }}
             components={components}
             eventPropGetter={eventPropGetter}
             onSelectEvent={(ev) => {
@@ -314,3 +312,5 @@ export default function CalendarDemo() {
     </div>
   );
 }
+
+export default memo(CalendarDemo);
