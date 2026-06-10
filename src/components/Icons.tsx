@@ -301,6 +301,37 @@ export function ViewsIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/** Forms icon — a document with input lines, used for the Forms module. */
+export function FormsIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      {...props}
+    >
+      <path
+        d="M14 2.5H7a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5L14 2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 2.5V7.5H19"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <rect x="8" y="11" width="8" height="1.4" rx="0.7" fill="currentColor" />
+      <rect x="8" y="14" width="8" height="1.4" rx="0.7" fill="currentColor" />
+      <rect x="8" y="17" width="5" height="1.4" rx="0.7" fill="currentColor" />
+    </svg>
+  );
+}
+
 /** GitHub mark (octocat). Plain SVG, inherits `currentColor`. */
 export function GithubIcon(props: SVGProps<SVGSVGElement>) {
   return (

@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -51,5 +51,11 @@ export const navItems: NavItem[] = [
     label: 'Webinar',
     description: 'Create webinars via the Page Pilot dashboard, or use the REST APIs to embed live sessions, calendars, and countdowns in your product.',
     icon: WebinarIcon,
+  },
+  {
+    to: '/forms',
+    label: 'Forms',
+    description: 'Build and embed custom forms using the Form Builder, then fetch responses via the REST API.',
+    icon: FormsIcon,
   },
 ];

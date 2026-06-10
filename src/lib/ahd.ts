@@ -61,6 +61,25 @@ export const PAGEPILOT_GROUPS_URL = 'https://pagepilot.fabbuilder.com/configurat
 export const pagePilotApiBase = (workspaceId: string) =>
   `${PAGEPILOT_API_HOST}/tenant/${workspaceId}`;
 
+/**
+ * Form Builder frontend — where users create and manage forms.
+ * Full URL pattern: `${FORM_BUILDER_FE_BASE}/tenant/{WORKSPACE_ID}/form/create`
+ */
+export const FORM_BUILDER_FE_BASE = 'https://cs-app-form-builder-fe.web.app';
+
+/**
+ * Form Builder REST API — all form CRUD and response endpoints.
+ * Scoped to your workspace: `${FORM_BUILDER_API_BASE}/tenant/{WORKSPACE_ID}/form`
+ */
+export const FORM_BUILDER_API_BASE = 'https://cs.fabbuilder.com/cs-app/form-builder/api';
+
+/** Placeholder shown in docs in place of a real workspace id for form builder snippets. */
+export const FORM_WORKSPACE_ID = 'YOUR_WORKSPACE_ID';
+
+/** Builds the Form Builder API base for a given workspace id. */
+export const formBuilderApiBase = (workspaceId: string) =>
+  `${FORM_BUILDER_API_BASE}/tenant/${workspaceId}`;
+
 export interface AhdInstance {
   initializeSiteMap: (refetch: boolean) => Promise<void>;
   showHighlights: (slug: string, refetch: boolean) => Promise<void>;
