@@ -7,6 +7,8 @@ import {
   FORM_BUILDER_FE_BASE,
   FORM_BUILDER_API_BASE,
   FORM_WORKSPACE_ID,
+  DEMO_FORM_WORKSPACE_ID,
+  DEMO_FORM_ID,
   formBuilderApiBase,
   CS_GENERAL_SETTINGS_URL,
 } from '../../lib/ahd';
@@ -17,9 +19,10 @@ const FORM_BUILDER_CREATE_URL = `${FORM_BUILDER_FE_BASE}/tenant/${FORM_WORKSPACE
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'create-form', label: 'Create a form' },
+  { id: 'view-form', label: 'View a form' },
+  { id: 'edit-form', label: 'Edit a form' },
   { id: 'embed', label: 'Embed a form' },
   { id: 'fetch-forms', label: 'Fetch forms' },
-  { id: 'fetch-responses', label: 'Fetch responses' },
   { id: 'delete-form', label: 'Delete a form' },
   { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'api', label: 'API reference' },
@@ -73,7 +76,7 @@ export default function Forms() {
               rel="noreferrer"
               className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
             >
-              Settings → General Settings
+              Page Pilot app
             </a>
             .
           </p>
@@ -133,22 +136,75 @@ export default function Forms() {
           </p>
         </Section>
 
-        <Section id="embed" title="Embed a form">
+        <Section id="view-form" title="View a form">
           <p>
-            The simplest way to put a form in your product is an <Code>&lt;iframe&gt;</Code>
-            pointed at the form's view URL. The view URL follows this pattern:
+            The <strong>view URL</strong> renders the published form as a standalone page — clean,
+            no builder chrome. This is the URL you embed in an <Code>&lt;iframe&gt;</Code> or share
+            directly with end users.
           </p>
           <DemoBlock
             title="View URL pattern"
-            description="The URL that renders the live form — drop this into an iframe src."
+            description="Replace workspaceId and formId with your own values."
             code={VIEW_URL_SNIPPET}
           />
-          <p className="text-sm text-slate-600">
-            Drop it into an <Code>&lt;iframe&gt;</Code> wherever you need the form:
+          <p className="mt-3 text-sm text-slate-600">
+            Live demo — the iframe below points at a real published form:
+          </p>
+          <div className="mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <iframe
+              src={`${FORM_BUILDER_FE_BASE}/tenant/${DEMO_FORM_WORKSPACE_ID}/form/${DEMO_FORM_ID}/view`}
+              title="Live form demo"
+              width="100%"
+              height="700"
+              style={{ border: 'none', display: 'block' }}
+            />
+          </div>
+         
+        </Section>
+
+        <Section id="edit-form" title="Edit a form">
+          <p>
+            The <strong>edit URL</strong> opens the visual Form Builder for a specific form. Only
+            authenticated workspace members can access it — it is not embeddable.
+          </p>
+          <DemoBlock
+            title="Edit URL pattern"
+            description="Open this in a browser to edit an existing form."
+            code={EDIT_URL_SNIPPET}
+          />
+          <p className="mt-3 text-sm text-slate-600">
+            Inside the builder you can drag fields from the <strong>Toolbox</strong> on the right
+            rail onto the canvas:
+          </p>
+          <ApiTable
+            rows={[
+              { property: 'Header Text', description: 'A styled heading — use it to label sections of a long form.', type: 'layout' },
+              { property: 'Paragraph', description: 'Free-text block for instructions or descriptions.', type: 'layout' },
+              { property: 'Line Break', description: 'Visual separator between groups of fields.', type: 'layout' },
+              { property: 'Website', description: 'URL input with basic format validation.', type: 'input' },
+              { property: 'Text Input', description: 'Single-line text field. Supports required toggle and placeholder.', type: 'input' },
+              { property: 'Multiple Choice', description: 'Radio-style selector — respondent picks one option.', type: 'input' },
+              { property: 'Checkboxes', description: 'Multi-select — respondent can pick several options.', type: 'input' },
+              { property: 'Image', description: 'Embed a static image into the form layout.', type: 'layout' },
+              { property: 'Tags', description: 'Tag/chip input for collecting multiple values in one field.', type: 'input' },
+              { property: 'Fieldset', description: 'Groups related fields under a shared label.', type: 'layout' },
+            ]}
+          />
+          <p className="mt-3 text-sm text-slate-600">
+            The top bar provides: <strong>Theme</strong> (colours and font), <strong>Preview</strong>{' '}
+            (see the form as a respondent), <strong>Save as Template</strong>, and{' '}
+            <strong>Save</strong>.
+          </p>
+        </Section>
+
+        <Section id="embed" title="Embed a form">
+          <p>
+            Drop the view URL into an <Code>&lt;iframe&gt;</Code> to embed the live form anywhere in
+            your product. No backend needed — submissions are handled by the Form Builder service.
           </p>
           <DemoBlock
             title="Embed snippet"
-            description="A ready-to-paste iframe. Adjust the width/height to fit your layout."
+            description="A ready-to-paste iframe. Adjust height to match the number of fields."
             code={EMBED_SNIPPET}
           />
           <p className="text-sm text-slate-600">
@@ -183,33 +239,6 @@ export default function Forms() {
           />
         </Section>
 
-        <Section id="fetch-responses" title="Fetch responses">
-          <p>
-            Pull submissions for a specific form. Responses are paginated — use{' '}
-            <Code>limit</Code> and <Code>offset</Code> to page through them.
-          </p>
-          <DemoBlock
-            title="Fetch responses"
-            description="Returns an array of submission objects for the given form id."
-            code={FETCH_RESPONSES_SNIPPET}
-          />
-          <p className="text-sm text-slate-600">
-            Each response object contains:
-          </p>
-          <ApiTable
-            rows={[
-              { property: '_id', description: 'Unique submission id.', type: 'string' },
-              { property: 'formId', description: 'Id of the form the response belongs to.', type: 'string' },
-              { property: 'data', description: "Key-value map of field names to the visitor's answers.", type: 'Record<string, any>' },
-              { property: 'submittedAt', description: 'ISO 8601 timestamp of when the form was submitted.', type: 'string' },
-            ]}
-          />
-          <p className="mt-3 text-sm text-slate-600">
-            You can also view and export responses in the Form Builder dashboard by opening a form
-            and navigating to its <strong>Responses</strong> tab.
-          </p>
-        </Section>
-
         <Section id="delete-form" title="Delete a form">
           <p>
             Send a <Code>DELETE</Code> request with the form id to permanently remove the form and
@@ -239,11 +268,6 @@ export default function Forms() {
                 description: 'All endpoints are relative to this. Scoped to your workspace id.',
                 type: API_BASE_SNIPPET,
               },
-              {
-                property: 'Authorization',
-                description: 'Pass your session token as a Bearer token in the Authorization header.',
-                type: 'Bearer <token>',
-              },
             ]}
           />
 
@@ -268,16 +292,6 @@ export default function Forms() {
             ]}
           />
 
-          <h3 className="mb-2 mt-6 text-base font-semibold text-ink">
-            Query parameters — GET /form/:id/responses
-          </h3>
-          <ApiTable
-            rows={[
-              { property: 'limit', description: 'Number of responses to return per page.', type: 'number', default: '10' },
-              { property: 'offset', description: 'Number of responses to skip (for pagination).', type: 'number', default: '0' },
-            ]}
-          />
-
           <h3 className="mb-2 mt-6 text-base font-semibold text-ink">Form status values</h3>
           <ApiTable
             rows={[
@@ -295,15 +309,28 @@ export default function Forms() {
 /* -------------------------------- Snippets -------------------------------- */
 
 const FORM_BUILDER_URL_SNIPPET = `// Open this URL in a browser to launch the Form Builder for your workspace.
-// Replace YOUR_WORKSPACE_ID with the id from Settings → General Settings.
+// Replace YOUR_WORKSPACE_ID with the id from Page Pilot app → pagepilot.fabbuilder.com/tenant.
 const FORM_BUILDER_URL = '${FORM_BUILDER_FE_BASE}/tenant/YOUR_WORKSPACE_ID/form/create';`;
 
 const VIEW_URL_SNIPPET = `// Pattern: ${FORM_BUILDER_FE_BASE}/tenant/{workspaceId}/form/{formId}/view
 //
-// workspaceId — your workspace id (Settings → General Settings)
+// workspaceId — your workspace id (Page Pilot app → pagepilot.fabbuilder.com/tenant)
 // formId      — the _id returned by GET /form
 
 const viewUrl = \`${FORM_BUILDER_FE_BASE}/tenant/\${workspaceId}/form/\${formId}/view\`;`;
+
+const EDIT_URL_SNIPPET = `// Pattern: ${FORM_BUILDER_FE_BASE}/tenant/{workspaceId}/form/{formId}/edit
+//
+// Open in a browser — requires authentication. Not embeddable.
+
+const editUrl = \`${FORM_BUILDER_FE_BASE}/tenant/\${workspaceId}/form/\${formId}/edit\`;`;
+
+const RESPONSES_URL_SNIPPET = `// Pattern: ${FORM_BUILDER_FE_BASE}/tenant/{workspaceId}/form/{formId}/responses
+//
+// Shows a table: Submission #, Submitted At, Response ID, and a View Details button.
+// Displays total submission count at the top.
+
+const responsesUrl = \`${FORM_BUILDER_FE_BASE}/tenant/\${workspaceId}/form/\${formId}/responses\`;`;
 
 const EMBED_SNIPPET = `// Drop this wherever you want the form to appear in your UI.
 // Adjust the height to match the number of fields in your form.
@@ -385,7 +412,7 @@ GOAL
 
 API
 - Base: ${FORM_BUILDER_API_BASE}/tenant/YOUR_WORKSPACE_ID
-  (replace YOUR_WORKSPACE_ID with the id from CS app → Settings → General Settings: ${CS_GENERAL_SETTINGS_URL})
+  (replace YOUR_WORKSPACE_ID with the id from CS app → Page Pilot app → pagepilot.fabbuilder.com/tenant: ${CS_GENERAL_SETTINGS_URL})
 - List forms:        GET  /form
 - Fetch responses:   GET  /form/:id/responses?limit=20&offset=0
 - Delete a form:     DELETE /form/:id
