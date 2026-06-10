@@ -33,7 +33,7 @@ export const FAB_CRM_URL = 'https://cs.fabbuilder.com/';
  * CS app general settings page — where a user finds their application id to
  * plug into the lead API URL.
  */
-export const CS_GENERAL_SETTINGS_URL = 'https://cs.fabbuilder.com/settings/general_settings';
+export const CS_GENERAL_SETTINGS_URL = 'https://pagepilot.fabbuilder.com/tenant';
 
 /** Builds the lead API base for a given application id. */
 export const leadApiBase = (applicationId: string) =>
@@ -60,6 +60,29 @@ export const PAGEPILOT_GROUPS_URL = 'https://pagepilot.fabbuilder.com/configurat
 /** Builds the Page Pilot content API base for a given workspace id. */
 export const pagePilotApiBase = (workspaceId: string) =>
   `${PAGEPILOT_API_HOST}/tenant/${workspaceId}`;
+
+/**
+ * Form Builder frontend — where users create and manage forms.
+ * Full URL pattern: `${FORM_BUILDER_FE_BASE}/tenant/{WORKSPACE_ID}/form/create`
+ */
+export const FORM_BUILDER_FE_BASE = 'https://cs-app-form-builder-fe.web.app';
+
+/**
+ * Form Builder REST API — all form CRUD and response endpoints.
+ * Scoped to your workspace: `${FORM_BUILDER_API_BASE}/tenant/{WORKSPACE_ID}/form`
+ */
+export const FORM_BUILDER_API_BASE = 'https://cs.fabbuilder.com/cs-app/form-builder/api';
+
+/** Placeholder shown in docs in place of a real workspace id for form builder snippets. */
+export const FORM_WORKSPACE_ID = 'YOUR_WORKSPACE_ID';
+
+/** Live demo workspace and form ids — used in embedded iframe examples. */
+export const DEMO_FORM_WORKSPACE_ID = '64d2b934c6cfdc96aa3734c5';
+export const DEMO_FORM_ID = '6a29548df19c616e3a621c0e';
+
+/** Builds the Form Builder API base for a given workspace id. */
+export const formBuilderApiBase = (workspaceId: string) =>
+  `${FORM_BUILDER_API_BASE}/tenant/${workspaceId}`;
 
 export interface AhdInstance {
   initializeSiteMap: (refetch: boolean) => Promise<void>;

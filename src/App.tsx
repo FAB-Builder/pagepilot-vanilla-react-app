@@ -9,6 +9,7 @@ import FetchPages from './pages/pages/fetch-pages';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
 import Webinar from './pages/webinar';
+import Forms from './pages/forms';
 import { useEffect } from 'react';
 
 function ScrollToTop() {
@@ -50,6 +51,7 @@ function App() {
         <Route path="pages/fetch-pages" element={<FetchPages />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
         <Route path="webinar" element={<Webinar />} />
+        <Route path="forms" element={<Forms />} />
         {/* Unknown slug → send the user back home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

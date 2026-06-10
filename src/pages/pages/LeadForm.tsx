@@ -103,7 +103,7 @@ function LeadForm() {
               rel="noreferrer"
               className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
             >
-              Settings → General Settings
+              Page Pilot app → pagepilot.fabbuilder.com/tenant
             </a>{" "}
             and paste it into the form's <Code>LEAD_API</Code> URL in place of{" "}
             <Code>{LEAD_APPLICATION_ID}</Code>.
@@ -132,7 +132,7 @@ function LeadForm() {
                 rel="noreferrer"
                 className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
               >
-                Settings → General Settings
+                Page Pilot app → pagepilot.fabbuilder.com/tenant
               </a>
               , copy your application id, and paste it into the{" "}
               <Code>LEAD_API</Code> URL in place of{" "}

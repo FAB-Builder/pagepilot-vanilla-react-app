@@ -11,7 +11,7 @@ interface DemoBlockProps {
 }
 
 function DemoBlock({ title, description, children, code, language = 'tsx' }: DemoBlockProps) {
-  const [showCode, setShowCode] = useState(false);
+  const [showCode, setShowCode] = useState(true);
 
   return (
     <div className="mb-6 overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-card">
