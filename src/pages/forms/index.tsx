@@ -23,6 +23,7 @@ const SECTIONS: DocSection[] = [
   { id: 'edit-form', label: 'Edit a form' },
   { id: 'embed', label: 'Embed a form' },
   { id: 'fetch-forms', label: 'Fetch forms' },
+  { id: 'view-responses', label: 'View responses' },
   { id: 'delete-form', label: 'Delete a form' },
   { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'api', label: 'API reference' },
@@ -236,6 +237,20 @@ export default function Forms() {
               { property: 'createdAt', description: 'ISO 8601 timestamp of when the form was created.', type: 'string' },
               { property: 'updatedAt', description: 'ISO 8601 timestamp of the last edit.', type: 'string' },
             ]}
+          />
+        </Section>
+
+        <Section id="view-responses" title="View responses">
+          <p>
+            Open the responses dashboard URL in a browser to see all submissions for a form. It
+            shows a table with <strong>Submission #</strong>, <strong>Submitted At</strong>,{' '}
+            <strong>Response ID</strong>, and a <strong>View Details</strong> button per row, plus a{' '}
+            <strong>Total Submissions</strong> count at the top.
+          </p>
+          <DemoBlock
+            title="Responses dashboard URL"
+            description="Open this in a browser to see submissions in the Form Builder UI."
+            code={RESPONSES_URL_SNIPPET}
           />
         </Section>
 

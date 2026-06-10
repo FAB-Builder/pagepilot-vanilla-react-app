@@ -53,7 +53,7 @@ function Home() {
             <Link
               key={item.to}
               to={item.to}
-              className="group relative flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-200 hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-lg"
+              className="group relative flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-200   hover:border-brand/40 hover:shadow-lg"
             >
               {/* Icon */}
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-tint text-brand transition-colors duration-200 group-hover:bg-brand group-hover:text-white">
