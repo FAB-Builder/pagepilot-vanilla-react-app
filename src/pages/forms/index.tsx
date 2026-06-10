@@ -377,35 +377,6 @@ async function listForms() {
   return data;
 }`;
 
-const FETCH_RESPONSES_SNIPPET = `// Replace YOUR_WORKSPACE_ID, YOUR_AUTH_TOKEN, and FORM_ID.
-const API_BASE = '${FORM_BUILDER_API_BASE}/tenant/YOUR_WORKSPACE_ID';
-
-async function fetchResponses(formId, { limit = 10, offset = 0 } = {}) {
-  const url = new URL(\`\${API_BASE}/form/\${formId}/responses\`);
-  url.searchParams.set('limit', String(limit));
-  url.searchParams.set('offset', String(offset));
-
-  const res = await fetch(url.toString(), {
-    headers: { Authorization: 'Bearer YOUR_AUTH_TOKEN' },
-  });
-  const data = await res.json();
-  // data is an array: [{ _id, formId, data: { fieldName: value, … }, submittedAt }, …]
-  return data;
-}
-
-// Example — page through all responses 20 at a time:
-async function* allResponses(formId) {
-  const PAGE = 20;
-  let offset = 0;
-  while (true) {
-    const page = await fetchResponses(formId, { limit: PAGE, offset });
-    if (!page.length) break;
-    yield* page;
-    if (page.length < PAGE) break;
-    offset += PAGE;
-  }
-}`;
-
 const DELETE_FORM_SNIPPET = `// Replace YOUR_WORKSPACE_ID, YOUR_AUTH_TOKEN, and FORM_ID.
 const API_BASE = '${FORM_BUILDER_API_BASE}/tenant/YOUR_WORKSPACE_ID';
 
