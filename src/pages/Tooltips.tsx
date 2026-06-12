@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import {
   Lightbulb,
   AlertCircle,
-  CheckCircle2,
   AlertTriangle,
   HelpCircle,
   CircleDot,
@@ -79,14 +78,7 @@ function LiveTooltipDemo() {
             <Lightbulb size={15} /> Loading tooltips…
           </span>
         )}
-        {status === 'running' && (
-          <span
-            id="tooltips-status-running"
-            className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600"
-          >
-            <CheckCircle2 size={15} /> Tooltips active
-          </span>
-        )}
+        
         {error && (
           <span
             id="tooltips-status-error"
@@ -145,7 +137,7 @@ function Section({
 }) {
   return (
     <section id={id} className="mb-12 scroll-mt-24">
-      <h2 id={`${id}-heading`} className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
+      <h2 id={`${id}-heading`} className="mb-4 w-fit border-b border-slate-200 pb-2 text-xl font-bold">
         {title}
       </h2>
       <div id={`${id}-body`} className="space-y-3 leading-relaxed text-slate-600">
@@ -189,8 +181,8 @@ function Tooltips() {
           </p>
         </Section>
 
-        <Section id="live-demo" title="Live demo">
-          <p id="live-demo-text">
+        <Section id="live-demo" title="Live demo" >
+          <p id="live-demo-text" style={{width:"fit-content"}}>
             The tooltips published against the <Code id="live-demo-slug">{TOOLTIP_SLUG}</Code> slug
             load <strong id="live-demo-cta-text">automatically</strong> as soon as you open this
             page — exactly as they would on a real route. Hover or click the sample buttons below to
