@@ -4,7 +4,7 @@ import { ChevronDown, ChevronUp, ChevronLeft, X, HelpCircle, Loader2, AlertCircl
 import { Section } from '../../../components/DocSection';
 import { pagePilotApiBase } from '../../../lib/ahd';
 
-const BRAND = '#4f46e5';
+const BRAND = '#5550ff';
 const BRAND_TINT = '#eef2ff';
 const GREY_200 = '#e5e7eb';
 const GREY_500 = '#6b7280';
