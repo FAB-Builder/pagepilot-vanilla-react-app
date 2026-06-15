@@ -257,6 +257,14 @@ export default function Webinar() {
             The webinar URL requires two values — the <strong>webinar ID</strong> (<Code>w</Code>) and the <strong>form response ID</strong> (<Code>l</Code>) — both filled in automatically at runtime using placeholders.
           </p>
 
+          <p>
+            Don't have a form yet?{' '}
+            <a href="https://pagepilot.fabbuilder.com/forms" target="_blank" rel="noreferrer"
+              className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark">
+              Create one in Page Pilot → Forms
+            </a>.
+          </p>
+
           <h4 className="mt-4 font-semibold text-slate-700">Option A — Go To Webinar button (recommended)</h4>
           <p>In the form builder, add a <strong>Button</strong> element and set its <strong>Button Type</strong> to <strong>Go To Webinar</strong>. The link and label are set automatically — no further configuration needed.</p>
 
