@@ -250,6 +250,25 @@ export default function Webinar() {
             </Step>
           </ol>
           <p>Prefer an external form? Paste its URL into the <strong>Custom Form URL</strong> field instead. Attendees are redirected to that URL before the video becomes accessible.</p>
+
+          <h3 className="mt-6 font-semibold text-slate-800">Redirecting attendees to the webinar after submission</h3>
+          <p>
+            After a registrant submits the form, you need a button that sends them directly into the webinar session.
+            The webinar URL requires two values — the <strong>webinar ID</strong> (<Code>w</Code>) and the <strong>form response ID</strong> (<Code>l</Code>) — both filled in automatically at runtime using placeholders.
+          </p>
+
+          <h4 className="mt-4 font-semibold text-slate-700">Option A — Go To Webinar button (recommended)</h4>
+          <p>In the form builder, add a <strong>Button</strong> element and set its <strong>Button Type</strong> to <strong>Go To Webinar</strong>. The link and label are set automatically — no further configuration needed.</p>
+
+          <h4 className="mt-4 font-semibold text-slate-700">Option B — Custom button with a manual link</h4>
+          <p>Add a <strong>Button</strong> element, set <strong>Button Type</strong> to <strong>Button</strong>, and paste the following URL into the <strong>Link</strong> field:</p>
+          <div className="mt-2 rounded-lg bg-slate-100 px-4 py-3 font-mono text-sm break-all text-slate-700">
+            {'https://webinar-fab-builder.web.app/?w={{wid}}&type=webinar&l={{id}}'}
+          </div>
+          <Note>
+            <strong>{'{{wid}}'}</strong> is replaced with the webinar ID automatically (passed via the form URL when you select the form in the webinar editor).{' '}
+            <strong>{'{{id}}'}</strong> is replaced with the unique ID of the registrant's form response after submission. You do not need to edit these placeholders manually.
+          </Note>
         </Section>
 
         <Section id="cs-channel" title="CS Channel integration">
