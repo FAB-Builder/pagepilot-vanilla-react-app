@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { navItems } from '../navItems';
 
 export interface DocSection {
@@ -43,7 +43,26 @@ function DocLayout({
   subModulesLabel,
   children,
 }: DocLayoutProps) {
-  const [activeId, setActiveId] = useState(sections[0]?.id);
+  const { hash } = useLocation();
+  const initialId = hash ? hash.slice(1) : sections[0]?.id;
+  const [activeId, setActiveId] = useState(initialId);
+  // On mount scroll to the hash section, after the DOM is painted.
+  useEffect(() => {
+    if (!hash) return;
+    const id = hash.slice(1);
+    const scrollRoot = document.querySelector('main') as HTMLElement | null;
+
+    const attempt = (tries: number) => {
+      const el = document.getElementById(id);
+      if (el && scrollRoot) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setActiveId(id);
+      } else if (tries > 0) {
+        setTimeout(() => attempt(tries - 1), 150);
+      }
+    };
+    attempt(5);
+  }, [hash]);
 
   useEffect(() => {
     const scrollRoot = document.querySelector('main') as HTMLElement | null;
@@ -91,10 +110,12 @@ function DocLayout({
     };
 
     scrollRoot.addEventListener('scroll', onScroll, { passive: true });
-    update();
+    // When no hash, set active section based on current scroll position immediately.
+    // When there's a hash, the hash effect handles the initial activeId.
+    if (!hash) update();
 
     return () => scrollRoot.removeEventListener('scroll', onScroll);
-  }, [sections]);
+  }, [sections, hash]);
 
   return (
     <div className="flex gap-6 lg:gap-10">
@@ -151,6 +172,7 @@ function DocLayout({
                   if (el) {
                     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     setActiveId(s.id);
+                    window.history.replaceState(null, '', `#${s.id}`);
                   }
                 }}
                 className={[
