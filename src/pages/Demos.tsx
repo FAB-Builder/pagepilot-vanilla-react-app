@@ -12,6 +12,7 @@ const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'live-demo', label: 'Live demo' },
   { id: 'integration', label: 'Integration' },
+  { id: 'embed-visibility', label: 'Conditional visibility' },
   { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'steps', label: 'Steps' },
   { id: 'navigation', label: 'Navigation' },
@@ -145,6 +146,63 @@ function Demos() {
             Replace <Code>YOUR_TENANT_ID</Code> and <Code>YOUR_DEMO_ID</Code> with the values shown
             in the PagePilot admin after publishing.
           </p>
+        </Section>
+
+        <Section id="embed-visibility" title="Conditional visibility">
+          <p>
+            By default the embed is always visible — even while the iframe is loading or if the demo
+            is in <strong>draft</strong>. Use the <Code>postMessage</Code> event from the viewer to
+            keep the wrapper hidden until the demo is confirmed live, avoiding a flash of a loading or
+            draft state.
+          </p>
+
+          <h3 className="mt-6 text-base font-semibold text-ink">How it works</h3>
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-slate-600">
+            <li>The wrapper starts with <Code>visibility: hidden</Code> — the iframe loads in the background, invisible to the user.</li>
+            <li>The iframe posts a <Code>DEMO_STATUS</Code> message once it knows its publish state.</li>
+            <li>If <Code>status === 'live'</Code> the wrapper becomes visible. Otherwise it is removed from layout with <Code>display: none</Code>.</li>
+          </ol>
+
+          <p className="mt-3 rounded-lg border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Use <strong>visibility: hidden</strong>, not <Code>display: none</Code>, on the wrapper.{' '}
+            <Code>display: none</Code> prevents the browser from loading the iframe at all, so{' '}
+            <Code>DEMO_STATUS</Code> never fires and the demo stays hidden forever.
+          </p>
+
+          <DemoBlock
+            title="Embed with conditional visibility"
+            description="The wrapper is hidden until the viewer confirms the demo is live."
+            code={VISIBILITY_EMBED_CODE}
+            language="html"
+          />
+
+          <h3 className="mt-6 text-base font-semibold text-ink">postMessage event reference</h3>
+          <p className="text-sm text-slate-600">
+            All messages posted by the demo viewer share this shape:
+          </p>
+          <DemoBlock
+            title="Message shape"
+            code={`{\n  source: 'pagepilot-demo-viewer',\n  type: string,\n  // additional fields depending on type\n}`}
+            language="js"
+          />
+          <ApiTable
+            rows={[
+              { property: 'DEMO_LOAD_STARTED', description: 'Iframe has mounted, before any API call.', type: 'type' },
+              { property: 'DEMO_LOADING', description: 'API call is in-flight.', type: 'type' },
+              { property: 'DEMO_STATUS', description: "Publish state resolved. Extra field: status: 'live' | 'draft'", type: 'type' },
+              { property: 'DEMO_LOADED', description: 'Demo content is fully rendered inside the iframe.', type: 'type' },
+            ]}
+          />
+
+          <h3 className="mt-6 text-base font-semibold text-ink">Filtering messages safely</h3>
+          <p className="text-sm text-slate-600">
+            Always guard against messages from other sources (analytics, extensions, other iframes):
+          </p>
+          <DemoBlock
+            title="Safe message guard"
+            code={`if (!msg || msg.source !== 'pagepilot-demo-viewer') return;`}
+            language="js"
+          />
         </Section>
 
         <Section id="ai-prompt" title="Integrate using AI">
@@ -304,5 +362,51 @@ const EMBED_CODE = `<div style="position:relative;padding-bottom:calc(54.75% + 2
     allowfullscreen
   ></iframe>
 </div>`;
+
+const VISIBILITY_EMBED_CODE = `<div
+  id="demo-wrapper"
+  style="
+    visibility: hidden;
+    position: relative;
+    padding-bottom: calc(54.75% + 25px);
+    width: 100%;
+    height: 0;
+    margin-top: 40px;
+  "
+>
+  <iframe
+    id="demo-iframe"
+    loading="lazy"
+    src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TID&did=YOUR_DID&type=demo"
+    allow="fullscreen"
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px solid rgba(63, 95, 172, 0.35);
+      box-shadow: 0px 0px 18px rgba(26, 19, 72, 0.15);
+      border-radius: 10px;
+      box-sizing: border-box;
+    "
+  ></iframe>
+</div>
+
+<script>
+  window.addEventListener('message', function (event) {
+    var msg = event.data;
+    if (!msg || msg.source !== 'pagepilot-demo-viewer') return;
+
+    if (msg.type === 'DEMO_STATUS') {
+      var wrapper = document.getElementById('demo-wrapper');
+      if (msg.status === 'live') {
+        wrapper.style.visibility = 'visible';
+      } else {
+        wrapper.style.display = 'none';
+      }
+    }
+  });
+</script>`;
 
 export default Demos;
