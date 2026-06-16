@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Tours from './pages/Tours';
 import Demos from './pages/Demos';
 import Tooltips from './pages/Tooltips';
-import LeadForm from './pages/pages/LeadForm';
 import FetchPages from './pages/pages/fetch-pages';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
@@ -47,7 +46,6 @@ function App() {
         <Route path="tooltips" element={<Tooltips />} />
         {/* Pages module — redirects to its first sub-module */}
         <Route path="pages" element={<Navigate to={PAGES_DEFAULT} replace />} />
-        <Route path="pages/lead-form" element={<LeadForm />} />
         <Route path="pages/fetch-pages" element={<FetchPages />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
         <Route path="webinar" element={<Webinar />} />

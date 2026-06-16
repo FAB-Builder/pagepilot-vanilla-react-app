@@ -5,7 +5,6 @@ import type { SubModule } from '../../components/DocLayout';
  * own route under /pages. Add new page components here as they're built.
  */
 export const PAGES_SUBMODULES: SubModule[] = [
-  { to: '/pages/lead-form', label: 'Lead Form' },
   { to: '/pages/fetch-pages', label: 'Fetch Pages' },
 ];
 
