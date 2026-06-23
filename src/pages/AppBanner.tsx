@@ -1,17 +1,17 @@
 import DocLayout, { type DocSection } from '../components/DocLayout';
-import DemoBlock from '../components/DemoBlock';
 import ApiTable from '../components/ApiTable';
 import CodeSnippet from '../components/CodeSnippet';
+import AiPromptBlock from '../components/AiPromptBlock';
 import TypeBannerDemo from './TypeBannerDemo';
 import { BANNER_TYPES } from './appBannerTypes';
-import { REACT_CODE, buildBannerCode } from './appBannerSnippets';
+import { REACT_CODE, AI_PROMPT } from './appBannerSnippets';
 
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
-  { id: 'types', label: 'Banner types' },
+  { id: 'integration', label: 'Integration' },
+  { id: 'ai-prompt', label: 'Integrate using AI' },
+  { id: 'types', label: 'Banner types & demos' },
   { id: 'configure', label: 'Configuring a banner' },
-  { id: 'integration', label: 'Integration (React)' },
-  { id: 'live-demo', label: 'Live demos' },
   { id: 'api', label: 'API reference' },
 ];
 
@@ -25,7 +25,7 @@ const CONFIG_FIELDS: { field: string; type: string; description: string }[] = [
   {
     field: 'type',
     type: 'simpleBanner | carousel | modal | floater',
-    description: 'The banner layout. See Banner types above.',
+    description: 'The banner layout. See Banner types below.',
   },
   {
     field: 'content',
@@ -169,55 +169,111 @@ function AppBanner() {
               </span>
             </li>
           </ol>
-          <p className="mt-3 leading-relaxed text-slate-600">
-            The full React snippet is in the{' '}
-            <a
-              href="#integration"
-              className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark"
-            >
-              Integration
-            </a>{' '}
-            section below.
+        </section>
+
+        <section id="integration" className="mb-12 scroll-mt-24">
+          <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
+            Integration
+          </h2>
+          <p className="mb-4 leading-relaxed text-slate-600">
+            Integrating a banner takes three things: install the SDK, render an empty container whose{' '}
+            <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+              id
+            </code>{' '}
+            matches the identifier, then call{' '}
+            <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+              renderAppBanner(identifier, true)
+            </code>{' '}
+            from a <code className="font-mono text-[13px]">useEffect</code> so it runs after mount.
+            The second argument (<code className="font-mono text-[13px]">refetch</code>) forces a
+            fresh fetch instead of using a cached copy.
           </p>
+
+          <ol className="my-4 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+            <li>
+              <strong className="text-ink">1. Install</strong> —{' '}
+              <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+                npm install ahdjs
+              </code>
+              .
+            </li>
+            <li>
+              <strong className="text-ink">2. Add a container</strong> — render{' '}
+              <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+                &lt;div id={'{identifier}'} /&gt;
+              </code>{' '}
+              where the banner should appear.
+            </li>
+            <li>
+              <strong className="text-ink">3. Render</strong> — call{' '}
+              <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+                initializeSiteMap()
+              </code>{' '}
+              then{' '}
+              <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+                renderAppBanner(identifier, true)
+              </code>{' '}
+              in a <code className="font-mono text-[13px]">useEffect</code>.
+            </li>
+          </ol>
+
+          <p className="mb-2 text-sm leading-relaxed text-slate-600">
+            This example uses the simple banner&rsquo;s{' '}
+            <code className="font-mono text-[13px]">FAB_BANNER_TYPE_SIMPLE</code> identifier — swap
+            it for any other (carousel, modal, floater). <strong>The code is identical for every
+            type.</strong>
+          </p>
+          <CodeSnippet code={REACT_CODE} language="tsx" />
+        </section>
+
+        <section id="ai-prompt" className="mb-12 scroll-mt-24">
+          <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
+            Integrate using AI
+          </h2>
+          <p className="mb-4 text-sm leading-relaxed text-slate-600">
+            Don&rsquo;t want to wire it by hand? Hand this prompt to Cursor, Claude, or GitHub
+            Copilot — it walks through install, config, the container, and the{' '}
+            <code className="font-mono text-[13px]">renderAppBanner</code> call.
+          </p>
+          <AiPromptBlock id="app-banner-ai-prompt" prompt={AI_PROMPT} />
         </section>
 
         <section id="types" className="mb-12 scroll-mt-24">
-          <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">Banner types</h2>
-          <p className="mb-4 leading-relaxed text-slate-600">
-            Pick a type when you create the banner. It controls <em>how</em> the banner is presented
-            — the integration call is identical for all four. Each card shows the demo identifier
-            used in the live demos below.
+          <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
+            Banner types &amp; demos
+          </h2>
+          <p className="mb-6 leading-relaxed text-slate-600">
+            The four banner types and a live demo of each. The type only controls <em>how</em> the
+            banner is presented — the integration code above is the same for all of them; just change
+            the identifier.
           </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {BANNER_TYPES.map((t) => (
-              <div
-                key={t.value}
-                className="flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-card"
-              >
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-base font-semibold text-ink">{t.name}</span>
-                  <code className="rounded bg-emerald-50 px-1.5 py-0.5 font-mono text-[11px] text-emerald-700">
-                    type: {t.value}
-                  </code>
-                </div>
-                <code className="mt-2 inline-block w-fit rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[12px] text-brand">
+
+          {BANNER_TYPES.map((t) => (
+            <div key={t.value} className="mb-10 scroll-mt-24" id={`type-${t.value}`}>
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <h3 className="text-lg font-bold text-ink">{t.name}</h3>
+                <code className="rounded bg-emerald-50 px-1.5 py-0.5 font-mono text-[11px] text-emerald-700">
+                  type: {t.value}
+                </code>
+                <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[12px] text-brand">
                   {t.identifier}
                 </code>
-                <p className="mt-3 text-sm font-medium text-slate-700">{t.summary}</p>
-                <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{t.description}</p>
-                <dl className="mt-4 space-y-1.5 border-t border-slate-100 pt-3 text-sm">
-                  <div className="flex gap-2">
-                    <dt className="w-20 shrink-0 font-semibold text-slate-500">Best for</dt>
-                    <dd className="text-slate-600">{t.bestFor}</dd>
-                  </div>
-                  <div className="flex gap-2">
-                    <dt className="w-20 shrink-0 font-semibold text-slate-500">Placement</dt>
-                    <dd className="text-slate-600">{t.placement}</dd>
-                  </div>
-                </dl>
               </div>
-            ))}
-          </div>
+              <p className="mb-1 text-sm font-medium text-slate-700">{t.summary}</p>
+              <p className="mb-3 text-sm leading-relaxed text-slate-500">{t.description}</p>
+              <dl className="mb-4 space-y-1.5 text-sm">
+                <div className="flex gap-2">
+                  <dt className="w-20 shrink-0 font-semibold text-slate-500">Best for</dt>
+                  <dd className="text-slate-600">{t.bestFor}</dd>
+                </div>
+                <div className="flex gap-2">
+                  <dt className="w-20 shrink-0 font-semibold text-slate-500">Placement</dt>
+                  <dd className="text-slate-600">{t.placement}</dd>
+                </div>
+              </dl>
+              <TypeBannerDemo type={t} />
+            </div>
+          ))}
         </section>
 
         <section id="configure" className="mb-12 scroll-mt-24">
@@ -236,63 +292,6 @@ function AppBanner() {
               type: f.type,
             }))}
           />
-        </section>
-
-        <section id="integration" className="mb-12 scroll-mt-24">
-          <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">
-            Integration (React)
-          </h2>
-          <p className="mb-4 leading-relaxed text-slate-600">
-            Wherever you want the banner to appear, render an empty container whose{' '}
-            <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
-              id
-            </code>{' '}
-            matches the banner&rsquo;s identifier, then initialize AHDjs and call{' '}
-            <code className="rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
-              renderAppBanner(identifier, true)
-            </code>{' '}
-            in a <code className="font-mono text-[13px]">useEffect</code>. The second argument
-            (<code className="font-mono text-[13px]">refetch</code>) forces a fresh fetch instead of
-            using a cached copy.
-          </p>
-
-          <div className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            The container must exist in the DOM before you call{' '}
-            <code className="font-mono text-[13px]">renderAppBanner</code>. In React, render the{' '}
-            <code className="font-mono text-[13px]">&lt;div id={'{identifier}'} /&gt;</code> in JSX
-            and call <code className="font-mono text-[13px]">renderAppBanner</code> from{' '}
-            <code className="font-mono text-[13px]">useEffect</code> so it runs after mount.
-          </div>
-
-          <h3 className="mb-2 mt-6 font-semibold text-slate-800">Step 1 — Install</h3>
-          <CodeSnippet code={`npm install ahdjs`} language="bash" />
-
-          <h3 className="mb-2 mt-6 font-semibold text-slate-800">Step 2 — Render a banner</h3>
-          <p className="mb-2 text-sm leading-relaxed text-slate-600">
-            Pass the identifier of the banner you created. This example uses the simple banner&rsquo;s{' '}
-            <code className="font-mono text-[13px]">FAB_BANNER_TYPE_SIMPLE</code> — swap it for any
-            other identifier (carousel, modal, floater); the code is the same for every type.
-          </p>
-          <CodeSnippet code={REACT_CODE} language="tsx" />
-        </section>
-
-        <section id="live-demo" className="mb-12 scroll-mt-24">
-          <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">Live demos</h2>
-          <p className="mb-6 leading-relaxed text-slate-600">
-            One demo per banner type. Each fetches its type-specific identifier from Page Pilot and
-            renders it into a container with the matching id. The simple banner renders on load; the
-            others render when you click <strong>Fetch &amp; render</strong>.
-          </p>
-          {BANNER_TYPES.map((t) => (
-            <DemoBlock
-              key={t.value}
-              title={`${t.name} — ${t.identifier}`}
-              description={`Renders the ${t.name.toLowerCase()} (type: ${t.value}).`}
-              code={buildBannerCode(t.identifier)}
-            >
-              <TypeBannerDemo type={t} />
-            </DemoBlock>
-          ))}
         </section>
 
         <section id="api" className="mb-12 scroll-mt-24">
