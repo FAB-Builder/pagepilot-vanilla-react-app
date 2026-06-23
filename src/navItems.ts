@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon, AppBannerIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -57,5 +57,11 @@ export const navItems: NavItem[] = [
     label: 'Forms',
     description: 'Build and embed custom forms using the Form Builder, then fetch responses via the REST API.',
     icon: FormsIcon,
+  },
+  {
+    to: '/app-banner',
+    label: 'App Banner',
+    description: 'Render announcement banners — simple, carousel, modal, or floater — into your app by identifier.',
+    icon: AppBannerIcon,
   },
 ];

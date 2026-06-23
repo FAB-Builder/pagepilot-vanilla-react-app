@@ -9,6 +9,7 @@ import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
 import Webinar from './pages/webinar';
 import Forms from './pages/forms';
+import AppBanner from './pages/AppBanner';
 import { useEffect } from 'react';
 
 function ScrollToTop() {
@@ -50,6 +51,7 @@ function App() {
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
         <Route path="webinar" element={<Webinar />} />
         <Route path="forms" element={<Forms />} />
+        <Route path="app-banner" element={<AppBanner />} />
         {/* Unknown slug → send the user back home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
