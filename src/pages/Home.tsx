@@ -4,7 +4,7 @@ import { navItems } from "../navItems";
 
 function Home() {
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-7xl">
       {/* ── Hero ── */}
       <section className="pb-10 pt-4 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-tint px-3.5 py-1 text-xs font-semibold text-brand mb-5">
@@ -46,7 +46,7 @@ function Home() {
       </div>
 
       {/* ── Cards ── */}
-      <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
