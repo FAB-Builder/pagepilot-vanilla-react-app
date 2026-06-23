@@ -120,23 +120,24 @@ function DocLayout({
   return (
     <div className="flex gap-6 lg:gap-10">
       {/* Left rail: sub-modules + on-this-page sections for the current page */}
-      <aside className="hidden w-56 shrink-0 lg:block xl:w-64">
+      <aside id="doc-left-rail" className="hidden w-56 shrink-0 lg:block xl:w-64">
         {/* fixed so it never scrolls with the content */}
         <div className="fixed top-14 w-56 pb-6 pr-2 pt-6 xl:w-64">
           {/* Sub-modules of the current module (e.g. Pages → Lead Form) */}
           {subModules && subModules.length > 0 && (
             <>
-              <span className="mb-2 block px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
+              <span className="mb-2 block px-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted/70">
                 {subModulesLabel ?? title}
               </span>
-              <nav className="mb-6 flex flex-col gap-0.5">
+              <nav id="doc-submodule-nav" className="mb-6 flex flex-col gap-0.5">
                 {subModules.map((sm) => (
                   <NavLink
                     key={sm.to}
                     to={sm.to}
+                    id={`submodule-link-${sm.to.replace(/\//g, '-').replace(/^-/, '')}`}
                     className={({ isActive }) =>
                       [
-                        'rounded-md px-3 py-1.5 text-[13px] transition-colors',
+                        'rounded-md px-3 py-1.5 text-sm transition-colors',
                         isActive
                           ? 'bg-brand-tint font-semibold text-brand'
                           : 'font-medium text-slate-600 hover:bg-slate-100 hover:text-ink',
@@ -153,7 +154,7 @@ function DocLayout({
           {/* On-this-page sections for the current component */}
           <span
             className={[
-              'mb-2 block px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70',
+              'mb-2 block px-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted/70',
               subModules && subModules.length > 0
                 ? 'border-t border-slate-200/80 pt-5'
                 : '',
@@ -161,10 +162,11 @@ function DocLayout({
           >
             {title}
           </span>
-          <nav className="flex flex-col">
+          <nav id="doc-section-nav" className="flex flex-col">
             {sections.map((s) => (
               <a
                 key={s.id}
+                id={`section-link-${s.id}`}
                 href={`#${s.id}`}
                 onClick={(e) => {
                   e.preventDefault();
@@ -176,7 +178,7 @@ function DocLayout({
                   }
                 }}
                 className={[
-                  'cursor-pointer border-l-2 py-1.5 pl-4 pr-2 text-[13px] transition-colors',
+                  'cursor-pointer border-l-2 py-1.5 pl-4 pr-2 text-sm transition-colors',
                   activeId === s.id
                     ? 'border-brand font-semibold text-brand'
                     : 'border-slate-200 text-muted hover:border-slate-300 hover:text-ink',
@@ -193,28 +195,29 @@ function DocLayout({
       <div className="min-w-0 w-0 flex-1 overflow-x-hidden">{children}</div>
 
       {/* Right rail: the top-level component list */}
-      <aside className="hidden w-56 shrink-0 xl:block">
+      <aside id="doc-right-rail" className="hidden w-56 shrink-0 xl:block">
         <div className="sticky top-6 pt-6">
-          <span className="mb-2 block px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted/70">
+          <span className="mb-2 block px-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted/70">
             Components
           </span>
-          <nav className="flex flex-col gap-0.5">
+          <nav id="doc-components-nav" className="flex flex-col gap-0.5">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
                 <NavLink
                   key={item.to}
                   to={item.to}
+                  id={`component-link-${item.to.replace(/\//g, '-').replace(/^-/, '')}`}
                   className={({ isActive }) =>
                     [
-                      'flex items-center gap-2.5 rounded-md px-3 py-1.5 text-[13px] transition-colors',
+                      'flex items-center gap-2.5 rounded-md px-3 py-1.5 text-sm transition-colors',
                       isActive
                         ? 'bg-brand-tint font-semibold text-brand'
                         : 'font-medium text-slate-600 hover:bg-slate-100 hover:text-ink',
                     ].join(' ')
                   }
                 >
-                  <Icon className="h-[15px] w-[15px] shrink-0" />
+                  <Icon className="h-4 w-4 shrink-0" />
                   {item.label}
                 </NavLink>
               );
