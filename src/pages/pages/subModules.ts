@@ -6,6 +6,7 @@ import type { SubModule } from '../../components/DocLayout';
  */
 export const PAGES_SUBMODULES: SubModule[] = [
   { to: '/pages/fetch-pages', label: 'Fetch Pages' },
+  { to: '/pages/template-variables', label: 'Create a Template' },
 ];
 
 /** Where /pages should land by default. */
