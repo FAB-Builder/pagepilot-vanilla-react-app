@@ -37,7 +37,7 @@ export const BANNER_TYPES: BannerType[] = [
   {
     name: 'Carousel',
     value: 'carousel',
-    identifier: 'FAB_BANNER_TYPE_CAROUSEL',
+    identifier: 'FAB_BANNER_TYPE_CROUSAL',
     summary: 'A rotating set of slides in one container.',
     description:
       'Cycles through multiple slides inside a single inline container, auto-advancing (or with controls). Each slide can carry its own message, image, and call-to-action.',
@@ -54,7 +54,7 @@ export const BANNER_TYPES: BannerType[] = [
       'Opens as a dialog on top of your app with a backdrop, taking over the screen until the user acts or dismisses it. The highest-attention option — use it sparingly.',
     bestFor: 'A high-priority announcement or a call-to-action you do not want missed.',
     placement: 'Overlay — centered, above all content with a backdrop.',
-    autoRender: false,
+    autoRender: true,
   },
   {
     name: 'Floater',
