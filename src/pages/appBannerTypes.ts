@@ -43,7 +43,7 @@ export const BANNER_TYPES: BannerType[] = [
       'Cycles through multiple slides inside a single inline container, auto-advancing (or with controls). Each slide can carry its own message, image, and call-to-action.',
     bestFor: 'Several messages competing for the same spot — multiple offers, release notes, or channel-specific announcements.',
     placement: 'Inline — same container, rotating content.',
-    autoRender: false,
+    autoRender: true,
   },
   {
     name: 'Modal',
@@ -54,7 +54,7 @@ export const BANNER_TYPES: BannerType[] = [
       'Opens as a dialog on top of your app with a backdrop, taking over the screen until the user acts or dismisses it. The highest-attention option — use it sparingly.',
     bestFor: 'A high-priority announcement or a call-to-action you do not want missed.',
     placement: 'Overlay — centered, above all content with a backdrop.',
-    autoRender: true,
+    autoRender: false,
   },
   {
     name: 'Floater',
