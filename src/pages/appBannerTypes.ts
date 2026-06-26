@@ -65,6 +65,6 @@ export const BANNER_TYPES: BannerType[] = [
       'A compact, persistent element that floats over a corner of the screen and stays visible as the user scrolls. Non-blocking — the user can keep working with it on screen.',
     bestFor: 'A persistent, low-friction nudge — a tip, link, or reminder that should linger.',
     placement: 'Fixed — pinned to a viewport corner, follows scroll.',
-    autoRender: true,
+    autoRender: false,
   },
 ];
