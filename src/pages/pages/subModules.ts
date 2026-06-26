@@ -7,6 +7,7 @@ import type { SubModule } from '../../components/DocLayout';
 export const PAGES_SUBMODULES: SubModule[] = [
   { to: '/pages/fetch-pages', label: 'Fetch Pages' },
   { to: '/pages/template-variables', label: 'Create a Template' },
+  { to: '/pages/external-sections', label: 'External Sections' },
   { to: '/pages/editor-css', label: 'Editor Block CSS' },
 ];
 

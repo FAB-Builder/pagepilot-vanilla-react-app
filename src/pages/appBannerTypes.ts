@@ -54,7 +54,7 @@ export const BANNER_TYPES: BannerType[] = [
       'Opens as a dialog on top of your app with a backdrop, taking over the screen until the user acts or dismisses it. The highest-attention option — use it sparingly.',
     bestFor: 'A high-priority announcement or a call-to-action you do not want missed.',
     placement: 'Overlay — centered, above all content with a backdrop.',
-    autoRender: false,
+    autoRender: true,
   },
   {
     name: 'Floater',
@@ -65,6 +65,6 @@ export const BANNER_TYPES: BannerType[] = [
       'A compact, persistent element that floats over a corner of the screen and stays visible as the user scrolls. Non-blocking — the user can keep working with it on screen.',
     bestFor: 'A persistent, low-friction nudge — a tip, link, or reminder that should linger.',
     placement: 'Fixed — pinned to a viewport corner, follows scroll.',
-    autoRender: false,
+    autoRender: true,
   },
 ];

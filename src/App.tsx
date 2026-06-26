@@ -7,6 +7,7 @@ import Tooltips from './pages/Tooltips';
 import FetchPages from './pages/pages/fetch-pages';
 import TemplateVariables from './pages/pages/template-variables';
 import EditorCss from './pages/pages/editor-css';
+import ExternalSections from './pages/pages/external-sections';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
 import Webinar from './pages/webinar';
@@ -52,6 +53,7 @@ function App() {
         <Route path="pages/fetch-pages" element={<FetchPages />} />
         <Route path="pages/template-variables" element={<TemplateVariables />} />
         <Route path="pages/editor-css" element={<EditorCss />} />
+        <Route path="pages/external-sections" element={<ExternalSections />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
         <Route path="webinar" element={<Webinar />} />
         <Route path="forms" element={<Forms />} />
