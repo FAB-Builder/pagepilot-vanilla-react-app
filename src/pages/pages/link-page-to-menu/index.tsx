@@ -5,9 +5,11 @@ import { PAGES_SUBMODULES } from '../subModules';
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'create-page', label: '1. Create a page' },
-  { id: 'publish-page', label: '2. Publish the page' },
-  { id: 'link-to-menu', label: '3. Link to a menu' },
-  { id: 'verify', label: '4. Verify the link' },
+  { id: 'design-page', label: '2. Design your page' },
+  { id: 'publish-page', label: '3. Publish the page' },
+  { id: 'link-to-menu', label: '4. Link to a menu' },
+  { id: 'verify', label: '5. Verify & manage' },
+  { id: 'tips', label: 'Tips & things to know' },
 ];
 
 export default function LinkPageToMenu() {
@@ -24,155 +26,315 @@ export default function LinkPageToMenu() {
             Link a Page to a Menu
           </h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
-            Once you've built a page in the Page Pilot editor, you can publish it and immediately
-            connect it to one or more navigation menus — all from a single dialog, without leaving
-            the editor.
+            Build a page, publish it, and make it reachable from your site's navigation — all
+            without leaving the editor. This guide walks you through every step, from naming your
+            page to seeing it appear as a clickable menu item.
           </p>
         </header>
 
+        {/* ---------------------------------------------------------------- */}
         <Section id="overview" title="Overview">
           <p>
-            Linking a page to a menu means users can reach it through your site's navigation
-            without any extra steps. The flow is:
+            Think of a page and a menu item as two separate things that need to know about each
+            other. The <strong>page</strong> holds the content (text, images, blocks). The{' '}
+            <strong>menu item</strong> is just a link in your navigation that points visitors to
+            that page. Page Pilot lets you create both in one flow.
           </p>
-          <ol className="my-4 list-decimal space-y-2 pl-6 text-sm text-slate-600">
+          <p>Here's the full journey at a glance:</p>
+          <ol className="my-4 space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             <li>
-              <strong className="text-ink">Create a page</strong> — give it a name, slug, and
-              optional group.
+              <strong className="text-ink">1. Create a page</strong> — give it a name, a URL slug,
+              and optional grouping. This is the identity of your page.
             </li>
             <li>
-              <strong className="text-ink">Design and publish</strong> — open the Publish dialog,
-              fill in the Basic Info tab, then publish.
+              <strong className="text-ink">2. Design your page</strong> — use the editor to add
+              text, images, buttons, and more. You can skip this for now and come back.
             </li>
             <li>
-              <strong className="text-ink">Add to a menu</strong> — on the Menu &amp; Links tab,
-              pick the menu(s) and confirm the item name, then save.
+              <strong className="text-ink">3. Publish the page</strong> — open the Publish dialog,
+              click Publish. The page goes live on its URL.
             </li>
             <li>
-              <strong className="text-ink">Verify</strong> — re-open the dialog to confirm the
-              page now appears in the linked menus list.
+              <strong className="text-ink">4. Link to a menu</strong> — inside the same Publish
+              dialog, switch to the Menu &amp; Links tab, pick your menu, and click Add to Menu.
+              The navigation link is created instantly.
+            </li>
+            <li>
+              <strong className="text-ink">5. Verify</strong> — confirm the page now shows up in
+              the linked menus list, and open the menu editor if you need to reorder or nest it.
             </li>
           </ol>
+          <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
+            <strong className="text-ink">Good to know:</strong> The Publish dialog stays open after
+            you publish, so you can switch to the Menu &amp; Links tab right away — no need to
+            reopen anything.
+          </div>
         </Section>
 
+        {/* ---------------------------------------------------------------- */}
         <Section id="create-page" title="1. Create a page">
           <p>
-            Click <strong>New Page</strong> from the Pages list. The{' '}
-            <strong>Set Page Details</strong> dialog opens.
+            Every page starts with a name and a slug. Think of the name as the internal label
+            you'll see in the Pages list, and the slug as the address people visit in their
+            browser (e.g. <em>yoursite.com/about-us</em>).
           </p>
-          <ul className="my-4 list-disc space-y-3 pl-6 text-sm text-slate-600">
+
+          <p className="mt-4 font-semibold text-ink">How to open the dialog</p>
+          <ol className="my-3 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             <li>
-              <strong className="text-ink">Name</strong> — the internal label shown in the Pages
-              list (e.g. <em>About Us</em>). Required.
+              <strong className="text-ink">1.</strong> Go to the <strong>Pages</strong> section
+              from the main sidebar.
             </li>
             <li>
-              <strong className="text-ink">Slug</strong> — the URL path for the page
-              (e.g. <em>about-us</em>). Auto-generated from the name; edit it if you need a
-              custom path. The slug must be unique across your workspace.
+              <strong className="text-ink">2.</strong> Click <strong>New Page</strong> (top-right
+              corner). The <strong>Set Page Details</strong> dialog opens.
             </li>
-            <li>
-              <strong className="text-ink">Alternative Slug</strong> — click{' '}
-              <em>+ Add Alternative Slug</em> to add redirect aliases that also point to this
-              page.
+          </ol>
+
+          <p className="mt-4 font-semibold text-ink">Fill in the details</p>
+          <ul className="my-3 space-y-4 text-sm text-slate-600">
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">Name <span className="font-normal text-red-500">*</span></p>
+              <p className="mt-1">
+                The internal label shown in your Pages list — only your team sees this. Keep it
+                descriptive so you can find the page later. Example: <em>About Us</em>,{' '}
+                <em>Pricing Page Q3</em>, <em>Blog – Getting Started</em>.
+              </p>
             </li>
-            <li>
-              <strong className="text-ink">Assign</strong> — optionally assign the page to a team
-              member for ownership tracking.
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">Slug <span className="font-normal text-red-500">*</span></p>
+              <p className="mt-1">
+                The URL path visitors will use to reach this page. Page Pilot auto-generates it
+                from the name (spaces become hyphens, everything lowercased), but you can edit it
+                freely. <em>about-us</em> → the page lives at <em>yoursite.com/about-us</em>.
+              </p>
+              <p className="mt-2 text-slate-500">
+                The slug must be unique — no two pages in your workspace can share the same slug.
+                If you try to save a duplicate, you'll see a warning.
+              </p>
             </li>
-            <li>
-              <strong className="text-ink">Groups</strong> — assign the page to one or more groups
-              so it can be filtered in lists and fetched by group via the API.
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">+ Add Alternative Slug</p>
+              <p className="mt-1">
+                Optional. Click this link to add extra aliases that also point to the same page.
+                Useful when you rename a slug but want the old URL to keep working without
+                breaking links.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">Assign</p>
+              <p className="mt-1">
+                Optional. Assign the page to a specific team member so everyone knows who owns
+                it. This is just for internal tracking — it has no effect on the live page.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">Groups</p>
+              <p className="mt-1">
+                Optional. Put the page into one or more groups (e.g. <em>Blog</em>,{' '}
+                <em>Landing Pages</em>, <em>Help Center</em>). Groups let you filter pages in the
+                dashboard and fetch a whole category of pages at once via the API.
+              </p>
             </li>
           </ul>
-          <p>
-            Click <strong>Next</strong> when done. The editor opens with a blank canvas (or a
-            template if you selected one).
+
+          <p className="mt-2">
+            Click <strong>Next</strong> when you're happy with the details. The editor opens
+            on a blank canvas, ready for you to design.
           </p>
         </Section>
 
-        <Section id="publish-page" title="2. Publish the page">
+        {/* ---------------------------------------------------------------- */}
+        <Section id="design-page" title="2. Design your page">
           <p>
-            Click the <strong>Publish</strong> button at the top-right of the editor. The{' '}
-            <strong>Publish Page</strong> dialog opens with three tabs.
+            The canvas is where you build what visitors will actually see. You can add text
+            blocks, headings, images, buttons, videos, carousels, accordions — anything from the
+            block library on the left sidebar.
           </p>
-
-          <h3 className="mt-5 mb-2 font-semibold text-ink">Basic Info tab</h3>
-          <p>Fill in the publication metadata:</p>
-          <ul className="my-3 list-disc space-y-3 pl-6 text-sm text-slate-600">
-            <li>
-              <strong className="text-ink">Name</strong> — the public-facing page title shown in
-              search results and meta tags.
-            </li>
-            <li>
-              <strong className="text-ink">Slug</strong> — pre-filled from the page slug set in
-              step 1. Edit here if you need to change the live URL.
-            </li>
-            <li>
-              <strong className="text-ink">Publish date</strong> — set a date and time to schedule
-              publication, or leave it blank to publish immediately.
-            </li>
-            <li>
-              <strong className="text-ink">All time live</strong> — toggle on to keep the page
-              live indefinitely (no expiry).
-            </li>
-          </ul>
           <p>
-            Click <strong>Publish</strong> (or <strong>Save Draft</strong> to save without going
-            live). The page is now accessible at its slug URL.
+            You don't have to finish the design before publishing. It's perfectly fine to publish
+            a page with placeholder content, then come back and refine it. The important thing at
+            this stage is that the page exists so you can link it to a menu.
           </p>
+          <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
+            <strong className="text-ink">Tip:</strong> If you already have a saved template that
+            matches this page's purpose, apply it from the <strong>Saved Templates</strong> panel
+            to get a head start — then just swap out the content.
+          </div>
         </Section>
 
-        <Section id="link-to-menu" title="3. Link to a menu">
+        {/* ---------------------------------------------------------------- */}
+        <Section id="publish-page" title="3. Publish the page">
           <p>
-            Switch to the <strong>Menu &amp; Links</strong> tab in the same Publish dialog (you
-            can do this before or after clicking Publish — the dialog stays open).
+            Publishing makes the page live so anyone with the URL can visit it. Until you publish,
+            the page exists only in the editor and isn't accessible on the web.
           </p>
 
-          <h3 className="mt-5 mb-2 font-semibold text-ink">Existing menu links</h3>
-          <p>
-            The tab automatically searches for any menus that already reference this page's slug.
-            If the page appears in menus, they're listed here. Click the{' '}
-            <strong>edit icon</strong> next to a menu name to open its editor in a new tab and
-            adjust the item's label, order, or children.
-          </p>
+          <p className="mt-4 font-semibold text-ink">Open the Publish dialog</p>
+          <ol className="my-3 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+            <li>
+              <strong className="text-ink">1.</strong> Click the <strong>Publish</strong> button in
+              the top-right corner of the editor.
+            </li>
+            <li>
+              <strong className="text-ink">2.</strong> The <strong>Publish Page</strong> dialog
+              opens. You'll see three tabs at the top:{' '}
+              <strong>Basic Info</strong>, <strong>Menu &amp; Links</strong>, and{' '}
+              <strong>Scripts &amp; Styles</strong>. You're on Basic Info by default — you only
+              need to fill this tab to publish. The other tabs are optional extras.
+            </li>
+          </ol>
 
-          <h3 className="mt-5 mb-2 font-semibold text-ink">Add to a menu</h3>
-          <p>Use the <strong>Add to Menu</strong> form below the list:</p>
-          <ul className="my-3 list-disc space-y-3 pl-6 text-sm text-slate-600">
-            <li>
-              <strong className="text-ink">Select Menu</strong> — pick one or more menus from the
-              dropdown. All menus in your workspace are listed. You can add the page to multiple
-              menus at once.
-            </li>
-            <li>
-              <strong className="text-ink">Menu Item Name</strong> — the label that appears in the
-              navigation (e.g. <em>About Us</em>). Pre-filled with the page name; change it to
-              anything you like.
-            </li>
-          </ul>
-          <p>
-            Click <strong>Add to Menu</strong>. A new menu item is created in each selected menu,
-            with its link (href) set to the page's slug automatically. No further configuration is
-            needed in the Menu editor for a basic link.
+          <p className="mt-2">
+            When you're ready, click <strong>Publish</strong> at the bottom of the dialog. The
+            page is now live. If you aren't ready to go live yet, click{' '}
+            <strong>Save Draft</strong> to save your settings without publishing — you can come
+            back and publish later.
           </p>
+          <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
+            <strong className="text-ink">Remember:</strong> The dialog does <em>not</em> close
+            after you publish. Stay in it and move straight to the next step.
+          </div>
         </Section>
 
-        <Section id="verify" title="4. Verify the link">
+        {/* ---------------------------------------------------------------- */}
+        <Section id="link-to-menu" title="4. Link to a menu">
+          <p>
+            Now switch to the <strong>Menu &amp; Links</strong> tab (the second tab at the top
+            of the dialog). This is where you connect your page to your site's navigation.
+          </p>
+
+          <p className="mt-5 font-semibold text-ink">What you'll see first — existing links</p>
+          <p>
+            When you open this tab, Page Pilot automatically looks up all menus that already
+            contain a link pointing to this page's slug. If any are found, they appear as a list
+            here — each showing the menu name with a small edit icon on the right.
+          </p>
+          <ul className="my-3 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+            <li>
+              <strong className="text-ink">If you see menus listed</strong> — this page is already
+              part of those menus. You can click the edit icon to open the menu editor in a new
+              browser tab and manage the item there.
+            </li>
+            <li>
+              <strong className="text-ink">If the list is empty</strong> — no menus link to this
+              page yet. That's completely normal for a freshly created page. Use the form below to
+              add it now.
+            </li>
+          </ul>
+
+          <p className="mt-5 font-semibold text-ink">Add to a menu — step by step</p>
+          <ol className="my-3 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+            <li>
+              <strong className="text-ink">1. Select Menu</strong> — click the dropdown and choose
+              one or more menus you want this page to appear in. All menus in your workspace are
+              listed. You can select multiple at once — for example, add the page to both the
+              main header navigation and the footer in one go.
+            </li>
+            <li>
+              <strong className="text-ink">2. Menu Item Name</strong> — this is the label that
+              visitors will read in the navigation. It's pre-filled with the page name, but you
+              can change it to anything. Example: the page name might be{' '}
+              <em>Pricing Page Q3 (Internal)</em> but you want the menu label to just say{' '}
+              <em>Pricing</em>.
+            </li>
+            <li>
+              <strong className="text-ink">3. Click "Add to Menu"</strong> — Page Pilot creates a
+              new menu item in each selected menu. The item's link (href) is set to this page's
+              slug automatically — you don't need to type a URL.
+            </li>
+          </ol>
+
+          <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
+            <strong className="text-ink">What happens behind the scenes:</strong> Page Pilot finds
+            each selected menu, appends a new item to its list with your chosen name and the
+            page's slug as the href, and saves the menu. The whole thing happens in one click.
+          </div>
+        </Section>
+
+        {/* ---------------------------------------------------------------- */}
+        <Section id="verify" title="5. Verify & manage">
           <p>
             After clicking <strong>Add to Menu</strong>, the linked menus list at the top of the
-            tab refreshes. You should see the newly added menus appear there, confirming the item
-            was created successfully.
+            tab automatically refreshes. The menus you just added should now appear in the list —
+            that's your confirmation that it worked.
           </p>
+
+          <p className="mt-4 font-semibold text-ink">Check the menu item in the editor</p>
           <p>
-            To double-check, click the edit icon next to any listed menu. The Menu editor opens
-            in a new tab showing the full item tree — your page's item should be visible at the
-            bottom of the list.
+            Click the <strong>edit icon</strong> next to any menu in the list. The Menu editor
+            opens in a new browser tab showing the full tree of that menu. Scroll to the bottom
+            — you should see your new item there.
           </p>
+
+          <p className="mt-4 font-semibold text-ink">Reorder or nest the item</p>
           <p>
-            If you need to change the item's position in the menu (reorder it or nest it under a
-            parent), do that from the Menu editor directly. The Publish dialog only creates the
-            item — full menu management happens in the Menus module.
+            The Publish dialog only <em>creates</em> the menu item at the bottom of the list. If
+            you need to move it to a different position — or nest it under a parent item (e.g.
+            under a "Company" dropdown) — do that inside the Menu editor. Drag and drop items to
+            reorder them, or indent them to create a nested structure.
           </p>
+
+          <p className="mt-4 font-semibold text-ink">Edit the item name later</p>
+          <p>
+            If you want to rename the navigation label after the fact, open the Menu editor from
+            the edit icon, find the item, and update its name there. Changes to the menu item name
+            do not affect the page's internal name or its slug.
+          </p>
+
+          <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
+            <strong className="text-ink">Result:</strong> Your page is live and linked. Visitors
+            who click the menu item in your navigation will land on the published page.
+          </div>
+        </Section>
+
+        {/* ---------------------------------------------------------------- */}
+        <Section id="tips" title="Tips & things to know">
+          <ul className="space-y-4 text-sm text-slate-600">
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">You can add a page to multiple menus at once</p>
+              <p className="mt-1">
+                The menu selector supports multi-select. Pick your header menu and footer menu at
+                the same time and click Add to Menu once — both are updated in a single action.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">The menu item name and the page name are independent</p>
+              <p className="mt-1">
+                The page name (internal label), the public name (shown in the browser tab), and
+                the menu item name are all separate. You can have a page named{' '}
+                <em>Pricing v2 Experiment</em> internally, published as <em>Pricing</em> publicly,
+                with the menu label reading <em>Plans &amp; Pricing</em> — they don't need to
+                match.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">Changing the slug breaks existing menu links</p>
+              <p className="mt-1">
+                If you update a page's slug after it's already linked to a menu, the menu item
+                will still point to the old slug. You'll need to update the href in the Menu editor
+                manually, or add the old slug as an Alternative Slug on the page to keep both
+                URLs working.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">You can link a draft page to a menu</p>
+              <p className="mt-1">
+                The Menu &amp; Links tab works even if you clicked <strong>Save Draft</strong>
+                instead of Publish. The menu item will be created, but clicking it will lead to a
+                page that isn't live yet — so link draft pages to menus only when you're close to
+                publishing.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">Full menu management lives in the Menus module</p>
+              <p className="mt-1">
+                The Publish dialog is designed for quickly creating a new item. For anything more
+                advanced — reordering, nesting, renaming existing items, or removing items — use
+                the <strong>Menus</strong> section in the main sidebar.
+              </p>
+            </li>
+          </ul>
         </Section>
       </article>
     </DocLayout>
