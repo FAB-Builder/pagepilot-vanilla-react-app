@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react';
-import { AHD_API_HOST, DEMO_APPLICATION_ID } from '../lib/ahd';
+import {  DEMO_APPLICATION_ID } from '../lib/ahd';
 import DocLayout, { type DocSection } from '../components/DocLayout';
 import DemoBlock from '../components/DemoBlock';
 import ApiTable from '../components/ApiTable';
