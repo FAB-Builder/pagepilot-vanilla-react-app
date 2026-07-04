@@ -20,7 +20,6 @@ const SECTIONS: DocSection[] = [
   { id: 'device-language', label: 'Device & Language' },
   { id: 'scheduling', label: 'Scheduling' },
   { id: 'styling', label: 'Step styling' },
-  { id: 'api', label: 'API reference' },
 ];
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
@@ -298,30 +297,6 @@ function Demos() {
           />
         </Section>
 
-        <Section id="api" title="API reference">
-          <p className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-            The SDK is <strong>not required</strong> for demos. Use the share link or embed code
-            instead. The methods below are only relevant if you want to trigger a demo
-            programmatically from your own code.
-          </p>
-          <h3 className="mb-2 mt-4 text-base font-semibold text-ink">Constructor options</h3>
-          <ApiTable
-            rows={[
-              { property: 'applicationId', description: 'Your PagePilot application ID.', type: 'string' },
-              { property: 'apiHost', description: 'PagePilot API host.', type: 'string', default: `'${AHD_API_HOST}'` },
-              { property: 'visitorId', description: 'Per-visitor identifier used for analytics tracking.', type: 'string' },
-              { property: 'showProgressbar', description: 'Show a progress bar across demo steps.', type: 'boolean', default: 'false' },
-            ]}
-          />
-          <h3 className="mb-2 mt-6 text-base font-semibold text-ink">Methods</h3>
-          <ApiTable
-            rows={[
-              { property: 'initializeSiteMap(refetch)', description: 'Fetches published content. Call once before showHighlights.', type: '(refetch: boolean) => Promise<void>' },
-              { property: 'showHighlights(slug, refetch)', description: 'Starts the demo programmatically.', type: '(slug: string, refetch: boolean) => Promise<void>' },
-              { property: 'stop()', description: 'Stops the running demo and removes it from the DOM.', type: '() => void' },
-            ]}
-          />
-        </Section>
       </article>
     </DocLayout>
   );
