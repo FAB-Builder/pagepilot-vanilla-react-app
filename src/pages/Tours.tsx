@@ -202,7 +202,7 @@ function Tours() {
           <p id="integration-text">
             Integrating a tour takes three things: install the SDK, create the client once, then
             call <Code id="integration-method">showHighlights(slug, true)</Code> for the page you
-            want the tour to run on. Pick the path that matches your stack below.
+            want the tour to run on.
           </p>
 
           <ol
@@ -211,8 +211,7 @@ function Tours() {
           >
             <li>
               <strong className="text-ink">1. Install</strong> — add the package with{' '}
-              <Code id="integration-step-install">npm install ahdjs</Code> (or load it from a CDN
-              via a script tag).
+              <Code id="integration-step-install">npm install ahdjs</Code>.
             </li>
             <li>
               <strong className="text-ink">2. Configure</strong> — create the client with your{' '}
@@ -244,20 +243,6 @@ function Tours() {
               </>
             }
             code={BASIC_CODE}
-          />
-
-          <h3 id="integration-script-heading" className="mt-6 text-base font-semibold text-ink">
-            Plain HTML (script tag)
-          </h3>
-          <p id="integration-script-text" className="text-sm text-slate-600">
-            No build step. Drop this into the <Code id="integration-head">&lt;head&gt;</Code> of any
-            page where the tour should be available.
-          </p>
-          <DemoBlock
-            title="CDN script tag"
-            description="Loads AHDjs from unpkg and runs on page load."
-            code={SCRIPT_TAG_CODE}
-            language="html"
           />
         </Section>
 
@@ -562,21 +547,5 @@ const ahdJs = AHDjs(undefined, {
 
 await ahdJs.initializeSiteMap(false);
 await ahdJs.showHighlights('${TOUR_SLUG}', true);`;
-
-const SCRIPT_TAG_CODE = `<link rel="stylesheet" href="https://unpkg.com/ahdjs/build/css/index.css" />
-<script type="text/javascript" src="https://unpkg.com/ahdjs/build/index.js"></script>
-<script>
-  const AHDjs = window.AHDjs.default;
-  const _ahdJs = new AHDjs(undefined, {
-    applicationId: 'YOUR_APPLICATION_ID',
-    apiHost: '${AHD_API_HOST}',
-    // visitorId: the current logged-in user's ID from your platform.
-    // Pass your own user identifier so PagePilot can track per-user progress.
-    visitorId: currentUser.id,
-    showProgressbar: false,
-  });
-  _ahdJs.initializeSiteMap();
-  _ahdJs.showHighlights('${TOUR_SLUG}', true);
-</script>`;
 
 export default Tours;

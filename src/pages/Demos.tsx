@@ -132,14 +132,14 @@ function Demos() {
 
           <h3 className="mt-6 text-base font-semibold text-ink">Embed (iframe)</h3>
           <p className="text-sm">
-            Drop this snippet into any HTML page to render the demo inline. Copy it from the{' '}
+            Drop this snippet into your app to render the demo inline. Copy the values from the{' '}
             <strong>Embed Demo</strong> tab in the integration dialog.
           </p>
+
           <DemoBlock
-            title="Embed code"
-            description="Paste into any HTML page — no SDK needed."
+            title="Embed component"
+            description="Drop this component anywhere in your React tree — no SDK needed."
             code={EMBED_CODE}
-            language="html"
           />
           <p className="text-sm text-slate-600">
             Replace <Code>YOUR_TENANT_ID</Code> and <Code>YOUR_DEMO_ID</Code> with the values shown
@@ -172,7 +172,7 @@ function Demos() {
             title="Embed with conditional visibility"
             description="The wrapper is hidden until the viewer confirms the demo is live."
             code={VISIBILITY_EMBED_CODE}
-            language="html"
+            language="tsx"
           />
 
           <h3 className="mt-6 text-base font-semibold text-ink">postMessage event reference</h3>
@@ -328,60 +328,70 @@ Detect my framework (React, Next.js, Vue, plain HTML, etc.) and produce the embe
 
 const SHARE_LINK = `https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live`;
 
-const EMBED_CODE = `<div style="position:relative;padding-bottom:calc(54.75% + 25px);width:100%;height:0;">
-  <iframe
-    loading="lazy"
-    src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live"
-    style="position:absolute;top:0;left:0;width:100%;height:100%;"
-    frameborder="0"
-    allowfullscreen
-  ></iframe>
-</div>`;
+const EMBED_CODE = `export default function PagePilotDemo() {
+  return (
+    <div style={{ position: 'relative', paddingBottom: 'calc(54.75% + 25px)', width: '100%', height: 0 }}>
+      <iframe
+        loading="lazy"
+        src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live"
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+        frameBorder="0"
+        allowFullScreen
+      />
+    </div>
+  );
+}`;
 
-const VISIBILITY_EMBED_CODE = `<div
-  id="demo-wrapper"
-  style="
-    visibility: hidden;
-    position: relative;
-    padding-bottom: calc(54.75% + 25px);
-    width: 100%;
-    height: 0;
-    margin-top: 40px;
-  "
->
-  <iframe
-    id="demo-iframe"
-    loading="lazy"
-    src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TID&did=YOUR_DID&type=demo"
-    allow="fullscreen"
-    style="
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 1px solid rgba(63, 95, 172, 0.35);
-      box-shadow: 0px 0px 18px rgba(26, 19, 72, 0.15);
-      border-radius: 10px;
-      box-sizing: border-box;
-    "
-  ></iframe>
-</div>
+const VISIBILITY_EMBED_CODE = `import { useEffect, useState } from 'react';
 
-<script>
-  window.addEventListener('message', function (event) {
-    var msg = event.data;
-    if (!msg || msg.source !== 'pagepilot-demo-viewer') return;
+export default function PagePilotDemo() {
+  const [status, setStatus] = useState(null); // null | 'live' | 'draft'
 
-    if (msg.type === 'DEMO_STATUS') {
-      var wrapper = document.getElementById('demo-wrapper');
-      if (msg.status === 'live') {
-        wrapper.style.visibility = 'visible';
-      } else {
-        wrapper.style.display = 'none';
+  useEffect(() => {
+    function handleMessage(event) {
+      const msg = event.data;
+      if (!msg || msg.source !== 'pagepilot-demo-viewer') return;
+
+      if (msg.type === 'DEMO_STATUS') {
+        setStatus(msg.status);
       }
     }
-  });
-</script>`;
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
+  if (status === 'draft') return null;
+
+  return (
+    <div
+      style={{
+        visibility: status === 'live' ? 'visible' : 'hidden',
+        position: 'relative',
+        paddingBottom: 'calc(54.75% + 25px)',
+        width: '100%',
+        height: 0,
+        marginTop: 40,
+      }}
+    >
+      <iframe
+        loading="lazy"
+        src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TID&did=YOUR_DID&type=demo"
+        allow="fullscreen"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          border: '1px solid rgba(63, 95, 172, 0.35)',
+          boxShadow: '0px 0px 18px rgba(26, 19, 72, 0.15)',
+          borderRadius: 10,
+          boxSizing: 'border-box',
+        }}
+      />
+    </div>
+  );
+}`;
 
 export default Demos;
