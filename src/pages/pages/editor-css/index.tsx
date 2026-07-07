@@ -94,7 +94,6 @@ export default function EditorCss() {
             indent classes that need <Code>quill.snow.css</Code> to render.
           </p>
 
-          <p className="mt-4 font-semibold text-ink">Option A — npm (bundlers: Vite, Webpack, Next.js)</p>
           <p>Install Quill and import its snow stylesheet once, near your app entry:</p>
           <div className="my-3">
             <CodeSnippet language="bash" code={`npm install quill`} />
@@ -108,23 +107,9 @@ import 'quill/dist/quill.snow.css';`}
           </div>
           <p className="text-sm text-slate-600">
             Using <Code>react-quill</Code>? The same file is re-exported at{' '}
-            <Code>react-quill/dist/quill.snow.css</Code>.
-          </p>
-
-          <p className="mt-5 font-semibold text-ink">Option B — CDN (plain HTML, no bundler)</p>
-          <p>Drop the stylesheet link into your page <Code>&lt;head&gt;</Code>:</p>
-          <div className="my-3">
-            <CodeSnippet
-              language="html"
-              code={`<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/[email protected]/dist/quill.snow.css"
-/>`}
-            />
-          </div>
-          <p className="text-sm text-slate-600">
-            Page Pilot's Rich Text block is built on <strong>Quill 1.3.x</strong>, so pin the
-            CSS to a 1.x version (e.g. <Code>1.3.7</Code>) to match the markup exactly.
+            <Code>react-quill/dist/quill.snow.css</Code>. Page Pilot's Rich Text block is built
+            on <strong>Quill 1.3.x</strong>, so pin the CSS to a 1.x version (e.g.{' '}
+            <Code>1.3.7</Code>) to match the markup exactly.
           </p>
         </Section>
 
@@ -135,7 +120,6 @@ import 'quill/dist/quill.snow.css';`}
             blockquotes).
           </p>
 
-          <p className="mt-4 font-semibold text-ink">npm (bundlers)</p>
           <div className="my-3">
             <CodeSnippet language="bash" code={`npm install @mdxeditor/editor`} />
           </div>
@@ -144,21 +128,6 @@ import 'quill/dist/quill.snow.css';`}
               language="ts"
               code={`// e.g. in src/main.tsx / App entry
 import '@mdxeditor/editor/style.css';`}
-            />
-          </div>
-
-          <p className="mt-4 font-semibold text-ink">CDN (plain HTML)</p>
-          <p>
-            The published stylesheet is served from the package's <Code>dist</Code> on any npm
-            CDN:
-          </p>
-          <div className="my-3">
-            <CodeSnippet
-              language="html"
-              code={`<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@mdxeditor/[email protected]/dist/style.css"
-/>`}
             />
           </div>
           <p className="text-sm text-slate-600">
@@ -175,17 +144,9 @@ import '@mdxeditor/editor/style.css';`}
           <div className="my-3">
             <CodeSnippet
               language="ts"
-              code={`// Bundler — import once at your app entry
+              code={`// Import once at your app entry
 import 'quill/dist/quill.snow.css';
 import '@mdxeditor/editor/style.css';`}
-            />
-          </div>
-          <div className="my-3">
-            <CodeSnippet
-              language="html"
-              code={`<!-- Plain HTML — add both to <head> -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/[email protected]/dist/quill.snow.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdxeditor/[email protected]/dist/style.css" />`}
             />
           </div>
         </Section>
@@ -203,8 +164,7 @@ import '@mdxeditor/editor/style.css';`}
             </li>
             <li>
               <strong>Import works locally but breaks the build</strong> — make sure your
-              bundler handles CSS imports (Vite/Next/Webpack do by default), or switch to the
-              CDN <Code>&lt;link&gt;</Code> approach.
+              bundler handles CSS imports (Vite/Next/Webpack do by default).
             </li>
             <li>
               <strong>Version mismatch</strong> — pin the CSS to the major version Page Pilot

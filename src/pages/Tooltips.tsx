@@ -216,8 +216,7 @@ function Tooltips() {
           >
             <li>
               <strong className="text-ink">1. Install</strong> — add the package with{' '}
-              <Code id="integration-step-install">npm install ahdjs</Code> (or load it from a CDN
-              via a script tag).
+              <Code id="integration-step-install">npm install ahdjs</Code>.
             </li>
             <li>
               <strong className="text-ink">2. Configure</strong> — create the client with your{' '}
@@ -244,20 +243,6 @@ function Tooltips() {
             title="Initialize and load tooltips"
             description="Runs once when the component mounts; cleans up on unmount."
             code={BASIC_CODE}
-          />
-
-          <h3 id="integration-script-heading" className="mt-6 text-base font-semibold text-ink">
-            Plain HTML (script tag)
-          </h3>
-          <p id="integration-script-text" className="text-sm text-slate-600">
-            No build step. Drop this into the <Code id="integration-head">&lt;head&gt;</Code> of any
-            page where the tooltips should appear.
-          </p>
-          <DemoBlock
-            title="CDN script tag"
-            description="Loads AHDjs from unpkg and registers tooltips on page load."
-            code={SCRIPT_TAG_CODE}
-            language="html"
           />
         </Section>
 
@@ -738,18 +723,5 @@ export function useTooltips(slug) {
 
 // Usage: call it on the page where the tooltips are published.
 // useTooltips('${TOOLTIP_SLUG}');`;
-
-const SCRIPT_TAG_CODE = `<link rel="stylesheet" href="https://unpkg.com/ahdjs/build/css/index.css" />
-<script type="text/javascript" src="https://unpkg.com/ahdjs/build/index.js"></script>
-<script>
-  const AHDjs = window.AHDjs.default;
-  const _ahdJs = new AHDjs(undefined, {
-    applicationId: '${DEMO_APPLICATION_ID}',
-    apiHost: '${AHD_API_HOST}',
-    visitorId: 'visitor-id',
-  });
-  _ahdJs.initializeSiteMap();
-  _ahdJs.showHighlights('${TOOLTIP_SLUG}', true);
-</script>`;
 
 export default Tooltips;
