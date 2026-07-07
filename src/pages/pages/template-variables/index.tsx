@@ -13,9 +13,11 @@ const SECTIONS: DocSection[] = [
   { id: 'step-number-field', label: '4. Add a number variable' },
   { id: 'step-textarea-field', label: '5. Add a long-text variable' },
   { id: 'step-repeat', label: '6. Add repeatable blocks' },
-  { id: 'default-values', label: '7. Default values' },
-  { id: 'using-variables', label: '8. Filling in variables' },
-  { id: 'auto-cleanup', label: '9. Variables & the canvas stay in sync' },
+  { id: 'repeatable-containers', label: '7. Repeat across a grid/columns' },
+  { id: 'data-reference', label: '8. Data Reference (JSON / API / Menu)' },
+  { id: 'default-values', label: '9. Default values' },
+  { id: 'using-variables', label: '10. Filling in variables' },
+  { id: 'auto-cleanup', label: '11. Variables & the canvas stay in sync' },
   { id: 'field-reference', label: 'Field type reference' },
   { id: 'tips', label: 'Tips & common questions' },
 ];
@@ -464,7 +466,186 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="default-values" title="7. Default values — pre-fill for a better start">
+        <Section id="repeatable-containers" title="7. Repeat a template across a grid or columns">
+          <p>
+            Section 6 showed how to repeat <em>one</em> block. But often you want a whole{' '}
+            <strong>grid or column layout</strong> where every cell holds the same design — a 3×2
+            grid of testimonial cards, a row of pricing columns, a gallery of feature tiles. Instead
+            of building each cell by hand, you build one, then stamp it into all the empty cells.
+          </p>
+          <p>
+            This works with three layout blocks: <strong>Grid</strong>,{' '}
+            <strong>Flex Columns</strong>, and <strong>Columns Container</strong>. Selecting any of
+            them automatically opens the <strong>Variables</strong> tab and shows a{' '}
+            <strong>Repeatable</strong> section scoped to that block.
+          </p>
+
+          <Steps>
+            <Step n={1} title="Drop a Grid / Flex Columns / Columns Container on the canvas">
+              Or click an existing one. The Variables tab opens with the Repeatable controls for
+              that block.
+            </Step>
+            <Step n={2} title="Turn Repeatable on">
+              This reveals the template controls for the block.
+            </Step>
+            <Step n={3} title="Choose Template → pick a design for the first slot">
+              The Section Gallery opens. The template you pick lands in the container's{' '}
+              <strong>first empty slot</strong> (cell 1 / column 1). If that template has{' '}
+              <Token>{'{{this.}}'}</Token> tokens, they become editable rows just like a normal
+              array field.
+            </Step>
+            <Step n={4} title="Repeat ×N → fill the remaining empty slots">
+              Choose how many copies (capped at the number of empty slots) and click{' '}
+              <strong>Repeat</strong>. Page Pilot clones the first slot's design into the next empty
+              slots. Each copy is fully independent — its own text, its own values.
+            </Step>
+            <Step n={5} title="Style cell 1, then Sync Styles to Copies">
+              Restyle the first cell however you like — colors, font size, bold. Then click{' '}
+              <strong>Sync Styles to Copies</strong> and that styling is pushed to every copy{' '}
+              <em>while keeping each copy's own text</em>.
+            </Step>
+          </Steps>
+
+          <Callout variant="warning" title="Repeat only fills empty slots">
+            Repeat never grows the container on its own. If every cell is already full, add more
+            cells or columns (in the Inspect tab) first, then Repeat again. When there are no empty
+            slots the panel tells you.
+          </Callout>
+          <Callout variant="tip" title="Sync carries styling only, never text">
+            <strong>Sync Styles to Copies</strong> copies both the block styling (background,
+            padding) <em>and</em> the token formatting (a color you applied to{' '}
+            <Token>{'{{this.description}}'}</Token> in cell 1). It never overwrites the words each
+            copy contains — only how they look.
+          </Callout>
+        </Section>
+
+        {/* ---------------------------------------------------------------- */}
+        <Section id="data-reference" title="8. Data Reference — fill copies from JSON, an API, or a Menu">
+          <p>
+            When a field is repeatable, you don't have to type every copy by hand. The{' '}
+            <strong>Data Reference</strong> section (at the top of a repeatable field in the
+            Variables panel) lets you choose <em>where the repeated copies get their data</em>. Pick
+            a source once and Page Pilot creates one copy per item, mapping each item's keys onto
+            your row sub-fields.
+          </p>
+
+          <div className="my-4 overflow-hidden rounded-xl border border-slate-200">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 text-left">
+                <tr>
+                  <th className="px-4 py-3 font-semibold text-ink">Source</th>
+                  <th className="px-4 py-3 font-semibold text-ink">What it does</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-600">
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Custom (edit each copy)</td>
+                  <td className="px-4 py-3">
+                    The default. You add and fill each copy manually — the same repeatable rows from
+                    section 6. Best when the content is one-off and won't change.
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Custom JSON</td>
+                  <td className="px-4 py-3">
+                    Paste a JSON <strong>array of objects</strong>. Each object becomes one copy;
+                    its keys map to your sub-field IDs. Great for a fixed list you already have as
+                    data.
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">API</td>
+                  <td className="px-4 py-3">
+                    Enter an endpoint URL (GET). Page Pilot fetches it, pulls the array of objects
+                    out of the response, and creates one copy per object.
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Through Menu</td>
+                  <td className="px-4 py-3">
+                    Pick one of your Menus. Each menu item becomes one copy — item keys (name,
+                    description, image, link) map to your sub-fields.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <Callout variant="tip" title="The one rule all data sources share">
+            JSON, API, and Menu all need the same shape: an <strong>array of objects</strong> whose
+            keys match your field's row sub-field IDs. Click <strong>View reference</strong> in the
+            Data Reference header to see an example built from <em>your</em> exact sub-fields — copy
+            it as a starting point.
+          </Callout>
+
+          <p className="mt-5 font-semibold text-ink">Custom JSON, step by step</p>
+          <Steps>
+            <Step n={1} title="Set up a repeatable field with row sub-fields">
+              For example a testimonials field with sub-fields <Code>name</Code> and{' '}
+              <Code>rating</Code> (see section 6).
+            </Step>
+            <Step n={2} title="Set Data Reference source to Custom JSON" />
+            <Step n={3} title="Paste an array of objects keyed by your sub-field IDs">
+              For example:
+            </Step>
+          </Steps>
+          <div className="my-3">
+            <CodeSnippet
+              language="json"
+              code={`[\n  { "name": "Ajay", "rating": "5" },\n  { "name": "Ishaan", "rating": "4" }\n]`}
+            />
+          </div>
+          <Steps>
+            <Step n={4} title="Click Apply JSON & Repeat">
+              Two copies are created — one per object — with their fields already filled in.
+            </Step>
+          </Steps>
+
+          <p className="mt-5 font-semibold text-ink">API, step by step</p>
+          <Steps>
+            <Step n={1} title="Set Data Reference source to API" />
+            <Step n={2} title="Enter the endpoint URL">
+              Method is <strong>GET</strong> (POST is coming soon). The endpoint should return a
+              JSON array of objects — or an object wrapping the array under a common key like{' '}
+              <Code>data</Code>, <Code>rows</Code>, <Code>results</Code>, <Code>items</Code>, or{' '}
+              <Code>records</Code>.
+            </Step>
+            <Step n={3} title="Click Preview to inspect the raw response first">
+              This shows exactly what the endpoint returns so you can confirm the shape and fix your
+              URL or keys before applying.
+            </Step>
+            <Step n={4} title="Click Fetch & Apply">
+              Page Pilot fetches the data and creates one copy per object. The endpoint is saved
+              with the page, so reopening keeps the binding.
+            </Step>
+          </Steps>
+          <Callout variant="warning" title="API notes">
+            The endpoint must be reachable from the browser and allow{' '}
+            <strong>CORS</strong>. If the response has no array of objects to map, Page Pilot tells
+            you — use <strong>Preview</strong> to see what came back.
+          </Callout>
+
+          <p className="mt-5 font-semibold text-ink">Through Menu, step by step</p>
+          <Steps>
+            <Step n={1} title="Create a menu in the Menu module first">
+              The dropdown lists your existing menus. If there are none, it tells you to create one.
+            </Step>
+            <Step n={2} title="Set Data Reference source to Through Menu, then pick a menu" />
+            <Step n={3} title="Click Apply Menu & Repeat">
+              Each menu item becomes one copy. Item keys (name, description, image, link) map onto
+              your matching sub-fields.
+            </Step>
+          </Steps>
+
+          <Callout variant="info" title="When there aren't enough cells">
+            If your data has more items than the grid has cells, Page Pilot asks how to grow it —{' '}
+            <strong>Add rows</strong> or <strong>Add columns</strong> — then seeds every item.
+            Single-axis layouts (Flex Columns / Columns Container) grow automatically to fit.
+          </Callout>
+        </Section>
+
+        {/* ---------------------------------------------------------------- */}
+        <Section id="default-values" title="9. Default values — pre-fill for a better start">
           <p>
             Every field (and every row sub-field) can have a <strong>default value</strong>. When
             someone applies the template, all defaults are automatically filled in — so the page
@@ -504,7 +685,7 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="using-variables" title="8. Filling in variables (the user's side)">
+        <Section id="using-variables" title="10. Filling in variables (the user's side)">
           <p>
             Once a template is applied, filling in variables is simple. Here's what a user does:
           </p>
@@ -540,7 +721,7 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="auto-cleanup" title="9. Variables & the canvas stay in sync automatically">
+        <Section id="auto-cleanup" title="11. Variables & the canvas stay in sync automatically">
           <p>
             Page Pilot keeps the Variables panel and the canvas in sync at all times — you don't
             need to manage this manually.
@@ -616,7 +797,8 @@ export default function TemplateVariables() {
                   </td>
                   <td className="px-4 py-3">
                     Repeatable block rows — Add Block / Remove Block. Sub-fields support all types
-                    above.
+                    above. Copies can also be filled from{' '}
+                    <a href="#data-reference" className="text-primary underline">Custom JSON, an API, or a Menu</a>.
                   </td>
                 </tr>
               </tbody>
@@ -694,6 +876,43 @@ export default function TemplateVariables() {
                 HTML and MDX blocks don't support <Token>{'{{ }}'}</Token> tokens by design. If you
                 need a variable, switch to a plain <strong>Text</strong> or <strong>Heading</strong>{' '}
                 block instead.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">
+                My data has more items than the grid has cells
+              </p>
+              <p className="mt-1">
+                When a JSON / API / Menu source returns more items than the grid can hold, Page
+                Pilot asks whether to grow the grid by <strong>rows</strong> or{' '}
+                <strong>columns</strong>, then fits every item. Flex Columns and Columns Container
+                grow automatically. See{' '}
+                <a href="#data-reference" className="text-primary underline">Data Reference</a>.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">
+                My API URL doesn't apply — nothing happens
+              </p>
+              <p className="mt-1">
+                The endpoint must return an <strong>array of objects</strong> (or an object wrapping
+                one under <Code>data</Code> / <Code>rows</Code> / <Code>results</Code> /{' '}
+                <Code>items</Code> / <Code>records</Code>), be reachable from the browser, and allow{' '}
+                <strong>CORS</strong>. Use the <strong>Preview</strong> button to see the raw
+                response and confirm its shape.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">
+                My copies look different after repeating a grid
+              </p>
+              <p className="mt-1">
+                Style the first cell the way you want, then click{' '}
+                <strong>Sync Styles to Copies</strong>. It pushes both block styling and token
+                formatting to every copy without changing each copy's own text. See{' '}
+                <a href="#repeatable-containers" className="text-primary underline">
+                  Repeat across a grid or columns
+                </a>.
               </p>
             </li>
           </ul>
