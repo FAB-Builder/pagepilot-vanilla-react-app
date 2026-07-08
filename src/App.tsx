@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Tours from './pages/Tours';
 import Demos from './pages/Demos';
 import Tooltips from './pages/Tooltips';
+import Templates from './pages/Templates';
 import FetchPages from './pages/pages/fetch-pages';
 import TemplateVariables from './pages/pages/template-variables';
 import EditorCss from './pages/pages/editor-css';
@@ -49,6 +50,7 @@ function App() {
         <Route path="tours" element={<Tours />} />
         <Route path="demos" element={<Demos />} />
         <Route path="tooltips" element={<Tooltips />} />
+        <Route path="templates" element={<Templates />} />
         {/* Pages module — redirects to its first sub-module */}
         <Route path="pages" element={<Navigate to={PAGES_DEFAULT} replace />} />
         <Route path="pages/fetch-pages" element={<FetchPages />} />

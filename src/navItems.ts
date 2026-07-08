@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon, AppBannerIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon, AppBannerIcon, TemplatesIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -63,5 +63,11 @@ export const navItems: NavItem[] = [
     label: 'App Banner',
     description: 'Render announcement banners — simple, carousel, modal, or floater — into your app by identifier.',
     icon: AppBannerIcon,
+  },
+  {
+    to: '/templates',
+    label: 'Templates',
+    description: 'Save any page as a reusable template and spin up new pages from it in seconds.',
+    icon: TemplatesIcon,
   },
 ];

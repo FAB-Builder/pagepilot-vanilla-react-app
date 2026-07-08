@@ -355,6 +355,23 @@ export function FormsIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/** Templates icon — a layout grid, used for the Templates module. */
+export function TemplatesIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      {...props}
+    >
+      <rect x="3" y="3" width="18" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /** GitHub mark (octocat). Plain SVG, inherits `currentColor`. */
 export function GithubIcon(props: SVGProps<SVGSVGElement>) {
   return (
