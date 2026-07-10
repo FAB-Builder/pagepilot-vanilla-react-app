@@ -127,8 +127,8 @@ export default function TemplateVariables() {
             opens. It has two tabs at the top:
           </p>
 
-          <div className="my-4 overflow-hidden rounded-xl border border-slate-200">
-            <table className="w-full text-sm">
+          <div className="scroll-slim my-4 overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[480px] text-sm">
               <thead className="bg-slate-50 text-left">
                 <tr>
                   <th className="px-4 py-3 font-semibold text-ink">Tab</th>
@@ -428,8 +428,8 @@ export default function TemplateVariables() {
             </Step>
           </Steps>
 
-          <div className="my-4 overflow-hidden rounded-xl border border-slate-200">
-            <table className="w-full text-sm">
+          <div className="scroll-slim my-4 overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[480px] text-sm">
               <thead className="bg-slate-50 text-left">
                 <tr>
                   <th className="px-4 py-2 font-semibold text-ink">Token in design</th>
@@ -529,8 +529,8 @@ export default function TemplateVariables() {
             your row sub-fields.
           </p>
 
-          <div className="my-4 overflow-hidden rounded-xl border border-slate-200">
-            <table className="w-full text-sm">
+          <div className="scroll-slim my-4 overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[480px] text-sm">
               <thead className="bg-slate-50 text-left">
                 <tr>
                   <th className="px-4 py-3 font-semibold text-ink">Source</th>
@@ -754,8 +754,8 @@ export default function TemplateVariables() {
 
         {/* ---------------------------------------------------------------- */}
         <Section id="field-reference" title="Field type reference">
-          <div className="overflow-hidden rounded-xl border border-slate-200">
-            <table className="w-full text-sm">
+          <div className="scroll-slim overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[480px] text-sm">
               <thead className="bg-slate-50 text-left">
                 <tr>
                   <th className="px-4 py-3 font-semibold text-ink">Type</th>

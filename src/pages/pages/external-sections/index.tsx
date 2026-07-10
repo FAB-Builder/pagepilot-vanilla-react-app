@@ -62,8 +62,8 @@ export default function ExternalSections() {
 
         {/* ---------------------------------------------------------------- */}
         <Section id="internal-vs-external" title="Internal vs external">
-          <div className="overflow-hidden rounded-xl border border-slate-200">
-            <table className="w-full text-sm">
+          <div className="scroll-slim overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[480px] text-sm">
               <thead className="bg-slate-50 text-left text-ink">
                 <tr>
                   <th className="px-4 py-3 font-semibold">&nbsp;</th>

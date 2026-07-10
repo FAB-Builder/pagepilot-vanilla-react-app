@@ -158,8 +158,8 @@ export function ScheduleApiSection() {
       />
 
       <h3 className="pt-2 text-base font-semibold text-slate-800">Query parameters</h3>
-      <div className="overflow-hidden rounded-lg border border-slate-200">
-        <table className="w-full text-sm">
+      <div className="scroll-slim overflow-x-auto rounded-lg border border-slate-200">
+        <table className="w-full min-w-[480px] text-sm">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-left">
               <th className="px-4 py-2.5 font-semibold text-slate-700">Parameter</th>

@@ -41,8 +41,8 @@ export default function EditorCss() {
             are different because they're powered by third-party editors that ship their own
             CSS:
           </p>
-          <div className="mt-4 overflow-hidden rounded-xl border border-slate-200">
-            <table className="w-full text-sm">
+          <div className="scroll-slim mt-4 overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[480px] text-sm">
               <thead className="bg-slate-50 text-left text-ink">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Block</th>

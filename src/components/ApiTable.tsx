@@ -13,7 +13,13 @@ interface ApiTableProps {
 function ApiTable({ rows }: ApiTableProps) {
   return (
     <div className="scroll-slim overflow-x-auto rounded-xl border border-slate-200">
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full min-w-[640px] table-fixed border-collapse text-sm">
+        <colgroup>
+          <col className="w-[160px]" />
+          <col />
+          <col className="w-[140px]" />
+          <col className="w-[110px]" />
+        </colgroup>
         <thead>
           <tr className="bg-slate-50 text-left text-slate-500">
             <th className="whitespace-nowrap border-b border-slate-200 px-4 py-2.5 font-semibold">
@@ -32,7 +38,7 @@ function ApiTable({ rows }: ApiTableProps) {
           {rows.map((row) => (
             <tr key={row.property} className="align-top last:[&>td]:border-b-0">
               <td className="border-b border-slate-200 px-4 py-2.5">
-                <code className="inline-block whitespace-nowrap rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+                <code className="inline-block whitespace-normal break-words rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
                   {row.property}
                 </code>
               </td>
@@ -40,13 +46,15 @@ function ApiTable({ rows }: ApiTableProps) {
                 {row.description}
               </td>
               <td className="border-b border-slate-200 px-4 py-2.5">
-                <code className="rounded bg-emerald-50 px-1.5 py-0.5 font-mono text-[13px] text-emerald-700">
+                <code className="inline-block break-words rounded bg-emerald-50 px-1.5 py-0.5 font-mono text-[13px] text-emerald-700">
                   {row.type}
                 </code>
               </td>
               <td className="border-b border-slate-200 px-4 py-2.5">
                 {row.default ? (
-                  <code className="font-mono text-[13px] text-slate-700">{row.default}</code>
+                  <code className="break-words font-mono text-[13px] text-slate-700">
+                    {row.default}
+                  </code>
                 ) : (
                   <span className="text-slate-400">—</span>
                 )}

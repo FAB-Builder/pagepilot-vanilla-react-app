@@ -34,7 +34,7 @@ function AiPromptBlock({ prompt, id = 'ai-prompt' }: AiPromptBlockProps) {
   return (
     <div
       id={id}
-      className="mb-6 overflow-hidden rounded-xl border border-brand/20 bg-gradient-to-b from-brand-tint/70 to-white shadow-card"
+      className="mb-6 overflow-hidden rounded-xl border border-brand/20 bg-gradient-to-b from-brand-tint/70 to-white shadow-card dark:border-brand/25 dark:from-brand/10 dark:to-transparent"
     >
       <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">

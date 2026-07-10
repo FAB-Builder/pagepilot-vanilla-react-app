@@ -3,13 +3,53 @@ import { createPortal } from 'react-dom';
 import { ChevronDown, ChevronUp, ChevronLeft, X, HelpCircle, Loader2, AlertCircle, FileX } from 'lucide-react';
 import { Section } from '../../../components/DocSection';
 import { pagePilotApiBase } from '../../../lib/ahd';
+import { useTheme } from '../../../hooks/useTheme';
 
 const BRAND = '#5550ff';
-const BRAND_TINT = '#eef2ff';
-const GREY_200 = '#e5e7eb';
-const GREY_500 = '#6b7280';
-const GREY_700 = '#374151';
-const GREY_900 = '#111827';
+
+/** Palette for the drawer, resolved per theme. Inline styles can't use the
+ *  global dark utility overrides, so we branch the colors here. */
+interface Palette {
+  panel: string;
+  panelText: string;
+  border: string;
+  tint: string;
+  tintText: string;
+  heading: string;
+  body: string;
+  muted: string;
+  hover: string;
+  subPanel: string;
+  inputBg: string;
+}
+
+const LIGHT_PALETTE: Palette = {
+  panel: '#ffffff',
+  panelText: '#374151',
+  border: '#e5e7eb',
+  tint: '#eef2ff',
+  tintText: '#5550ff',
+  heading: '#111827',
+  body: '#374151',
+  muted: '#6b7280',
+  hover: '#f3f4f6',
+  subPanel: '#f9fafb',
+  inputBg: '#ffffff',
+};
+
+const DARK_PALETTE: Palette = {
+  panel: '#111827',
+  panelText: '#cbd5e1',
+  border: '#334155',
+  tint: 'rgba(99, 102, 241, 0.18)',
+  tintText: '#a5b4fc',
+  heading: '#f1f5f9',
+  body: '#cbd5e1',
+  muted: '#94a3b8',
+  hover: '#1e293b',
+  subPanel: '#1e293b',
+  inputBg: '#1e293b',
+};
 
 const API_BASE = pagePilotApiBase('64d2b934c6cfdc96aa3734c5');
 const MENU_API = `${API_BASE}/menu-by-name/fab-docs-site`;
@@ -47,13 +87,14 @@ function writeCache(data: HelpItem[]) {
 
 /* ── Recursive menu tree ── */
 function MenuTree({
-  items, activeId, expanded, onSelect, onToggle, depth = 0,
+  items, activeId, expanded, onSelect, onToggle, p, depth = 0,
 }: {
   items: HelpItem[];
   activeId: string;
   expanded: Set<string>;
   onSelect: (item: HelpItem) => void;
   onToggle: (id: string) => void;
+  p: Palette;
   depth?: number;
 }) {
   return (
@@ -66,33 +107,33 @@ function MenuTree({
         return (
           <div key={item.id}>
             {depth === 0 ? (
-              <div style={{ borderBottom: `1px solid ${GREY_200}` }}>
+              <div style={{ borderBottom: `1px solid ${p.border}` }}>
                 <div
                   onClick={() => onSelect(item)}
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     padding: '10px 16px', cursor: 'pointer',
-                    backgroundColor: isActive ? BRAND_TINT : 'transparent',
+                    backgroundColor: isActive ? p.tint : 'transparent',
                     transition: 'background 0.15s',
                   }}
-                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = '#f3f4f6'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isActive ? BRAND_TINT : 'transparent'; }}
+                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = p.hover; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isActive ? p.tint : 'transparent'; }}
                 >
-                  <span style={{ flex: 1, fontSize: 14, fontWeight: 500, color: isActive ? BRAND : GREY_700 }}>
+                  <span style={{ flex: 1, fontSize: 14, fontWeight: 500, color: isActive ? p.tintText : p.body }}>
                     {item.name}
                   </span>
                   {hasChildren && (
                     <span
                       onClick={(e) => { e.stopPropagation(); onToggle(item.id); }}
-                      style={{ color: '#9ca3af', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                      style={{ color: p.muted, display: 'flex', alignItems: 'center', cursor: 'pointer' }}
                     >
                       {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                     </span>
                   )}
                 </div>
                 {hasChildren && isExpanded && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: 10, backgroundColor: '#f9fafb', borderRadius: 8, margin: '0 8px 8px' }}>
-                    <MenuTree items={item.children} activeId={activeId} expanded={expanded} onSelect={onSelect} onToggle={onToggle} depth={depth + 1} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: 10, backgroundColor: p.subPanel, borderRadius: 8, margin: '0 8px 8px' }}>
+                    <MenuTree items={item.children} activeId={activeId} expanded={expanded} onSelect={onSelect} onToggle={onToggle} p={p} depth={depth + 1} />
                   </div>
                 )}
               </div>
@@ -103,25 +144,25 @@ function MenuTree({
                   style={{
                     padding: '7px 12px',
                     borderRadius: 6, cursor: 'pointer',
-                    color: isActive ? BRAND : '#4b5563',
-                    backgroundColor: isActive ? BRAND_TINT : 'transparent',
+                    color: isActive ? p.tintText : p.body,
+                    backgroundColor: isActive ? p.tint : 'transparent',
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     fontWeight: isActive ? 500 : 400, fontSize: 13,
                     transition: 'all 0.15s',
                   }}
-                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = '#f3f4f6'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isActive ? BRAND_TINT : 'transparent'; }}
+                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.backgroundColor = p.hover; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isActive ? p.tint : 'transparent'; }}
                 >
-                  <span style={{ flex: 1, fontSize: 13, color: isActive ? BRAND : '#4b5563' }}>{item.name}</span>
+                  <span style={{ flex: 1, fontSize: 13, color: isActive ? p.tintText : p.body }}>{item.name}</span>
                   {hasChildren && (
-                    <span onClick={(e) => { e.stopPropagation(); onToggle(item.id); }} style={{ color: '#9ca3af', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                    <span onClick={(e) => { e.stopPropagation(); onToggle(item.id); }} style={{ color: p.muted, display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                       {isExpanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                     </span>
                   )}
                 </div>
                 {hasChildren && isExpanded && (
                   <div style={{ paddingLeft: 10, marginTop: 6, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    <MenuTree items={item.children} activeId={activeId} expanded={expanded} onSelect={onSelect} onToggle={onToggle} depth={depth + 1} />
+                    <MenuTree items={item.children} activeId={activeId} expanded={expanded} onSelect={onSelect} onToggle={onToggle} p={p} depth={depth + 1} />
                   </div>
                 )}
               </div>
@@ -135,6 +176,8 @@ function MenuTree({
 
 /* ── Drawer ── */
 function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
+  const { theme } = useTheme();
+  const p = theme === 'dark' ? DARK_PALETTE : LIGHT_PALETTE;
   const cached = readCache();
   const [menuItems, setMenuItems] = useState<HelpItem[]>(cached ?? []);
   const [menuLoading, setMenuLoading] = useState(!cached);
@@ -203,7 +246,7 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
       onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}
       style={{ position: 'fixed', inset: 0, zIndex: 1300, background: 'rgba(0,0,0,0.35)', display: 'flex', justifyContent: 'flex-end' }}
     >
-      <div style={{ position: 'relative', width: 'min(45vw, 540px)', minWidth: 360, height: '100%', background: '#fff', display: 'flex', flexDirection: 'column', boxShadow: '-4px 0 24px rgba(0,0,0,0.12)' }}>
+      <div style={{ position: 'relative', width: 'min(45vw, 540px)', minWidth: 360, height: '100%', background: p.panel, display: 'flex', flexDirection: 'column', boxShadow: '-4px 0 24px rgba(0,0,0,0.12)' }}>
 
         {/* Close — absolute top-right of panel */}
         <button
@@ -218,7 +261,7 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
           /* ── Content view ── */
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             {/* Header with back */}
-            <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#fff', borderBottom: `1px solid ${GREY_200}`, padding: '10px 48px 10px 12px', display: 'flex', alignItems: 'center', gap: 8, minHeight: 46 }}>
+            <div style={{ position: 'sticky', top: 0, zIndex: 10, background: p.panel, borderBottom: `1px solid ${p.border}`, padding: '10px 48px 10px 12px', display: 'flex', alignItems: 'center', gap: 8, minHeight: 46 }}>
               <button
                 type="button"
                 onClick={handleBack}
@@ -226,13 +269,13 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
               >
                 <ChevronLeft size={20} strokeWidth={2.5} color={BRAND} />
               </button>
-              <span style={{ fontSize: 16, fontWeight: 600, color: GREY_900, lineHeight: 1.3, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+              <span style={{ fontSize: 16, fontWeight: 600, color: p.heading, lineHeight: 1.3, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                 {activeItem?.name}
               </span>
             </div>
 
             {/* Content body */}
-            <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#fff' }}>
+            <div style={{ flex: 1, overflowY: 'auto', backgroundColor: p.panel }}>
               {pageLoading && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 32px', gap: 12 }}>
                   <Loader2 size={28} color={BRAND} className="animate-spin" />
@@ -251,7 +294,7 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
                 </div>
               )}
               {!pageLoading && !pageError && pageContent && (
-                <div style={{ fontSize: 15, lineHeight: 1.7, color: GREY_700, padding: 20, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+                <div style={{ fontSize: 15, lineHeight: 1.7, color: p.body, padding: 20, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                   {pageContent.sections?.map((sec) => (
                     <div key={sec.id} dangerouslySetInnerHTML={{ __html: sec.content }} />
                   ))}
@@ -259,8 +302,8 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
               )}
               {!pageLoading && !pageError && !pageContent && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px 32px', gap: 12, textAlign: 'center' }}>
-                  <FileX size={40} color="#d1d5db" />
-                  <p style={{ fontSize: 14, color: GREY_500, margin: 0 }}>No content available for this topic.</p>
+                  <FileX size={40} color={p.muted} />
+                  <p style={{ fontSize: 14, color: p.muted, margin: 0 }}>No content available for this topic.</p>
                   {activeItem?.href && <p style={{ fontSize: 12, color: '#9ca3af', margin: 0 }}>Reference: {activeItem.href}</p>}
                 </div>
               )}
@@ -271,11 +314,11 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             {/* Title */}
             <div style={{ padding: '16px 48px 8px 16px' }}>
-              <span style={{ fontSize: 16, fontWeight: 600, color: GREY_900 }}>Help &amp; Support</span>
+              <span style={{ fontSize: 16, fontWeight: 600, color: p.heading }}>Help &amp; Support</span>
             </div>
 
             {/* Search */}
-            <div style={{ borderBottom: `1px solid ${GREY_200}`, background: '#fff', position: 'sticky', top: 0, zIndex: 20 }}>
+            <div style={{ borderBottom: `1px solid ${p.border}`, background: p.panel, position: 'sticky', top: 0, zIndex: 20 }}>
               <div style={{ padding: '10px 14px' }}>
                 <div style={{ position: 'relative' }}>
                   <input
@@ -285,15 +328,15 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
                     placeholder="Search"
                     style={{
                       width: '100%', padding: '8px 32px 8px 32px',
-                      border: `1px solid ${GREY_200}`, borderRadius: 6, fontSize: 14,
-                      background: `#fff url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%239ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 8px center`,
-                      outline: 'none', color: GREY_900, boxSizing: 'border-box',
+                      border: `1px solid ${p.border}`, borderRadius: 6, fontSize: 14,
+                      background: `${p.inputBg} url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%239ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 8px center`,
+                      outline: 'none', color: p.heading, boxSizing: 'border-box',
                     }}
                   />
                   {query && (
                     <button
                       onClick={() => setQuery('')}
-                      style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'transparent', border: 'none', fontSize: 18, color: '#9ca3af', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 20, height: 20 }}
+                      style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'transparent', border: 'none', fontSize: 18, color: p.muted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 20, height: 20 }}
                     >×</button>
                   )}
                 </div>
@@ -301,7 +344,7 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
             </div>
 
             {/* Section label */}
-            <span style={{ padding: '10px 0 7px 15px', borderBottom: `1px solid ${GREY_200}`, color: GREY_700, display: 'block', fontSize: 13, fontWeight: 500 }}>
+            <span style={{ padding: '10px 0 7px 15px', borderBottom: `1px solid ${p.border}`, color: p.body, display: 'block', fontSize: 13, fontWeight: 500 }}>
               {query ? `Search Results (${filtered.length})` : 'All Topics'}
             </span>
 
@@ -318,7 +361,7 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
                 </div>
               )}
               {!menuLoading && !menuError && filtered.length === 0 && (
-                <div style={{ padding: '40px 20px', textAlign: 'center', color: GREY_500 }}>
+                <div style={{ padding: '40px 20px', textAlign: 'center', color: p.muted }}>
                   <p style={{ marginBottom: 16, fontSize: 14 }}>No results for "{query}"</p>
                   <button onClick={() => setQuery('')} style={{ padding: '8px 16px', background: BRAND, color: '#fff', border: 'none', borderRadius: 6, fontSize: 14, cursor: 'pointer' }}>Clear search</button>
                 </div>
@@ -329,15 +372,15 @@ function HelpDrawerDemo({ onClose }: { onClose: () => void }) {
                     <div
                       key={item.id}
                       onClick={() => handleSelect(item)}
-                      style={{ borderBottom: `1px solid ${GREY_200}`, padding: '10px 16px', cursor: 'pointer', fontSize: 14, fontWeight: 500, color: activeId === item.id ? BRAND : GREY_700 }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f3f4f6')}
+                      style={{ borderBottom: `1px solid ${p.border}`, padding: '10px 16px', cursor: 'pointer', fontSize: 14, fontWeight: 500, color: activeId === item.id ? p.tintText : p.body }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = p.hover)}
                       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                     >
                       {item.name}
                     </div>
                   ))
                 ) : (
-                  <MenuTree items={filtered} activeId={activeId} expanded={expanded} onSelect={handleSelect} onToggle={toggleExpand} />
+                  <MenuTree items={filtered} activeId={activeId} expanded={expanded} onSelect={handleSelect} onToggle={toggleExpand} p={p} />
                 )
               )}
             </div>
