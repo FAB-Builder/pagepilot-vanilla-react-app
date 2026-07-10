@@ -103,7 +103,7 @@ export interface CreateAhdOptions {
  * "Configure AHDjs" integration dialog:
  *
  *   const ahdJs = new AHDjs(undefined, {
- *     applicationId: "YOUR_APPLICATION_ID",
+ *     applicationId: "YOUR_WORKSPACE_ID",
  *     apiHost: "https://pagepilot.fabbuilder.com",
  *     visitorId: "visitor-id",
  *     showProgressbar: false,

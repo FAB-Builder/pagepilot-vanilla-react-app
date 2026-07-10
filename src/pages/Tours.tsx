@@ -482,7 +482,7 @@ Import AHDjs and its CSS (ahdjs/build/css/index.css) in the application entry fi
 
 Initialize AHDjs with the following configuration:
 
-applicationId: "YOUR_APPLICATION_ID"
+applicationId: "YOUR_WORKSPACE_ID"
 
 apiHost: "${AHD_API_HOST}"
 
@@ -509,7 +509,7 @@ export default function StartTourButton() {
 
   const startTour = async () => {
     const ahdJs = AHDjs(undefined, {
-      applicationId: 'YOUR_APPLICATION_ID',
+      applicationId: 'YOUR_WORKSPACE_ID',
       apiHost: '${AHD_API_HOST}',
       // visitorId: the current logged-in user's ID from your platform.
       // Pass your own user identifier so PagePilot can track per-user progress.
@@ -537,7 +537,7 @@ const BASIC_CODE = `import AHDjs from 'ahdjs';
 import 'ahdjs/build/css/index.css';
 
 const ahdJs = AHDjs(undefined, {
-  applicationId: 'YOUR_APPLICATION_ID',
+  applicationId: 'YOUR_WORKSPACE_ID',
   apiHost: '${AHD_API_HOST}',
   // visitorId: the current logged-in user's ID from your platform.
   // Pass your own user identifier so PagePilot can track per-user progress.
