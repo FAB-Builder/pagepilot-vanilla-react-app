@@ -634,7 +634,7 @@ Import AHDjs and its CSS (ahdjs/build/css/index.css) in the application entry fi
 
 Initialize AHDjs with the following configuration:
 
-applicationId: "YOUR_APPLICATION_ID"
+applicationId: "YOUR_WORKSPACE_ID"
 
 apiHost: "${AHD_API_HOST}"
 
@@ -701,7 +701,7 @@ export function useTooltips(slug) {
 
     (async () => {
       const ahdJs = AHDjs(undefined, {
-        applicationId: 'YOUR_APPLICATION_ID',
+        applicationId: 'YOUR_WORKSPACE_ID',
         apiHost: '${AHD_API_HOST}',
         // Pass the logged-in user's id from your auth system so PagePilot
         // can track "show only once" per user. e.g. currentUser.id

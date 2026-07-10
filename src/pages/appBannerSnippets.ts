@@ -11,7 +11,7 @@ import 'ahdjs/build/css/index.css';
 export default function BannerSlot() {
   useEffect(() => {
     const ahdJs = new AHDjs(undefined, {
-      applicationId: 'YOUR_APPLICATION_ID',
+      applicationId: 'YOUR_WORKSPACE_ID',
       apiHost: '${AHD_API_HOST}',
       // visitorId: the current logged-in user's ID from your platform.
       visitorId: currentUser.id,
@@ -35,7 +35,7 @@ Import AHDjs and its CSS (ahdjs/build/css/index.css) in the component that rende
 
 Initialize AHDjs with the following configuration:
 
-applicationId: "YOUR_APPLICATION_ID"
+applicationId: "YOUR_WORKSPACE_ID"
 
 apiHost: "${AHD_API_HOST}"
 
