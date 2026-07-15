@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { ExternalLink, Moon, Sun } from 'lucide-react';
+import { ExternalLink, Moon, Search, Sun, X } from 'lucide-react';
 import { GithubIcon, PagePilotIcon } from './Icons';
 import { FloatingGoogleTranslator } from './FloatingGoogleTranslator';
+import SearchBar from './SearchBar';
 import { useTheme } from '../hooks/useTheme';
 
 const PAGEPILOT_URL = 'https://pagepilot.fabbuilder.com/';
@@ -9,6 +11,7 @@ const AHDJS_REPO_URL = 'https://github.com/ishaan-puniani/ahdjs';
 
 function Layout() {
   const { theme, toggleTheme } = useTheme();
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   return (
     <div className="flex h-screen flex-col overflow-hidden">
       {/* Fixed header */}
@@ -22,7 +25,19 @@ function Layout() {
             <PagePilotIcon className="h-10 w-auto" />
            </Link>
 
+          <div className="ml-4 hidden flex-1 justify-center sm:flex">
+            <SearchBar />
+          </div>
+
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+            <button
+              type="button"
+              onClick={() => setMobileSearchOpen((v) => !v)}
+              aria-label={mobileSearchOpen ? 'Close search' : 'Open search'}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-ink dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 sm:hidden"
+            >
+              {mobileSearchOpen ? <X size={16} /> : <Search size={16} />}
+            </button>
             <button
               type="button"
               onClick={toggleTheme}
@@ -52,6 +67,12 @@ function Layout() {
             </a>
           </div>
         </div>
+
+        {mobileSearchOpen && (
+          <div className="border-t border-slate-200/80 px-4 py-2.5 dark:border-slate-700 sm:hidden">
+            <SearchBar autoFocus onNavigate={() => setMobileSearchOpen(false)} />
+          </div>
+        )}
       </header>
 
       {/* Body: only the content area scrolls */}
