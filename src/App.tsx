@@ -14,6 +14,8 @@ import ContextHelpMenu from './pages/context-help-menu';
 import Webinar from './pages/webinar';
 import Forms from './pages/forms';
 import AppBanner from './pages/AppBanner';
+import ButtonBlock from './pages/blocks/button';
+import { BLOCKS_DEFAULT } from './pages/blocks/subModules';
 import { useEffect } from 'react';
 
 function ScrollToTop() {
@@ -60,6 +62,9 @@ function App() {
         <Route path="webinar" element={<Webinar />} />
         <Route path="forms" element={<Forms />} />
         <Route path="app-banner" element={<AppBanner />} />
+        {/* Blocks module — redirects to its first sub-module */}
+        <Route path="blocks" element={<Navigate to={BLOCKS_DEFAULT} replace />} />
+        <Route path="blocks/button" element={<ButtonBlock />} />
         {/* Unknown slug → send the user back home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

@@ -355,6 +355,33 @@ export function FormsIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function BlocksIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      {...props}
+    >
+      <rect x="3" y="3" width="8" height="8" rx="1.6" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="13" y="3" width="8" height="8" rx="1.6" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="3" y="13" width="8" height="8" rx="1.6" stroke="currentColor" strokeWidth="1.6" />
+      <rect
+        x="13"
+        y="13"
+        width="8"
+        height="8"
+        rx="1.6"
+        fill="currentColor"
+        fillOpacity="0.12"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+    </svg>
+  );
+}
+
 /** GitHub mark (octocat). Plain SVG, inherits `currentColor`. */
 export function GithubIcon(props: SVGProps<SVGSVGElement>) {
   return (
