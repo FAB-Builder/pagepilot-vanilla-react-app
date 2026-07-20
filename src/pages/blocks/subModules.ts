@@ -1,4 +1,5 @@
 import type { SubModule } from '../../components/DocLayout';
+import { BLOCK_ICONS } from './shared/BlockIcons';
 
 /**
  * Sub-modules of the "Blocks" module — one per visual editor block from the
@@ -8,7 +9,7 @@ import type { SubModule } from '../../components/DocLayout';
  * Ordered to mirror the `category` grouping in the editor's Add Block menu
  * (ahd-fe: AddBlockMenu/buttons.tsx) — Text/Content first, then Actions.
  */
-export const BLOCKS_SUBMODULES: SubModule[] = [
+const ENTRIES: SubModule[] = [
   // Text/Content
   { to: '/blocks/heading', label: 'Heading' },
   { to: '/blocks/text', label: 'Text' },
@@ -39,6 +40,15 @@ export const BLOCKS_SUBMODULES: SubModule[] = [
   { to: '/blocks/spacer', label: 'Spacer' },
   { to: '/blocks/html', label: 'HTML' },
 ];
+
+/**
+ * Icons are attached by route rather than repeated on every entry above, so the
+ * list stays readable and an entry can never drift from its glyph.
+ */
+export const BLOCKS_SUBMODULES: SubModule[] = ENTRIES.map((entry) => ({
+  ...entry,
+  icon: BLOCK_ICONS[entry.to],
+}));
 
 /** Where /blocks should land by default. */
 export const BLOCKS_DEFAULT = BLOCKS_SUBMODULES[0].to;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { ReactNode } from 'react';
+import type { ComponentType, ReactNode, SVGProps } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { navItems } from '../navItems';
@@ -14,6 +14,12 @@ export interface SubModule {
   to: string;
   /** Label shown in the left rail. */
   label: string;
+  /**
+   * Optional glyph rendered before the label. Block sub-modules pass the same
+   * icon the editor shows in its Add Block menu; other modules omit it and the
+   * rail renders label-only as before.
+   */
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 interface DocLayoutProps {
@@ -157,14 +163,15 @@ function DocLayout({
                 id={`submodule-link-${sm.to.replace(/\//g, '-').replace(/^-/, '')}`}
                 className={({ isActive }) =>
                   [
-                    'rounded-md px-3 py-1.5 text-sm transition-colors',
+                    'flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors',
                     isActive
                       ? 'bg-brand-tint font-semibold text-brand'
                       : 'font-medium text-slate-600 hover:bg-slate-100 hover:text-ink',
                   ].join(' ')
                 }
               >
-                {sm.label}
+                {sm.icon && <sm.icon className="h-4 w-4 shrink-0 opacity-80" />}
+                <span className="truncate">{sm.label}</span>
               </NavLink>
             ))}
           </nav>
