@@ -2,6 +2,7 @@ import DocLayout, { type DocSection } from '../../../components/DocLayout';
 import { Section, Code } from '../../../components/DocSection';
 import PropertyCard from '../../../components/PropertyCard';
 import CodeSnippet from '../../../components/CodeSnippet';
+import { BlockCallout as Callout } from '../shared/BlockCallout';
 import { BLOCKS_SUBMODULES } from '../subModules';
 
 const SECTIONS: DocSection[] = [
@@ -15,28 +16,6 @@ const SECTIONS: DocSection[] = [
   { id: 'icon', label: 'Icon' },
   { id: 'responsive', label: 'Per-device behaviour' },
 ];
-
-function Callout({
-  title,
-  children,
-  variant = 'info',
-}: {
-  title?: string;
-  children: React.ReactNode;
-  variant?: 'info' | 'tip' | 'warning';
-}) {
-  const colors = {
-    info: 'border-blue-200 bg-blue-50 text-blue-900',
-    tip: 'border-green-200 bg-green-50 text-green-900',
-    warning: 'border-amber-200 bg-amber-50 text-amber-900',
-  };
-  return (
-    <div className={`my-4 rounded-xl border p-4 text-sm ${colors[variant]}`}>
-      {title && <p className="mb-1 font-semibold">{title}</p>}
-      <div className="leading-relaxed">{children}</div>
-    </div>
-  );
-}
 
 interface ActionTypeRow {
   value: string;
@@ -321,8 +300,9 @@ function CheckoutPage() {
         <Section id="responsive" title="Per-device behaviour">
           <p>
             <strong>Width type</strong> and <strong>Size</strong> can both differ per device —
-            switch to the Tablet or Mobile tab in the sidebar and set a different value; it falls
-            back to the next larger device if unset (Mobile → Tablet → Desktop). This is real{' '}
+            switch to the Tablet or Mobile tab in the sidebar and set a different value. Each
+            device falls back to <strong>Desktop</strong> when unset — Tablet and Mobile are
+            independent, so Mobile does not inherit a value you set on Tablet. This is real{' '}
             <Code>@media</Code>-driven CSS in the published page, not just an editor preview
             trick — the block emits its own scoped breakpoint rules for width and padding.
           </p>

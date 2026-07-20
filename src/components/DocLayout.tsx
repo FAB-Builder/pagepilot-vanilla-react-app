@@ -286,8 +286,12 @@ function DocLayout({
 
       {/* Left rail: sub-modules + on-this-page sections for the current page */}
       <aside id="doc-left-rail" className="hidden w-56 shrink-0 lg:block xl:w-64">
-        {/* fixed so it never scrolls with the content */}
-        <div className="fixed top-14 w-56 pb-6 pr-2 pt-6 xl:w-64">{leftRailContent}</div>
+        {/* Fixed so it never scrolls with the content, but bounded to the
+            viewport and scrollable on its own — the block list is long enough
+            to overflow, and without this its tail is unreachable. */}
+        <div className="scroll-slim fixed top-14 max-h-[calc(100vh-3.5rem)] w-56 overflow-y-auto overscroll-contain pb-6 pr-2 pt-6 xl:w-64">
+          {leftRailContent}
+        </div>
       </aside>
 
       {/* Center: the page content */}
