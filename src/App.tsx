@@ -15,6 +15,30 @@ import Webinar from './pages/webinar';
 import Forms from './pages/forms';
 import AppBanner from './pages/AppBanner';
 import ButtonBlock from './pages/blocks/button';
+import HeadingBlock from './pages/blocks/heading';
+import TextBlock from './pages/blocks/text';
+import ListBlock from './pages/blocks/list';
+import TableBlock from './pages/blocks/table';
+import MarkdownBlock from './pages/blocks/markdown';
+import QuillBlock from './pages/blocks/quill';
+import ButtonGroupBlock from './pages/blocks/button-group';
+import AccordionBlock from './pages/blocks/accordion';
+import TabsBlock from './pages/blocks/tabs';
+import StepperBlock from './pages/blocks/stepper';
+import ImageBlock from './pages/blocks/image';
+import LogoBlock from './pages/blocks/logo';
+import VideoBlock from './pages/blocks/video';
+import AvatarBlock from './pages/blocks/avatar';
+import ContainerBlock from './pages/blocks/container';
+import ColumnsBlock from './pages/blocks/columns';
+import FlexColumnsBlock from './pages/blocks/flex-columns';
+import GridBlock from './pages/blocks/grid';
+import CarouselBlock from './pages/blocks/carousel';
+import PaginationBlock from './pages/blocks/pagination';
+import MarqueeBlock from './pages/blocks/marquee';
+import DividerBlock from './pages/blocks/divider';
+import SpacerBlock from './pages/blocks/spacer';
+import HtmlBlock from './pages/blocks/html';
 import { BLOCKS_DEFAULT } from './pages/blocks/subModules';
 import { useEffect } from 'react';
 
@@ -64,7 +88,31 @@ function App() {
         <Route path="app-banner" element={<AppBanner />} />
         {/* Blocks module — redirects to its first sub-module */}
         <Route path="blocks" element={<Navigate to={BLOCKS_DEFAULT} replace />} />
+        <Route path="blocks/heading" element={<HeadingBlock />} />
+        <Route path="blocks/text" element={<TextBlock />} />
+        <Route path="blocks/list" element={<ListBlock />} />
+        <Route path="blocks/table" element={<TableBlock />} />
+        <Route path="blocks/markdown" element={<MarkdownBlock />} />
+        <Route path="blocks/quill" element={<QuillBlock />} />
         <Route path="blocks/button" element={<ButtonBlock />} />
+        <Route path="blocks/button-group" element={<ButtonGroupBlock />} />
+        <Route path="blocks/accordion" element={<AccordionBlock />} />
+        <Route path="blocks/tabs" element={<TabsBlock />} />
+        <Route path="blocks/stepper" element={<StepperBlock />} />
+        <Route path="blocks/image" element={<ImageBlock />} />
+        <Route path="blocks/logo" element={<LogoBlock />} />
+        <Route path="blocks/video" element={<VideoBlock />} />
+        <Route path="blocks/avatar" element={<AvatarBlock />} />
+        <Route path="blocks/container" element={<ContainerBlock />} />
+        <Route path="blocks/columns" element={<ColumnsBlock />} />
+        <Route path="blocks/flex-columns" element={<FlexColumnsBlock />} />
+        <Route path="blocks/grid" element={<GridBlock />} />
+        <Route path="blocks/carousel" element={<CarouselBlock />} />
+        <Route path="blocks/pagination" element={<PaginationBlock />} />
+        <Route path="blocks/marquee" element={<MarqueeBlock />} />
+        <Route path="blocks/divider" element={<DividerBlock />} />
+        <Route path="blocks/spacer" element={<SpacerBlock />} />
+        <Route path="blocks/html" element={<HtmlBlock />} />
         {/* Unknown slug → send the user back home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
