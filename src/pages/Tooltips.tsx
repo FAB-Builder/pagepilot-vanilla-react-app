@@ -488,6 +488,47 @@ function Tooltips() {
           <PropertyCard type="boolean" defaultValue="false">
             <span id="show-once-prop">Show the tooltip only once per visitor.</span>
           </PropertyCard>
+
+          <h3 id="show-once-where-heading" className="mt-6 text-base font-semibold text-ink">
+            Where to set it
+          </h3>
+          <ol
+            id="show-once-where-steps"
+            className="mt-2 space-y-3 leading-relaxed text-slate-600"
+          >
+            <li className="flex gap-3">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-[11px] font-bold text-white">
+                1
+              </span>
+              <span>
+                Open the tooltip in <strong>Page Pilot → Tooltips</strong> and click{' '}
+                <strong>Edit Design</strong> to enter the tooltip editor.
+              </span>
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-[11px] font-bold text-white">
+                2
+              </span>
+              <span>
+                Click <strong>Publish</strong> to open the publish dialog.
+              </span>
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-[11px] font-bold text-white">
+                3
+              </span>
+              <span>
+                Toggle <strong>Show Only Once</strong> on or off, then save. The change applies the
+                next time the tooltip is fetched — no code changes are needed on your end.
+              </span>
+            </li>
+          </ol>
+          <p id="show-once-where-note" className="mt-4">
+            This is a per-tooltip setting authored in Page Pilot, not a parameter of{' '}
+            <Code id="show-once-where-method">showHighlights()</Code>. "Once per visitor" is
+            tracked against the <Code id="show-once-where-visitor">visitorId</Code> you pass when
+            initializing the SDK, so make sure it's a stable, unique id per user.
+          </p>
         </Section>
 
         <Section id="styling" title="Styling">
