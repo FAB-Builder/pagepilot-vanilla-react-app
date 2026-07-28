@@ -257,9 +257,13 @@ function Tooltips() {
 
         <Section id="target-page" title="Target Page">
           <p id="target-page-text">
-            The page slug where the tooltip is active. PagePilot matches the visitor's URL path
-            against this value; when it matches, the tooltip is registered on the page. It must
-            start with a <Code id="target-page-slash">/</Code>.
+            This is not your site's full URL — it's just the page path. For example, if your app is
+            live at{' '}
+            <Code id="target-page-live-eg">https://pagepilot.com/pricing</Code>, the
+            Target Page is just <Code id="target-page-slug-eg">/pricing</Code> — everything
+            after the domain. PagePilot matches the visitor's current URL path against this value;
+            when it matches, the tooltip is registered on the page. It must start with a{' '}
+            <Code id="target-page-slash">/</Code>.
           </p>
           <PropertyCard type="string" required defaultValue="'/'">
             <span id="target-page-prop">
@@ -271,15 +275,22 @@ function Tooltips() {
           </PropertyCard>
           <PropertyCard type="string[]" defaultValue="[]">
             <span id="alt-slugs-prop">
-              <strong>Alternative slugs</strong> — additional paths the same tooltip should appear
-              on. Useful when the same screen is accessible via multiple routes.
+              <strong>Alternative slugs</strong> — additional paths (same rule: path only, not the
+              full URL) the same tooltip should appear on. Useful when the same screen is accessible
+              via multiple routes.
             </span>
           </PropertyCard>
         </Section>
 
         <Section id="selector" title="Element / Selector">
           <p id="selector-text">
-            The CSS selector for the element the tooltip is anchored to. The tooltip card and any
+            The CSS selector for the element the tooltip is anchored to — in plain terms, the{' '}
+            <Code id="selector-html-id">id</Code> or class already on the HTML element you want to
+            point at, written CSS-style. An element with{' '}
+            <Code id="selector-id-format">id="invite-button"</Code> in your markup becomes the
+            selector <Code id="selector-id-format-2">#invite-button</Code>; a class of{' '}
+            <Code id="selector-class-format">class="invite-button"</Code> becomes{' '}
+            <Code id="selector-class-format-2">.invite-button</Code>. The tooltip card and any
             optional trigger icon are positioned relative to this element.
           </p>
           <PropertyCard type="string" required>

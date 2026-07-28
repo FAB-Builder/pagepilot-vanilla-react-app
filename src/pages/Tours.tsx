@@ -258,14 +258,20 @@ function Tours() {
 
         <Section id="target-page" title="Target Page">
           <p id="target-page-text">
-            The page (slug) where the tour appears. PagePilot matches the visitor's current URL path
-            against this slug; when it matches, the tour renders. It must start with a{' '}
-            <Code id="target-page-slash">/</Code>.
+            Don't type your site's full URL here — just the page path. Say your app is live at{' '}
+            <Code id="target-page-live-eg">https://pagepilot.com/pricing</Code>. The
+            Target Page is only the part after the domain:{' '}
+            <Code id="target-page-slug-eg">/pricing</Code>. PagePilot matches the visitor's
+            current URL path against this value; when it matches, the tour renders. It must start
+            with a <Code id="target-page-slash">/</Code>.
           </p>
           <PropertyCard type="string" required defaultValue="'/'">
             <span id="target-page-prop">
               The URL path the tour is bound to, e.g. <Code id="target-page-eg1">/dashboard</Code> or{' '}
-              <Code id="target-page-eg2">/tours</Code>. In code this is the first argument to{' '}
+              <Code id="target-page-eg2">/tours</Code> (this docs site's own tour runs on{' '}
+              <Code id="target-page-eg3">/tours</Code>, not the full{' '}
+              <Code id="target-page-eg4">https://fab-builder.github.io/pagepilot-vanilla-react-app/tours</Code>{' '}
+              URL). In code this is the first argument to{' '}
               <Code id="target-page-method">showHighlights(slug, refetch)</Code>.
             </span>
           </PropertyCard>
@@ -273,9 +279,10 @@ function Tours() {
 
         <Section id="alt-target-page" title="Alternative Target Page">
           <p id="alt-target-page-text">
-            Additional slugs the same tour should also run on. Useful when the same screen is reached
-            via multiple URLs (e.g. <Code id="alt-eg1">/home</Code> and{' '}
-            <Code id="alt-eg2">/dashboard</Code>). Each alternative must also start with{' '}
+            Additional page paths the same tour should also run on — same rule as Target Page, just
+            the path, not the full URL. Useful when the same screen is reached via multiple routes,
+            e.g. a store reachable at both <Code id="alt-eg1">/home</Code> and{' '}
+            <Code id="alt-eg2">/pricing</Code>. Each alternative must also start with{' '}
             <Code id="alt-slash">/</Code>.
           </p>
           <PropertyCard type="string[]" defaultValue="[]">
@@ -288,17 +295,26 @@ function Tours() {
 
         <Section id="selector" title="Element / Selector">
           <p id="selector-text">
-            Per step, the <strong id="selector-element-id">Element ID</strong> (CSS selector) of the
-            element to highlight. The tooltip anchors to this element. On this demo page the
-            selectors are <Code id="selector-eg-create">#demo-create</Code>,{' '}
+            Per step, the <strong id="selector-element-id">Element ID</strong> is the CSS selector of
+            the on-page element to highlight — the same <Code id="selector-id-attr">id</Code> or{' '}
+            <Code id="selector-class-attr">class</Code> attribute you'd already have in your HTML,
+            written with its CSS prefix. An{' '}
+            <Code id="selector-id-format">id="add-to-cart"</Code> attribute becomes the selector{' '}
+            <Code id="selector-id-format-2">#add-to-cart</Code>; a{' '}
+            <Code id="selector-class-format">class="add-to-cart-btn"</Code> attribute becomes{' '}
+            <Code id="selector-class-format-2">.add-to-cart-btn</Code>. The tooltip anchors to this
+            element. On this demo page the selectors are{' '}
+            <Code id="selector-eg-create">#demo-create</Code>,{' '}
             <Code id="selector-eg-search">#demo-search</Code>,{' '}
             <Code id="selector-eg-settings">#demo-settings</Code> and{' '}
             <Code id="selector-eg-profile">#demo-profile</Code>.
           </p>
           <PropertyCard type="string" required>
             <span id="selector-prop">
-              Any valid CSS selector. If the element isn't present when the tour runs, that step is
-              skipped.
+              Any valid CSS selector — ID (<Code id="selector-prop-id-eg">#element-id</Code>) or class
+              (<Code id="selector-prop-class-eg">.class-name</Code>). The step isn't skipped if the
+              element can't be found — instead that step just shows in the middle of the screen
+              instead of pointing at anything, so double check your selector is correct.
             </span>
           </PropertyCard>
         </Section>
