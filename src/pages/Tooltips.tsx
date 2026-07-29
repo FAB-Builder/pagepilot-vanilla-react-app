@@ -177,13 +177,13 @@ function Tooltips() {
             <strong id="overview-trigger">trigger behaviour</strong> (what makes it appear), its{' '}
             <strong id="overview-placement">placement</strong> relative to the element, and its{' '}
             <strong id="overview-style">visual style</strong>. PagePilot resolves which tooltips to
-            show based on the current page slug.
+            show based on the current target page.
           </p>
         </Section>
 
         <Section id="live-demo" title="Live demo" >
           <p id="live-demo-text" style={{width:"fit-content"}}>
-            The tooltips published against the <Code id="live-demo-slug">{TOOLTIP_SLUG}</Code> slug
+            The tooltips published against the <Code id="live-demo-slug">{TOOLTIP_SLUG}</Code> target page
             load <strong id="live-demo-cta-text">automatically</strong> as soon as you open this
             page — exactly as they would on a real route. Hover or click the sample buttons below to
             see them in action.
@@ -206,7 +206,7 @@ function Tooltips() {
           <p id="integration-text">
             Tooltips use the exact same SDK call as tours —{' '}
             <Code id="integration-method">showHighlights(slug, true)</Code>. PagePilot looks up
-            everything published for that slug (tooltips and tours) and renders it. So if you've
+            everything published for that target page (tooltips and tours) and renders it. So if you've
             already wired PagePilot for tours, tooltips work with no extra code.
           </p>
 
@@ -237,7 +237,7 @@ function Tooltips() {
           </h3>
           <p id="integration-react-text" className="text-sm text-slate-600">
             Call <Code id="integration-react-method">showHighlights("{TOOLTIP_SLUG}", true)</Code>{' '}
-            after the page mounts to register every tooltip published for that slug.
+            after the page mounts to register every tooltip published for that target page.
           </p>
           <DemoBlock
             title="Initialize and load tooltips"
@@ -275,7 +275,7 @@ function Tooltips() {
           </PropertyCard>
           <PropertyCard type="string[]" defaultValue="[]">
             <span id="alt-slugs-prop">
-              <strong>Alternative slugs</strong> — additional paths (same rule: path only, not the
+              <strong>Alternative target pages</strong> — additional paths (same rule: path only, not the
               full URL) the same tooltip should appear on. Useful when the same screen is accessible
               via multiple routes.
             </span>
@@ -660,7 +660,7 @@ function Tooltips() {
               {
                 property: 'showHighlights(slug, refetch)',
                 description:
-                  'Registers and renders all tooltips (and tours) published for the given slug.',
+                  'Registers and renders all tooltips (and tours) published for the given target page.',
                 type: '(slug: string, refetch: boolean) => Promise<void>',
               },
               {
