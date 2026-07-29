@@ -8,8 +8,8 @@ import PropertyCard from '../components/PropertyCard';
 import AiPromptBlock from '../components/AiPromptBlock';
 
 /**
- * The slug a tour is attached to. In PagePilot a "Target Page" is just a
- * slug; the tour for this demo is published against the `/tours` slug.
+ * The Target Page a tour is attached to. In PagePilot a "Target Page" is
+ * just a URL path; the tour for this demo is published against `/tours`.
  */
 const TOUR_SLUG = '/tours';
 
@@ -181,7 +181,7 @@ function Tours() {
         <Section id="live-demo" title="Live demo">
           <p id="live-demo-text">
             Press <strong id="live-demo-cta-text">Start Tour</strong> to run the tour published
-            against the <Code id="live-demo-slug">{TOUR_SLUG}</Code> slug for this demo app. It
+            against the <Code id="live-demo-slug">{TOUR_SLUG}</Code> target page for this demo app. It
             highlights the sample buttons below.
           </p>
           <DemoBlock
@@ -239,7 +239,7 @@ function Tours() {
             description={
               <>
                 <Code id="integration-react-method">showHighlights("{TOUR_SLUG}", true)</Code>{' '}
-                renders the tour for that slug once the sitemap is ready.
+                renders the tour for that target page once the sitemap is ready.
               </>
             }
             code={BASIC_CODE}
@@ -280,7 +280,7 @@ function Tours() {
           </p>
           <PropertyCard type="string[]" defaultValue="[]">
             <span id="alt-target-page-prop">
-              A list of extra page slugs. The tour shows if the current URL matches the Target Page{' '}
+              A list of extra target pages. The tour shows if the current URL matches the Target Page{' '}
               <em>or</em> any alternative.
             </span>
           </PropertyCard>
@@ -456,7 +456,7 @@ function Tours() {
               },
               {
                 property: 'showHighlights(slug, refetch)',
-                description: 'Renders the tour / highlights published for the given slug.',
+                description: 'Renders the tour / highlights published for the given target page.',
                 type: '(slug: string, refetch: boolean) => Promise<void>',
               },
               {
