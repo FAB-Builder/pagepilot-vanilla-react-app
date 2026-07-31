@@ -57,6 +57,12 @@ export const PAGEPILOT_APP_URL = 'https://pagepilot.fabbuilder.com/tenant';
  */
 export const PAGEPILOT_GROUPS_URL = 'https://pagepilot.fabbuilder.com/configurations/groups';
 
+/**
+ * Page Pilot menu module — where menus are authored with the drag-and-drop
+ * builder, and where slugs are validated against existing pages.
+ */
+export const PAGEPILOT_MENUS_URL = 'https://pagepilot.fabbuilder.com/menu';
+
 /** Builds the Page Pilot content API base for a given workspace id. */
 export const pagePilotApiBase = (workspaceId: string) =>
   `${PAGEPILOT_API_HOST}/tenant/${workspaceId}`;
