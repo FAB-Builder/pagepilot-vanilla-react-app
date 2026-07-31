@@ -11,6 +11,7 @@ import LinkPageToMenu from './pages/pages/link-page-to-menu';
 import ExternalSections from './pages/pages/external-sections';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
+import Menus from './pages/menus';
 import Webinar from './pages/webinar';
 import Forms from './pages/forms';
 import AppBanner from './pages/AppBanner';
@@ -83,6 +84,7 @@ function App() {
         <Route path="pages/editor-css" element={<EditorCss />} />
         <Route path="pages/external-sections" element={<ExternalSections />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
+        <Route path="menus" element={<Menus />} />
         <Route path="webinar" element={<Webinar />} />
         <Route path="forms" element={<Forms />} />
         <Route path="app-banner" element={<AppBanner />} />

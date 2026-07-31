@@ -3,6 +3,7 @@ import { MessageIcon, PollIcon, ReactionIcon, ViewsIcon } from '../../components
 import { Section, Code, Step, Note } from './shared';
 import { CalendarViewSection, ScheduleApiSection } from './CalendarSection';
 import LiveUpcomingSection from './LiveUpcomingSection';
+import PaidWebinarSection from './PaidWebinarSection';
 
 const SECTIONS: DocSection[] = [
   { id: 'overview',      label: 'Overview' },
@@ -21,6 +22,7 @@ const SECTIONS: DocSection[] = [
   { id: 'polls-forms',   label: 'Polls & forms' },
   { id: 'views',         label: 'Viewer count' },
   { id: 'registration',  label: 'Registration form' },
+  { id: 'paid-webinar',  label: 'Paid webinar' },
   { id: 'cs-channel',    label: 'CS Channel' },
   { id: 'share-link',    label: 'Shareable link' },
   { id: 'social',        label: 'Social sharing' },
@@ -278,6 +280,8 @@ export default function Webinar() {
             <strong>{'{{id}}'}</strong> is replaced with the unique ID of the registrant's form response after submission. You do not need to edit these placeholders manually.
           </Note>
         </Section>
+
+        <PaidWebinarSection />
 
         <Section id="cs-channel" title="CS Channel integration">
           <p>Link a <strong>Fab CS</strong> communication channel to your webinar so every registration is forwarded automatically into CS — ready for your team to send reminders, answer questions, and manage attendees without switching tools.</p>

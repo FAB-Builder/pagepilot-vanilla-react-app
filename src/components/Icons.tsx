@@ -212,6 +212,30 @@ export function ContextHelpMenuIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/** Menus — nested list with drag handles, matching the menu builder tree. */
+export function MenusIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      aria-hidden="true"
+      {...props}
+    >
+      <line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="9" y1="12" x2="20" y2="12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="9" y1="18" x2="20" y2="18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path
+        d="M5 9v7.5a1.5 1.5 0 0 0 1.5 1.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 /** Webinar — video play / broadcast icon. */
 export function WebinarIcon(props: SVGProps<SVGSVGElement>) {
   return (
