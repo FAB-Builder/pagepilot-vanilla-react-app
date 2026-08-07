@@ -9,6 +9,7 @@ import TemplateVariables from './pages/pages/template-variables';
 import EditorCss from './pages/pages/editor-css';
 import LinkPageToMenu from './pages/pages/link-page-to-menu';
 import ExternalSections from './pages/pages/external-sections';
+import RuntimeScripts from './pages/pages/runtime-scripts';
 import BuildTriggers from './pages/pages/build-triggers';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
@@ -96,6 +97,7 @@ function App() {
         <Route path="pages/link-page-to-menu" element={<LinkPageToMenu />} />
         <Route path="pages/editor-css" element={<EditorCss />} />
         <Route path="pages/external-sections" element={<ExternalSections />} />
+        <Route path="pages/runtime-scripts" element={<RuntimeScripts />} />
         <Route path="pages/build-triggers" element={<BuildTriggers />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
         <Route path="menus" element={<Menus />} />

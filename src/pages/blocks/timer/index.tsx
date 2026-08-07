@@ -41,9 +41,13 @@ export default function TimerBlock() {
           <p>
             You'll find it under <strong>Embeds/Integrations</strong> in the Add Block menu.
           </p>
-          <BlockCallout variant="warning" title="Read the “Making it tick” section">
-            The published block renders the time remaining <em>as at page load</em>. It does not
-            count down on its own — see below for why and what to do about it.
+          <BlockCallout variant="warning" title="The countdown needs a script">
+            Page Pilot hosts a small <Code>pagePilotTimer.js</Code> that makes the numbers tick.
+            Enable it when publishing, or load it yourself — see{' '}
+            <a className="text-brand hover:underline" href="/pagepilot-vanilla-react-app/pages/runtime-scripts">
+              Runtime Scripts &amp; Animations
+            </a>
+            . Without it the timer renders the time remaining at page load and stays there.
           </BlockCallout>
         </Section>
 
@@ -137,13 +141,23 @@ export default function TimerBlock() {
 
         <Section id="ticking" title="Making it tick">
           <p>
-            A published Page Pilot page is static HTML. There's no JavaScript bundled with it, so
-            nothing on the page can update the numbers once they're rendered — a visitor who leaves
-            the tab open sees the same figures until they reload.
+            A published page is static HTML, so the markup alone can't update the numbers. The
+            countdown is driven by <Code>pagePilotTimer.js</Code>, a small script Page Pilot hosts
+            for you.
           </p>
           <p>
-            The block is built with this in mind. Every unit it renders is tagged with data
-            attributes so <em>your</em> application can find them and drive the countdown itself:
+            Tick <strong>Inject timer script</strong> in the Publish dialog's{' '}
+            <strong>Scripts &amp; Styles</strong> tab and it's included automatically. If your
+            application embeds the page by injecting raw HTML, you'll need to load the script from
+            your app shell instead — the full explanation is in{' '}
+            <a className="text-brand hover:underline" href="/pagepilot-vanilla-react-app/pages/runtime-scripts">
+              Runtime Scripts &amp; Animations
+            </a>
+            .
+          </p>
+          <p>
+            The block tags every unit it renders with data attributes, which is how the script
+            finds them:
           </p>
           <div className="my-3 rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs leading-relaxed text-slate-700">
             data-ahd-timer-target
@@ -155,14 +169,13 @@ export default function TimerBlock() {
             data-ahd-timer-expired-behavior
           </div>
           <p>
-            Query for those attributes after the page content is injected, then update the values
-            on an interval. Because the target date and the expiry behaviour are both present in
-            the markup, your script has everything it needs without hardcoding anything.
+            Everything the countdown needs — the target date and the expiry behaviour — is present
+            in the markup, so the script needs no configuration.
           </p>
-          <BlockCallout variant="tip" title="Not always a problem">
-            For a deadline days or weeks out, a snapshot at page load is perfectly accurate enough —
-            no script needed. The live tick matters for short countdowns, where a visitor is likely
-            to be watching the seconds change.
+          <BlockCallout variant="tip" title="Without the script it still renders">
+            You get the time remaining as at page load, frozen. For a deadline days or weeks out
+            that's often accurate enough. The live tick matters for short countdowns, where a
+            visitor is watching the seconds change.
           </BlockCallout>
         </Section>
 

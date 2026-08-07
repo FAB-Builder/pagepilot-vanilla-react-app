@@ -38,6 +38,15 @@ export default function PaginationBlock() {
             time and pages through the rest. A new Pagination block starts as a 2×2 grid with all
             four cells on one page.
           </p>
+          <BlockCallout variant="warning" title="This block needs a runtime script">
+            Page numbers, prev/next and URL sync are powered by <Code>pagePilotPagination.js</Code>, hosted by Page Pilot. Tick it in the
+            Publish dialog&apos;s <strong>Scripts &amp; Styles</strong> tab — and if your app embeds
+            the page by injecting raw HTML, load it from your app shell instead. See{' '}
+            <a className="text-brand hover:underline" href="/pagepilot-vanilla-react-app/pages/runtime-scripts">
+              Runtime Scripts &amp; Animations
+            </a>
+            . Without it the first page of items shows and the controls do nothing — the block degrades, it does not break.
+          </BlockCallout>
         </Section>
 
         <Section id="behavior" title="Behaviour">

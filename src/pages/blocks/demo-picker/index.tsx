@@ -43,6 +43,16 @@ export default function DemoPickerBlock() {
             render for visitors even once it's selected — see the <strong>Demos</strong> module for
             the recording and publishing flow.
           </BlockCallout>
+          <BlockCallout variant="warning" title="This block needs a runtime script">
+            Scaling the embedded demo to fit its container is handled by{' '}
+            <Code>pagePilotDemoScale.js</Code>, hosted by Page Pilot. Tick it in the
+            Publish dialog&apos;s <strong>Scripts &amp; Styles</strong> tab — and if your app embeds
+            the page by injecting raw HTML, load it from your app shell instead. See{' '}
+            <a className="text-brand hover:underline" href="/pagepilot-vanilla-react-app/pages/runtime-scripts">
+              Runtime Scripts &amp; Animations
+            </a>
+            . Without it the demo renders unscaled — the block degrades, it does not break.
+          </BlockCallout>
         </Section>
 
         <Section id="picking" title="Picking a demo">

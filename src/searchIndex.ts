@@ -123,6 +123,15 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'example', label: 'End-to-end example' },
     { id: 'tips', label: 'Tips & gotchas' },
   ],
+  '/pages/runtime-scripts': [
+    { id: 'overview', label: 'Why scripts are needed' },
+    { id: 'which', label: 'Which block needs which' },
+    { id: 'enabling', label: 'Turning them on' },
+    { id: 'embedding', label: 'Loading them yourself' },
+    { id: 'dynamic', label: 'Content that loads late' },
+    { id: 'animations', label: 'Animations' },
+    { id: 'troubleshooting', label: 'Troubleshooting' },
+  ],
   '/pages/build-triggers': [
     { id: 'overview', label: 'What this does' },
     { id: 'when', label: 'Do you need this?' },
@@ -198,6 +207,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'color', label: 'Colors' },
     { id: 'typography', label: 'Typography & spacing' },
     { id: 'responsive', label: 'Per-device behaviour' },
+    { id: 'animation', label: 'Animation' },
   ],
   '/blocks/text': [
     { id: 'overview', label: 'Overview' },
@@ -205,6 +215,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'ai', label: 'Generate with AI' },
     { id: 'style', label: 'Background & spacing' },
     { id: 'responsive', label: 'Per-device behaviour' },
+    { id: 'animation', label: 'Animation' },
   ],
   '/blocks/list': [
     { id: 'overview', label: 'Overview' },
@@ -242,6 +253,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'link', label: 'Link' },
     { id: 'accessibility', label: 'Accessibility' },
     { id: 'responsive', label: 'Per-device behaviour' },
+    { id: 'animation', label: 'Animation' },
   ],
   '/blocks/columns': [
     { id: 'overview', label: 'Overview' },
@@ -408,6 +420,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'link', label: 'Link' },
     { id: 'alt', label: 'Alt text & accessibility' },
     { id: 'responsive', label: 'Per-device behaviour' },
+    { id: 'animation', label: 'Animation' },
   ],
   '/blocks/logo': [
     { id: 'overview', label: 'Overview' },
@@ -418,6 +431,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'link', label: 'Link' },
     { id: 'alt', label: 'Alt text & accessibility' },
     { id: 'responsive', label: 'Per-device behaviour' },
+    { id: 'animation', label: 'Animation' },
   ],
   '/blocks/video': [
     { id: 'overview', label: 'Overview' },
@@ -434,6 +448,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'size-shape', label: 'Size & shape' },
     { id: 'layout', label: 'Alignment & spacing' },
     { id: 'responsive', label: 'Per-device behaviour' },
+    { id: 'animation', label: 'Animation' },
   ],
   '/blocks/button-group': [
     { id: 'overview', label: 'Overview' },
@@ -477,6 +492,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'wrapper-spacing', label: 'Wrapper spacing & alignment' },
     { id: 'icon', label: 'Icon' },
     { id: 'responsive', label: 'Per-device behaviour' },
+    { id: 'animation', label: 'Animation' },
   ],
 };
 
@@ -489,6 +505,7 @@ const MODULE_LABEL: Record<string, string> = {
   '/pages/link-page-to-menu': 'Link a Page to a Menu',
   '/pages/editor-css': 'Editor Block CSS',
   '/pages/external-sections': 'External Sections',
+  '/pages/runtime-scripts': 'Runtime Scripts & Animations',
   '/pages/build-triggers': 'Automated Build Triggers',
   '/context-help-menu': 'Context Help Menu',
   '/webinar': 'Webinar',
