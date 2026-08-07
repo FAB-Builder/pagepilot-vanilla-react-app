@@ -9,6 +9,8 @@ import TemplateVariables from './pages/pages/template-variables';
 import EditorCss from './pages/pages/editor-css';
 import LinkPageToMenu from './pages/pages/link-page-to-menu';
 import ExternalSections from './pages/pages/external-sections';
+import RuntimeScripts from './pages/pages/runtime-scripts';
+import BuildTriggers from './pages/pages/build-triggers';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
 import Menus from './pages/menus';
@@ -40,6 +42,18 @@ import MarqueeBlock from './pages/blocks/marquee';
 import DividerBlock from './pages/blocks/divider';
 import SpacerBlock from './pages/blocks/spacer';
 import HtmlBlock from './pages/blocks/html';
+import ProgressBlock from './pages/blocks/progress';
+import BreadcrumbBlock from './pages/blocks/breadcrumb';
+import RatingBlock from './pages/blocks/rating';
+import AccessibilityToolsBlock from './pages/blocks/accessibility-tools';
+import SkipLinkBlock from './pages/blocks/skip-link';
+import MenuPickerBlock from './pages/blocks/menu-picker';
+import FormsPickerBlock from './pages/blocks/forms-picker';
+import DemoPickerBlock from './pages/blocks/demo-picker';
+import AppBannerPickerBlock from './pages/blocks/app-banner-picker';
+import CalendlyBlock from './pages/blocks/calendly';
+import TimerBlock from './pages/blocks/timer';
+import IframeBlock from './pages/blocks/iframe';
 import { BLOCKS_DEFAULT } from './pages/blocks/subModules';
 import { useEffect } from 'react';
 
@@ -83,6 +97,8 @@ function App() {
         <Route path="pages/link-page-to-menu" element={<LinkPageToMenu />} />
         <Route path="pages/editor-css" element={<EditorCss />} />
         <Route path="pages/external-sections" element={<ExternalSections />} />
+        <Route path="pages/runtime-scripts" element={<RuntimeScripts />} />
+        <Route path="pages/build-triggers" element={<BuildTriggers />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
         <Route path="menus" element={<Menus />} />
         <Route path="webinar" element={<Webinar />} />
@@ -115,6 +131,18 @@ function App() {
         <Route path="blocks/divider" element={<DividerBlock />} />
         <Route path="blocks/spacer" element={<SpacerBlock />} />
         <Route path="blocks/html" element={<HtmlBlock />} />
+        <Route path="blocks/progress" element={<ProgressBlock />} />
+        <Route path="blocks/breadcrumb" element={<BreadcrumbBlock />} />
+        <Route path="blocks/rating" element={<RatingBlock />} />
+        <Route path="blocks/accessibility-tools" element={<AccessibilityToolsBlock />} />
+        <Route path="blocks/skip-link" element={<SkipLinkBlock />} />
+        <Route path="blocks/menu-picker" element={<MenuPickerBlock />} />
+        <Route path="blocks/forms-picker" element={<FormsPickerBlock />} />
+        <Route path="blocks/demo-picker" element={<DemoPickerBlock />} />
+        <Route path="blocks/app-banner-picker" element={<AppBannerPickerBlock />} />
+        <Route path="blocks/calendly" element={<CalendlyBlock />} />
+        <Route path="blocks/timer" element={<TimerBlock />} />
+        <Route path="blocks/iframe" element={<IframeBlock />} />
         {/* Unknown slug → send the user back home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

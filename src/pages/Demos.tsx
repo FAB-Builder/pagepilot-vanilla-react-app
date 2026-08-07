@@ -123,7 +123,7 @@ function Demos() {
           />
           <ApiTable
             rows={[
-              { property: 'tid', description: 'Your PagePilot tenant ID.', type: 'string' },
+              { property: 'tid', description: 'Your Page Pilot workspace id.', type: 'string' },
               { property: 'did', description: 'The demo record ID.', type: 'string' },
               { property: 'type', description: 'Always "demo".', type: "'demo'" },
               { property: 'status', description: 'Always "live".', type: "'live'" },
@@ -142,7 +142,7 @@ function Demos() {
             code={EMBED_CODE}
           />
           <p className="text-sm text-slate-600">
-            Replace <Code>YOUR_TENANT_ID</Code> and <Code>YOUR_DEMO_ID</Code> with the values shown
+            Replace <Code>YOUR_WORKSPACE_ID</Code> and <Code>YOUR_DEMO_ID</Code> with the values shown
             in the PagePilot admin after publishing.
           </p>
         </Section>
@@ -313,27 +313,27 @@ Add the following responsive iframe embed to the page where the demo should appe
 <div style="position:relative;padding-bottom:calc(54.75% + 25px);width:100%;height:0;">
   <iframe
     loading="lazy"
-    src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live"
+    src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_WORKSPACE_ID&did=YOUR_DEMO_ID&type=demo&status=live"
     style="position:absolute;top:0;left:0;width:100%;height:100%;"
     frameborder="0"
     allowfullscreen
   ></iframe>
 </div>
 
-Replace YOUR_TENANT_ID and YOUR_DEMO_ID with the values shown in the PagePilot admin integration dialog after publishing the demo.
+Replace YOUR_WORKSPACE_ID and YOUR_DEMO_ID with the values shown in the PagePilot admin integration dialog after publishing the demo.
 
 If my project uses React or JSX, convert the HTML attributes accordingly (style as an object, frameBorder, allowFullScreen).
 
 Detect my framework (React, Next.js, Vue, plain HTML, etc.) and produce the embed in the correct syntax.`;
 
-const SHARE_LINK = `https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live`;
+const SHARE_LINK = `https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_WORKSPACE_ID&did=YOUR_DEMO_ID&type=demo&status=live`;
 
 const EMBED_CODE = `export default function PagePilotDemo() {
   return (
     <div style={{ position: 'relative', paddingBottom: 'calc(54.75% + 25px)', width: '100%', height: 0 }}>
       <iframe
         loading="lazy"
-        src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_TENANT_ID&did=YOUR_DEMO_ID&type=demo&status=live"
+        src="https://pagepilot-demo-viewer-prod.web.app/?tid=YOUR_WORKSPACE_ID&did=YOUR_DEMO_ID&type=demo&status=live"
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
         frameBorder="0"
         allowFullScreen

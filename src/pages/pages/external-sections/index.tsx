@@ -52,7 +52,8 @@ export default function ExternalSections() {
           </p>
           <p>
             Page Pilot generates that identifier for you in the form{' '}
-            <Code>section-&lt;timestamp&gt;</Code> (e.g. <Code>section-1782448678097</Code>). When you
+            <Code>section-&lt;timestamp&gt;</Code> — yours will be different, so always copy it from
+            the editor rather than typing one from these examples. When you
             map over the sections, you render internal ones as-is and swap in your own component
             wherever you find a matching external identifier — a live pricing widget, a personalised
             greeting, a third-party embed. Page Pilot owns the <em>slot</em>; you own the{' '}
@@ -156,9 +157,8 @@ export default function ExternalSections() {
             </li>
             <li>
               <strong className="text-ink">5. Save</strong> — the section is created with an
-              auto-generated identifier of the form <Code>section-&lt;timestamp&gt;</Code> (e.g.{' '}
-              <Code>section-1782448678097</Code>) and tagged with an <strong>External</strong> chip in
-              the dropdown.
+              auto-generated identifier of the form <Code>section-&lt;timestamp&gt;</Code> and tagged
+              with an <strong>External</strong> chip in the dropdown.
             </li>
           </ol>
           <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
@@ -182,8 +182,8 @@ export default function ExternalSections() {
           <div className="my-3">
             <CodeSnippet
               language="tsx"
-              code={`// The external section's identifier — copied from the editor.
-const SUBSCRIPTION_PLANS = 'section-1782448678097';
+              code={`// Paste the identifier you copied from the editor.
+const SUBSCRIPTION_PLANS = 'YOUR_SECTION_IDENTIFIER';
 
 {pageInfo.sections.map((section) => {
   // Internal section → render the HTML built on the canvas.
@@ -220,7 +220,7 @@ const SUBSCRIPTION_PLANS = 'section-1782448678097';
             <CodeSnippet
               language="text"
               code={`Section 1  "Intro"    → internal (designed on the canvas)
-Section 2  "Plans"    → external (id: section-1782448678097)`}
+Section 2  "Plans"    → external (identifier copied from the editor)`}
             />
           </div>
           <div className="my-3">
@@ -228,7 +228,7 @@ Section 2  "Plans"    → external (id: section-1782448678097)`}
             <CodeSnippet
               language="tsx"
               code={`// Your external section's identifier (copied from the editor).
-const PLANS = 'section-1782448678097';
+const PLANS = 'YOUR_SECTION_IDENTIFIER';
 
 export default async function MyPage() {
   // Replace with your workspace API host and your page's slug.
