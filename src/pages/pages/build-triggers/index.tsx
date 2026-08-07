@@ -4,6 +4,7 @@ import { Section, Code } from '../../../components/DocSection';
 import CodeSnippet from '../../../components/CodeSnippet';
 import ApiTable from '../../../components/ApiTable';
 import WorkspaceIdNote, { WorkspaceIdLink } from '../../../components/WorkspaceIdNote';
+import CaseStudyCallout from '../../../components/CaseStudyCallout';
 import { PAGES_SUBMODULES } from '../subModules';
 import {
   CHECK_ENDPOINT,
@@ -193,6 +194,13 @@ export default function BuildTriggers() {
             it off too early and the deploy then fails, Page Pilot thinks the change is already
             published — so no future run will fix it, and your site quietly stays out of date.
           </Note>
+
+          <CaseStudyCallout compact />
+          <p className="text-sm text-slate-500">
+            This is not a hypothetical setup — it's how fabbuilder.com ships. A marketing editor
+            publishes a page in Page Pilot, and the site rebuilds on its next scheduled run without
+            a developer touching anything.
+          </p>
         </Section>
 
         {/* ================================================================ */}

@@ -3,6 +3,7 @@ import { Section, Code } from '../../../components/DocSection';
 import PropertyCard from '../../../components/PropertyCard';
 import { BlockCallout } from '../shared/BlockCallout';
 import { BLOCKS_SUBMODULES } from '../subModules';
+import CaseStudyCallout from '../../../components/CaseStudyCallout';
 
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
@@ -42,6 +43,8 @@ export default function HeadingBlock() {
             default font size.
           </p>
         </header>
+
+        <CaseStudyCallout compact />
 
         <Section id="overview" title="Overview">
           <p>

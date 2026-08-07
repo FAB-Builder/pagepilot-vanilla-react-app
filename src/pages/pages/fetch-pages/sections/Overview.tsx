@@ -1,5 +1,6 @@
 import { LEAD_APPLICATION_ID, PAGEPILOT_APP_URL } from '../../../../lib/ahd';
 import { Section, Code } from '../../../../components/DocSection';
+import CaseStudyCallout from '../../../../components/CaseStudyCallout';
 
 function Overview() {
   return (
@@ -14,6 +15,16 @@ function Overview() {
         This works the same way the FabBuilder website renders its blog: it requests the{' '}
         <Code>website-blogs</Code> page and, alongside it, a filtered list of blog pages to show in
         the grid.
+      </p>
+
+      <CaseStudyCallout />
+
+      <p>
+        That site is worth opening next to this page. Its entire routing layer is a single Next.js
+        catch-all — <Code>app/[...slug]/page.tsx</Code> — which asks Page Pilot for the list of
+        live slugs at build time, then renders each one by calling{' '}
+        <Code>/pagebyslug/&#123;slug&#125;</Code>. Adding a page to the site means creating a page
+        in Page Pilot; no route file is written, and no code is deployed.
       </p>
       <p>
         Requests are scoped to your <strong>workspace&nbsp;id</strong>. Replace{' '}
