@@ -1,5 +1,6 @@
 import DocLayout, { type DocSection } from '../../components/DocLayout';
 import { Section, Code } from '../../components/DocSection';
+import { WorkspaceIdLink } from '../../components/WorkspaceIdNote';
 import { PAGEPILOT_MENUS_URL } from '../../lib/ahd';
 
 const SECTIONS: DocSection[] = [
@@ -235,7 +236,8 @@ async function fetchMenu(workspaceId, menuName) {
             GET /api/tenant/&#123;WORKSPACE_ID&#125;/menu-by-name/&#123;MENU_NAME&#125;
           </pre>
           <p className="mt-2">
-            <Code>MENU_NAME</Code> is the name you gave the menu in{' '}
+            <Code>WORKSPACE_ID</Code> is your Page Pilot workspace id, from{' '}
+            <WorkspaceIdLink />. <Code>MENU_NAME</Code> is the name you gave the menu in{' '}
             <AdminLink>Page Pilot → Menus</AdminLink>. No authentication is required. Responses are
             safe to cache at the session level.
           </p>

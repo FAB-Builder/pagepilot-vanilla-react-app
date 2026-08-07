@@ -10,7 +10,7 @@ OVERVIEW
 
 API BASE
 const PAGEPILOT_API = "${PAGEPILOT_API_HOST}/tenant/YOUR_WORKSPACE_ID";
-- Replace YOUR_WORKSPACE_ID with my workspace id (found in Page Pilot → Settings → General).
+- Replace YOUR_WORKSPACE_ID with my workspace id (found at pagepilot.fabbuilder.com/tenant).
 
 STEP 1 — Fetch the menu tree
 - GET \`\${PAGEPILOT_API}/menu-by-name/\${menuName}\`

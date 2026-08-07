@@ -36,9 +36,23 @@ const ENTRIES: SubModule[] = [
   { to: '/blocks/carousel', label: 'Carousel' },
   { to: '/blocks/pagination', label: 'Pagination' },
   { to: '/blocks/marquee', label: 'Marquee' },
+  { to: '/blocks/breadcrumb', label: 'Breadcrumb' },
   { to: '/blocks/divider', label: 'Divider' },
   { to: '/blocks/spacer', label: 'Spacer' },
   { to: '/blocks/html', label: 'HTML' },
+  // Embeds/Integrations
+  { to: '/blocks/menu-picker', label: 'Menu' },
+  { to: '/blocks/forms-picker', label: 'Forms' },
+  { to: '/blocks/demo-picker', label: 'Demo' },
+  { to: '/blocks/app-banner-picker', label: 'App Banner' },
+  { to: '/blocks/calendly', label: 'Calendly' },
+  { to: '/blocks/timer', label: 'Timer' },
+  { to: '/blocks/iframe', label: 'Iframe' },
+  // Support/Utility
+  { to: '/blocks/progress', label: 'Progress' },
+  { to: '/blocks/rating', label: 'Rating' },
+  { to: '/blocks/accessibility-tools', label: 'Accessibility Tools' },
+  { to: '/blocks/skip-link', label: 'Skip Link' },
 ];
 
 /**

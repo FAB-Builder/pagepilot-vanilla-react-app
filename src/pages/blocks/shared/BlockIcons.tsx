@@ -203,6 +203,133 @@ export const HtmlIcon = (p: IconProps) => (
   <StrokeIcon {...p} d="M16 18L22 12L16 6M8 6L2 12L8 18" />
 );
 
+/**
+ * Two rects rather than a single path — a hollow track with a filled portion,
+ * matching the editor's `ProgressBarIcon`.
+ */
+export const ProgressIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...p}>
+    <rect x="3" y="10" width="18" height="4" rx="2" stroke="currentColor" strokeWidth={2} />
+    <rect x="3" y="10" width="11" height="4" rx="2" fill="currentColor" />
+  </svg>
+);
+
+export const BreadcrumbIcon = (p: IconProps) => (
+  <StrokeIcon {...p} d="M4 12h3M9 8l4 4-4 4M14 8l4 4-4 4" />
+);
+
+/** A star outline, filled — matching the editor's `RatingStarIcon`. */
+export const RatingIcon = (p: IconProps) => (
+  <FillIcon
+    {...p}
+    d="M12 3.5l2.47 5.005 5.53.808-4 3.9.944 5.503L12 16.62l-4.944 2.598L8 13.713l-4-3.9 5.53-.808L12 3.5z"
+  />
+);
+
+/** Clock face with a crown stem, matching the editor's `TimerBlockIcon`. */
+export const TimerIcon = (p: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    aria-hidden="true"
+    {...p}
+  >
+    <circle cx="12" cy="13" r="8" />
+    <path d="M10 2h4M12 2v2M12 13l3 2" />
+  </svg>
+);
+
+export const SkipLinkIcon = (p: IconProps) => (
+  <FillIcon
+    {...p}
+    d="M3.70336 9.56155C5.04496 7.88155 7.28176 5.87035 10.0154 5.27515C12.3038 4.77715 15.1154 5.23555 18.2558 8.09995H15.0002C14.7615 8.09995 14.5326 8.19477 14.3638 8.36356C14.195 8.53234 14.1002 8.76126 14.1002 8.99995C14.1002 9.23865 14.195 9.46757 14.3638 9.63635C14.5326 9.80513 14.7615 9.89995 15.0002 9.89995H20.4002C20.6389 9.89995 20.8678 9.80513 21.0366 9.63635C21.2053 9.46757 21.3002 9.23865 21.3002 8.99995V4.19995C21.3002 3.96126 21.2053 3.73234 21.0366 3.56356C20.8678 3.39477 20.6389 3.29995 20.4002 3.29995C20.1615 3.29995 19.9325 3.39477 19.7638 3.56356C19.595 3.73234 19.5002 3.96126 19.5002 4.19995V6.80035C15.9914 3.58795 12.6038 2.87035 9.63376 3.51595C6.31936 4.23715 3.75616 6.61195 2.29696 8.43955C2.15691 8.6268 2.09524 8.86121 2.125 9.09314C2.15476 9.32507 2.27362 9.53631 2.45641 9.68214C2.6392 9.82797 2.87156 9.89693 3.10431 9.87442C3.33706 9.85191 3.5519 9.7397 3.70336 9.56155ZM7.80016 12.9012C7.24321 12.9012 6.70907 13.1224 6.31524 13.5162C5.92141 13.9101 5.70016 14.4442 5.70016 15.0012V18.6012C5.70016 19.7604 6.64096 20.7012 7.80016 20.7012H16.2002C16.7571 20.7012 17.2913 20.4799 17.6851 20.0861C18.0789 19.6922 18.3002 19.1581 18.3002 18.6012V15.0012C18.3002 14.4442 18.0789 13.9101 17.6851 13.5162C17.2913 13.1224 16.7571 12.9012 16.2002 12.9012H7.80016ZM7.50016 15.0012C7.50016 14.9216 7.53177 14.8453 7.58803 14.789C7.64429 14.7328 7.7206 14.7012 7.80016 14.7012H16.2002C16.2797 14.7012 16.356 14.7328 16.4123 14.789C16.4686 14.8453 16.5002 14.9216 16.5002 15.0012V18.6012C16.5002 18.6807 16.4686 18.757 16.4123 18.8133C16.356 18.8695 16.2797 18.9012 16.2002 18.9012H7.80016C7.7206 18.9012 7.64429 18.8695 7.58803 18.8133C7.53177 18.757 7.50016 18.6807 7.50016 18.6012V15.0012Z"
+  />
+);
+
+/** MUI's `AccessibilityNew` glyph, which the editor uses for this block. */
+export const AccessibilityIcon = (p: IconProps) => (
+  <FillIcon
+    {...p}
+    d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"
+  />
+);
+
+export const IframeIcon = (p: IconProps) => (
+  <FillIcon
+    {...p}
+    d="M11.5 13.5H16.5V11.5H11.5V13.5ZM10 15V10H18V15H10ZM4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.19667 19.0217 2.00067 18.5507 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.98 4.19667 3.45067 4.00067 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.805 4.98 22.0007 5.45067 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.0217 19.805 20.5507 20.0007 20 20H4ZM4 18H20V8H4V18Z"
+  />
+);
+
+/** A calendar page with a booked slot — stands in for the Calendly wordmark. */
+export const CalendlyIcon = (p: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    {...p}
+  >
+    <rect x="3" y="5" width="18" height="16" rx="2" />
+    <path d="M3 10h18M8 3v4M16 3v4" />
+    <rect x="7" y="13" width="5" height="3" rx="1" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+/** A document with field rows, matching the editor's `FormIcon`. */
+export const FormsPickerIcon = (p: IconProps) => (
+  <FillIcon
+    {...p}
+    d="M11 15H17V17H11V15ZM9 7H7V9H9V7ZM11 13H17V11H11V13ZM11 9H17V7H11V9ZM9 11H7V13H9V11ZM21 5V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V5C3 3.9 3.9 3 5 3H19C20.1 3 21 3.9 21 5ZM19 5H5V19H19V5ZM9 15H7V17H9V15Z"
+  />
+);
+
+/** A cursor over a screen — an interactive walkthrough. */
+export const DemoPickerIcon = (p: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    {...p}
+  >
+    <rect x="2" y="4" width="20" height="14" rx="2" />
+    <path d="M11 10l6 3-2.5 1L13 17z" fill="currentColor" />
+  </svg>
+);
+
+/** A banner strip pinned across the top of a page. */
+export const AppBannerBlockIcon = (p: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    {...p}
+  >
+    <rect x="3" y="4" width="18" height="16" rx="2" />
+    <rect x="3" y="4" width="18" height="5" rx="2" fill="currentColor" stroke="none" />
+    <path d="M7 13h10M7 16.5h6" />
+  </svg>
+);
+
+/** Stacked nav lines, matching the editor's `MenuPickerIcon`. */
+export const MenuPickerIcon = (p: IconProps) => (
+  <StrokeIcon {...p} d="M4.5 12H14.5M4.5 7H19.5M4.5 17H19.5" />
+);
+
 /** Route path → icon, so the rail can look one up without extra wiring. */
 export const BLOCK_ICONS: Record<string, ComponentType<IconProps>> = {
   '/blocks/heading': HeadingIcon,
@@ -230,4 +357,16 @@ export const BLOCK_ICONS: Record<string, ComponentType<IconProps>> = {
   '/blocks/divider': DividerIcon,
   '/blocks/spacer': SpacerIcon,
   '/blocks/html': HtmlIcon,
+  '/blocks/breadcrumb': BreadcrumbIcon,
+  '/blocks/progress': ProgressIcon,
+  '/blocks/rating': RatingIcon,
+  '/blocks/accessibility-tools': AccessibilityIcon,
+  '/blocks/skip-link': SkipLinkIcon,
+  '/blocks/menu-picker': MenuPickerIcon,
+  '/blocks/forms-picker': FormsPickerIcon,
+  '/blocks/demo-picker': DemoPickerIcon,
+  '/blocks/app-banner-picker': AppBannerBlockIcon,
+  '/blocks/calendly': CalendlyIcon,
+  '/blocks/timer': TimerIcon,
+  '/blocks/iframe': IframeIcon,
 };
