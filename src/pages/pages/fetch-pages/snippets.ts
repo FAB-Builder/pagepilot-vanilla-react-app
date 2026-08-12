@@ -195,6 +195,41 @@ async function fetchPageData(slug = 'fab-website') {
   };
 }`;
 
+export const CSS_LEAK_BEFORE = `function PageContent({ html }) {
+  return <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />;
+}`;
+
+export const CSS_LEAK_AFTER = `function PageContent({ html }) {
+  const hostRef = useRef(null);
+
+  useEffect(() => {
+    const root = hostRef.current.attachShadow({ mode: 'open' });
+    root.innerHTML = DOMPurify.sanitize(html);
+  }, [html]);
+
+  return <div ref={hostRef} />;
+}`;
+
+export const OWN_CSS_OVERRIDE_CODE = `function PageContent({ html }) {
+  const hostRef = useRef(null);
+
+  useEffect(() => {
+    const root = hostRef.current.attachShadow({ mode: 'open' });
+    root.innerHTML = DOMPurify.sanitize(html);
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/pagePilotOverrides.css';
+    root.appendChild(link);
+  }, [html]);
+
+  return <div ref={hostRef} />;
+}`;
+
+export const OWN_CSS_FILE = `h1, h2, h3 { font-family: 'Inter', sans-serif; }
+a { color: #4f46e5; }
+table { border: 1px solid #e2e8f0; }`;
+
 export const AI_PROMPT = `You are helping me read content from Page Pilot in my app. Write a helper that fetches a page by slug and, in the same request, a related list of pages. Follow every instruction below.
 
 API
