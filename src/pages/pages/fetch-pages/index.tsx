@@ -15,6 +15,7 @@ import {
   AiPrompt,
   ApiReference,
   PageFields,
+  RenderContent,
 } from './sections';
 
 /**
@@ -40,6 +41,7 @@ const SECTIONS: DocSection[] = [
   { id: 'ai-prompt', label: 'Integrate using AI' },
   { id: 'api', label: 'API reference' },
   { id: 'page-fields', label: 'What you can fetch' },
+  { id: 'render-content', label: 'Rendering content safely' },
 ];
 
 function FetchPages() {
@@ -76,6 +78,7 @@ function FetchPages() {
         <AiPrompt />
         <ApiReference />
         <PageFields />
+        <RenderContent />
       </article>
     </DocLayout>
   );
