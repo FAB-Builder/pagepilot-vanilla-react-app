@@ -16,6 +16,7 @@ import ContextHelpMenu from './pages/context-help-menu';
 import Menus from './pages/menus';
 import Webinar from './pages/webinar';
 import Forms from './pages/forms';
+import Troubleshooting from './pages/Troubleshooting';
 import AppBanner from './pages/AppBanner';
 import ButtonBlock from './pages/blocks/button';
 import HeadingBlock from './pages/blocks/heading';
@@ -103,6 +104,7 @@ function App() {
         <Route path="menus" element={<Menus />} />
         <Route path="webinar" element={<Webinar />} />
         <Route path="forms" element={<Forms />} />
+        <Route path="troubleshooting" element={<Troubleshooting />} />
         <Route path="app-banner" element={<AppBanner />} />
         {/* Blocks module — redirects to its first sub-module */}
         <Route path="blocks" element={<Navigate to={BLOCKS_DEFAULT} replace />} />
