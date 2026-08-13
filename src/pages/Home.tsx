@@ -63,7 +63,7 @@ function ModuleCard({ item }: { item: NavItem }) {
       </div>
 
       <span className="flex items-center gap-1 text-sm font-semibold text-brand">
-        {item.to === '/webinar' ? 'View docs' : item.to === '/troubleshooting' ? 'View ' : 'View docs'}
+        {item.to === '/webinar' ? 'View docs' : item.to === '/troubleshooting' ? 'View' : 'View demo'}
         <ArrowRight
           size={14}
           className="transition-transform duration-200 group-hover:translate-x-1"
