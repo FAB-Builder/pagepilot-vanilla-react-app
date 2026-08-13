@@ -424,3 +424,28 @@ export function GithubIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+/**
+ * Troubleshooting icon. A question mark in a circle for help/troubleshooting.
+ * Inherits `currentColor` for styling.
+ */
+export function TroubleshootingIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 36 36"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      {...props}
+    >
+      <circle cx="18" cy="18" r="16" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M18 11c2.2 0 3.5 1.2 3.5 2.8 0 1.4-.8 2.2-2 2.8-.7.4-1.2.7-1.2 1.4v1m0 3h.01"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

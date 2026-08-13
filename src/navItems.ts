@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon, AppBannerIcon, BlocksIcon, MenusIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon, AppBannerIcon, BlocksIcon, MenusIcon, TroubleshootingIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -75,5 +75,11 @@ export const navItems: NavItem[] = [
     label: 'Blocks',
     description: 'Reference for every visual editor block — properties, action types, and how to configure them.',
     icon: BlocksIcon,
+  },
+  {
+    to: '/troubleshooting',
+    label: 'Troubleshooting',
+    description: 'Fixes for the problems people actually hit integrating Tours, Tooltips, and App Banners in a React app.',
+    icon: TroubleshootingIcon,
   },
 ];
