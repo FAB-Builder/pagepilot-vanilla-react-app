@@ -38,6 +38,15 @@ export default function TabsBlock() {
             tab's content area is a drop zone: build the panel on the canvas with whatever blocks
             you need.
           </p>
+          <BlockCallout variant="warning" title="This block needs a runtime script">
+            Panel switching, keyboard navigation and scroll-to-section are powered by <Code>pagePilotTabs.js</Code>, hosted by Page Pilot. Tick it in the
+            Publish dialog&apos;s <strong>Scripts &amp; Styles</strong> tab — and if your app embeds
+            the page by injecting raw HTML, load it from your app shell instead. See{' '}
+            <a className="text-brand hover:underline" href="/pagepilot-vanilla-react-app/pages/runtime-scripts">
+              Runtime Scripts &amp; Animations
+            </a>
+            . Without it the first panel shows and the tabs do not switch — the block degrades, it does not break.
+          </BlockCallout>
         </Section>
 
         <Section id="orientation" title="Orientation & behaviour">

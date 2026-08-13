@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronDown, ChevronUp, ChevronLeft, X, HelpCircle, Loader2, AlertCircle, FileX } from 'lucide-react';
 import { Section } from '../../../components/DocSection';
-import { pagePilotApiBase } from '../../../lib/ahd';
+import { pagePilotApiBase, DEMO_APPLICATION_ID } from '../../../lib/ahd';
 import { useTheme } from '../../../hooks/useTheme';
 
 const BRAND = '#5550ff';
@@ -51,7 +51,7 @@ const DARK_PALETTE: Palette = {
   inputBg: '#1e293b',
 };
 
-const API_BASE = pagePilotApiBase('64d2b934c6cfdc96aa3734c5');
+const API_BASE = pagePilotApiBase(DEMO_APPLICATION_ID);
 const MENU_API = `${API_BASE}/menu-by-name/fab-docs-site`;
 const CACHE_KEY = 'pp_help_menu_fab_docs_site';
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour — same as ahd-fe useStickyState

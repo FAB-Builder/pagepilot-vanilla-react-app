@@ -9,6 +9,8 @@ export const PAGES_SUBMODULES: SubModule[] = [
   { to: '/pages/template-variables', label: 'Create a Template' },
   { to: '/pages/link-page-to-menu', label: 'Link a Page to a Menu' },
   { to: '/pages/external-sections', label: 'External Sections' },
+  { to: '/pages/runtime-scripts', label: 'Runtime Scripts & Animations' },
+  { to: '/pages/build-triggers', label: 'Automated Build Triggers' },
   { to: '/pages/editor-css', label: 'Editor Block CSS' },
 ];
 

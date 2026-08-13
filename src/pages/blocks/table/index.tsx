@@ -9,6 +9,7 @@ const SECTIONS: DocSection[] = [
   { id: 'editing', label: 'Editing cells' },
   { id: 'structure', label: 'Structure' },
   { id: 'appearance', label: 'Appearance' },
+  { id: 'alignment', label: 'Alignment' },
   { id: 'responsive', label: 'Per-device behaviour' },
 ];
 
@@ -107,11 +108,34 @@ export default function TableBlock() {
           </PropertyCard>
         </Section>
 
+        <Section id="alignment" title="Alignment">
+          <p>
+            Two separate controls that are easy to mix up: one moves the <em>table</em>, the other
+            moves <em>text inside the header row</em>.
+          </p>
+          <PropertyCard type="'left' | 'center' | 'right'" defaultValue="left">
+            <strong>Table alignment</strong> — positions the whole table within its container.
+          </PropertyCard>
+          <BlockCallout variant="warning" title="Only does something when Width is under 100%">
+            A full-width table already fills its container, so there's nowhere to move it. Drop{' '}
+            <strong>Width</strong> below <Code>100%</Code> first, then this control takes effect —
+            the sidebar shows the same reminder as a tooltip.
+          </BlockCallout>
+          <PropertyCard type="'left' | 'center' | 'right'" defaultValue="left">
+            <strong>Header alignment</strong> — aligns text in the header row only. Body cells and
+            the caption keep their own default alignment and aren't affected.
+          </PropertyCard>
+          <BlockCallout title="Header row must be on">
+            Header alignment applies to header cells, so it has no visible effect unless{' '}
+            <strong>First row as header</strong> is enabled.
+          </BlockCallout>
+        </Section>
+
         <Section id="responsive" title="Per-device behaviour">
           <p>
-            Padding, margin, border color, header colors, font family, font size, and text color
-            can differ per device. Each device falls back to <strong>Desktop</strong> when unset;
-            Tablet and Mobile are independent.
+            Padding, margin, border color, header colors, font family, font size, text color, and
+            both alignment controls can differ per device. Each device falls back to{' '}
+            <strong>Desktop</strong> when unset; Tablet and Mobile are independent.
           </p>
           <BlockCallout title="Not per-device">
             The whole Structure section — rows, columns, header toggle, width — plus{' '}

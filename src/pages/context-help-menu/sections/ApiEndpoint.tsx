@@ -1,5 +1,6 @@
 import { Section, Code } from '../../../components/DocSection';
 import DemoBlock from '../../../components/DemoBlock';
+import { WorkspaceIdLink } from '../../../components/WorkspaceIdNote';
 import { FETCH_MENU_CODE } from '../snippets';
 
 function ApiEndpoint() {
@@ -13,8 +14,8 @@ function ApiEndpoint() {
       </pre>
       <ul className="ml-4 list-disc space-y-1">
         <li>
-          <Code>WORKSPACE_ID</Code> — your Page Pilot workspace id. Find it in{' '}
-          <strong>Page Pilot → Settings → General</strong>.
+          <Code>WORKSPACE_ID</Code> — your Page Pilot workspace id, from{' '}
+          <WorkspaceIdLink />.
         </li>
         <li>
           <Code>MENU_NAME</Code> — the <strong>name</strong> you gave the menu when you created it

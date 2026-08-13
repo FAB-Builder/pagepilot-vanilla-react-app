@@ -29,12 +29,6 @@ export const LEAD_APPLICATION_ID = 'YOUR_WORKSPACE_ID';
  */
 export const FAB_CRM_URL = 'https://cs.fabbuilder.com/';
 
-/**
- * CS app general settings page — where a user finds their application id to
- * plug into the lead API URL.
- */
-export const CS_GENERAL_SETTINGS_URL = 'https://pagepilot.fabbuilder.com/tenant';
-
 /** Builds the lead API base for a given application id. */
 export const leadApiBase = (applicationId: string) =>
   `${LEAD_API_HOST}/tenant/${applicationId}`;
@@ -46,16 +40,29 @@ export const leadApiBase = (applicationId: string) =>
 export const PAGEPILOT_API_HOST = 'https://pagepilot.fabbuilder.com/api';
 
 /**
- * Page Pilot app — where pages are authored and where a user finds their
- * workspace id for the fetch-pages API.
+ * Page Pilot app — where pages are authored, and where a user finds the
+ * workspace id that scopes every Page Pilot API call. Single source of truth:
+ * link here whenever docs mention the workspace id.
  */
 export const PAGEPILOT_APP_URL = 'https://pagepilot.fabbuilder.com/tenant';
+
+/**
+ * @deprecated Same URL as {@link PAGEPILOT_APP_URL} — kept so existing imports
+ * keep working. Prefer `PAGEPILOT_APP_URL` in new code.
+ */
+export const CS_GENERAL_SETTINGS_URL = PAGEPILOT_APP_URL;
 
 /**
  * Page Pilot groups configuration — where a user creates and manages the
  * groups they can filter pages by.
  */
 export const PAGEPILOT_GROUPS_URL = 'https://pagepilot.fabbuilder.com/configurations/groups';
+
+/**
+ * Page Pilot menu module — where menus are authored with the drag-and-drop
+ * builder, and where slugs are validated against existing pages.
+ */
+export const PAGEPILOT_MENUS_URL = 'https://pagepilot.fabbuilder.com/menu';
 
 /** Builds the Page Pilot content API base for a given workspace id. */
 export const pagePilotApiBase = (workspaceId: string) =>

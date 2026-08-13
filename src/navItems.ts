@@ -41,6 +41,12 @@ export const navItems: NavItem[] = [
     icon: PagesIcon,
   },
   {
+    to: '/menus',
+    label: 'Menus',
+    description: 'Build nested navigation with the drag-and-drop menu builder, then fetch it as JSON.',
+    icon: MenusIcon,
+  },
+  {
     to: '/context-help-menu',
     label: 'Context Help Menu',
     description: 'A right-anchored help drawer driven by a Page Pilot menu — configure topics without any code changes.',

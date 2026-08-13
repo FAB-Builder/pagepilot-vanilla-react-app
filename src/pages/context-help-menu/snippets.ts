@@ -1,6 +1,6 @@
 import { PAGEPILOT_API_HOST } from '../../lib/ahd';
 
-export const FETCH_MENU_CODE = `// WORKSPACE_ID  — your workspace id from Page Pilot → Settings → General
+export const FETCH_MENU_CODE = `// WORKSPACE_ID  — your workspace id from pagepilot.fabbuilder.com/tenant
 // MENU_NAME     — the name you gave your menu in Page Pilot → Menus
 const PAGEPILOT_API = '${PAGEPILOT_API_HOST}/tenant/YOUR_WORKSPACE_ID';
 
