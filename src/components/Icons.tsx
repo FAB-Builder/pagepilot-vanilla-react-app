@@ -250,6 +250,27 @@ export function AppBannerIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/** Troubleshooting icon — used in the nav and home card for the Troubleshooting docs. */
+export function TroubleshootingIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 8v5" />
+      <circle cx="12" cy="16.2" r="0.6" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 /** Calendar icon — used in the webinar calendar demo. */
 export function CalendarIcon(props: SVGProps<SVGSVGElement>) {
   return (

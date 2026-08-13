@@ -369,6 +369,18 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'icon', label: 'Icon' },
     { id: 'responsive', label: 'Per-device behaviour' },
   ],
+  '/troubleshooting': [
+    { id: 'overview', label: 'Overview' },
+    { id: 'nothing-showing', label: 'Nothing is showing at all' },
+    { id: 'tours-tooltips', label: 'Tours & Tooltips' },
+    { id: 'app-banner', label: 'App Banner' },
+    { id: 'demos', label: 'Demos' },
+    { id: 'context-help-menu', label: 'Context Help Menu' },
+    { id: 'render-content', label: 'Rendering page content safely' },
+    { id: 'spa-routing', label: 'SPA routing (React Router)' },
+    { id: 'caching', label: 'Stale or cached content' },
+    { id: 'testing', label: 'Testing without affecting visitors' },
+  ],
 };
 
 const MODULE_LABEL: Record<string, string> = {
@@ -384,6 +396,7 @@ const MODULE_LABEL: Record<string, string> = {
   '/webinar': 'Webinar',
   '/forms': 'Forms',
   '/app-banner': 'App Banner',
+  '/troubleshooting': 'Troubleshooting',
   '/blocks/heading': 'Heading',
   '/blocks/text': 'Text',
   '/blocks/list': 'List',
