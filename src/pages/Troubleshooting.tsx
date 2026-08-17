@@ -1,5 +1,4 @@
-import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+
 import DocLayout, { type DocSection } from '../components/DocLayout';
 import CodeSnippet from '../components/CodeSnippet';
 import { AHD_API_HOST } from '../lib/ahd';
