@@ -1,4 +1,4 @@
-import DocLayout, { type DocSection } from '../../../components/DocLayout';
+﻿import DocLayout, { type DocSection } from '../../../components/DocLayout';
 import { PAGES_SUBMODULES } from '../subModules';
 import {
   Overview,
@@ -16,10 +16,11 @@ import {
   ApiReference,
   PageFields,
   RenderContent,
+  PreviewMode,
 } from './sections';
 
 /**
- * Fetch Pages — a sub-module of "Pages". Documents how to read pages (blogs,
+ * Fetch Pages â€” a sub-module of "Pages". Documents how to read pages (blogs,
  * FAQs, landing pages, etc.) published in Page Pilot from your own app.
  *
  * The page is composed of one component per doc section (see ./sections); the
@@ -42,6 +43,7 @@ const SECTIONS: DocSection[] = [
   { id: 'api', label: 'API reference' },
   { id: 'page-fields', label: 'What you can fetch' },
   { id: 'render-content', label: 'Rendering content safely' },
+  { id: 'preview-mode', label: 'Preview mode' },
 ];
 
 function FetchPages() {
@@ -58,7 +60,7 @@ function FetchPages() {
             Fetch Pages List using Page Pilot API
           </h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
-            Read content you've published in Page Pilot — blog posts, FAQs, landing pages, and more —
+            Read content you've published in Page Pilot â€” blog posts, FAQs, landing pages, and more â€”
             straight from your own app with a single API call. Pull one page by its slug and, in the
             same request, fetch related lists of pages filtered by group and status.
           </p>
@@ -79,9 +81,11 @@ function FetchPages() {
         <ApiReference />
         <PageFields />
         <RenderContent />
+        <PreviewMode />
       </article>
     </DocLayout>
   );
 }
 
 export default FetchPages;
+

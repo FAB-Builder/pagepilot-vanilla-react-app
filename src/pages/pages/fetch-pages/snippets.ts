@@ -260,3 +260,74 @@ DELIVERABLE
 - An async function that takes the page slug (and any group names) as arguments — don't hardcode them — fetches the page plus the related lists (blogs and FAQs), and returns { pageInfo, blogs, faqs }.
 - Throw a clear error on a non-OK response.
 - Add short comments explaining each step. Use plain JavaScript / fetch — no extra dependencies.`;
+
+
+// ---------------------------------------------------------------------------
+// Preview mode: render the latest saved content instead of the static build.
+// ---------------------------------------------------------------------------
+
+export const PREVIEW_FETCH_CODE = `// Replace ${LEAD_APPLICATION_ID} with your workspace id.
+const PAGEPILOT_API = '${PP_BASE_SNIPPET}';
+
+// isPreview drops the { status: 'live' } filter, so unpublished edits come back too.
+async function fetchPageBySlug(slug, isPreview = false) {
+  const includes = isPreview ? [] : [{ filter: { status: 'live' } }];
+
+  const res = await fetch(\`\${PAGEPILOT_API}/pagebyslug/\${slug}\`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      data: {
+        includes,
+        pageSelect: {
+          select: { title: 1, editor: 1, head: 1, bodyBottom: 1 },
+          sectionSelect: { content: 1 },
+        },
+      },
+    }),
+  });
+
+  if (!res.ok) throw new Error(\`Failed to fetch page: \${res.status}\`);
+
+  const data = await res.json();
+  return data.page;
+}`;
+
+export const PREVIEW_REACT_CODE = `import { useEffect, useState } from 'react';
+
+// staticPage is whatever your build already rendered (SSG/ISR output, cached
+// JSON, a bundled fixture). It stays on screen until the live copy arrives.
+function PageView({ slug, staticPage }) {
+  const [livePage, setLivePage] = useState(null);
+
+  useEffect(() => {
+    // Read the query string from the browser, after mount.
+    const mode = new URLSearchParams(window.location.search).get('mode');
+    if (mode !== 'preview' || !slug) return;
+
+    let cancelled = false;
+
+    fetchPageBySlug(slug, true)
+      .then((page) => {
+        if (!cancelled && page) setLivePage(page);
+      })
+      .catch((err) => console.error('Preview fetch failed:', err));
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  // Preview content wins when present; otherwise the static build shows.
+  const page = livePage ?? staticPage;
+
+  return <YourRenderer page={page} />;
+}`;
+
+export const PREVIEW_NEXT_NOTE_CODE = `// Next.js: do NOT use useSearchParams() for this.
+// It opts the route out of static prerendering unless it sits inside a
+// <Suspense> boundary, and \`next build\` fails with:
+//   useSearchParams() should be wrapped in a suspense boundary at page "/"
+// Reading window.location.search inside useEffect keeps the page prerenderable
+// and still flips to preview on the client.
+const mode = new URLSearchParams(window.location.search).get('mode');`;

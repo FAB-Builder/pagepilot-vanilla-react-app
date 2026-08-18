@@ -1,4 +1,4 @@
-import { navItems } from './navItems';
+﻿import { navItems } from './navItems';
 
 export interface SearchEntry {
   /** Full path to navigate to, including section hash where applicable. */
@@ -14,7 +14,7 @@ export interface SearchEntry {
 /**
  * Static search index: one entry per module (matches on label + description)
  * and one entry per doc section (matches on section label, links straight to
- * its anchor). Kept in sync by hand with each page's `SECTIONS` constant —
+ * its anchor). Kept in sync by hand with each page's `SECTIONS` constant â€”
  * there's no runtime content scan, so a new `<Section>` needs a line here too.
  */
 const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
@@ -78,6 +78,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'ai-prompt', label: 'Integrate using AI' },
     { id: 'api', label: 'API reference' },
     { id: 'page-fields', label: 'What you can fetch' },
+    { id: 'preview-mode', label: 'Preview mode' },
   ],
   '/pages/template-variables': [
     { id: 'what-is-a-template', label: 'What is a template?' },
@@ -577,3 +578,4 @@ function buildIndex(): SearchEntry[] {
 }
 
 export const SEARCH_INDEX: SearchEntry[] = buildIndex();
+

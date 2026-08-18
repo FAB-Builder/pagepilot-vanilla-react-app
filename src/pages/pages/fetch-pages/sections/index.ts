@@ -13,3 +13,4 @@ export { default as AiPrompt } from './AiPrompt';
 export { default as ApiReference } from './ApiReference';
 export { default as PageFields } from './PageFields';
 export { default as RenderContent } from './RenderContent';
+export { default as PreviewMode } from './PreviewMode';
