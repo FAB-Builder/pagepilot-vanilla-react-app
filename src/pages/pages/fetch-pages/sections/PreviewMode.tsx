@@ -1,6 +1,6 @@
 ﻿import { Section, Code } from '../../../../components/DocSection';
 import DemoBlock from '../../../../components/DemoBlock';
-import { BlockCallout } from '../../blocks/shared/BlockCallout';
+import { BlockCallout } from '../../../blocks/shared/BlockCallout';
 import ApiTable from '../../../../components/ApiTable';
 import {
   PREVIEW_FETCH_CODE,
