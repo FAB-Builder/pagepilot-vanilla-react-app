@@ -1,6 +1,7 @@
 
 import DocLayout, { type DocSection } from '../components/DocLayout';
 import CodeSnippet from '../components/CodeSnippet';
+import AiPromptBlock from '../components/AiPromptBlock';
 import { AHD_API_HOST } from '../lib/ahd';
 
 /** Left-sidebar sections — scoped to Troubleshooting, in reading order. */
@@ -16,6 +17,49 @@ const SECTIONS: DocSection[] = [
   { id: 'caching', label: 'Stale or cached content' },
   { id: 'testing', label: 'Testing without affecting visitors' },
 ];
+
+const FIX_RENDER_CONTENT_AI_PROMPT = `You are helping me fix a bug in how my React app renders raw HTML content from the Page Pilot API. Follow every instruction below.
+
+THE BUG
+- Content comes from Page Pilot as a raw HTML string (e.g. GET /pagebypath/{slug} returns { sections: [{ content }] }).
+- That HTML ships with its own embedded <style> tags. My component renders it with dangerouslySetInnerHTML
+  straight into the page, so those styles share the same document as my app's CSS — either side can win.
+  This shows up as a broken layout, a broken sticky header, or my own Tailwind classes silently
+  overriding the content's intended styling.
+
+FIND AND FIX
+Find the component in my codebase that renders this Page Pilot content (search for
+\`dangerouslySetInnerHTML\` near a \`content\` or \`html\` prop, or a fetch to \`/pagebypath/\`). Rewrite it
+so it becomes a component called RenderContent({ html }: { html: string }) that:
+
+1. Sanitizes the HTML with DOMPurify.sanitize() before it ever touches the DOM. Shadow DOM isolates
+   styling only — it is not an XSS sandbox, so sanitization is still required.
+
+2. Mounts the sanitized content in a Shadow DOM instead of the light DOM, so styles cannot leak in
+   either direction:
+   - Use a ref on a host <div>.
+   - In a useEffect, get \`host.shadowRoot ?? host.attachShadow({ mode: 'open' })\` and set
+     \`root.innerHTML\` to the sanitized HTML.
+   - Guard against double-attaching on the first render with an \`isFirstRender\` ref: if it's the
+     first render and \`host.shadowRoot\` already exists, skip re-attaching.
+
+3. Also renders a declarative shadow root for first paint, so there's real content visible before
+   hydration/JS runs instead of an empty div:
+   - On the host div, set \`suppressHydrationWarning\`.
+   - Use \`dangerouslySetInnerHTML\` with \`<template shadowrootmode="open">\${sanitizedHtml}</template>\`.
+
+4. Supports loading a baseline/override stylesheet INTO the shadow root (not the outer document),
+   for cases where the content needs consistent typography or I want to override Page Pilot's own
+   styling from the outside (which normal CSS can no longer do once it's isolated in shadow DOM):
+   - Build the shadow content as \`<link rel="stylesheet" href="/my-overrides.css">\${sanitizedHtml}\`
+     — the stylesheet goes BEFORE the content string, not after, so the content's own inline <style>
+     tags still win on conflicts (later rules win at equal specificity) while my stylesheet fills in
+     everything the content doesn't already style.
+
+DELIVERABLE
+Replace my existing component with a single, complete RenderContent.tsx implementing all 4 points
+above. Add short comments only where the reasoning isn't obvious from the code (e.g. why the
+isFirstRender guard exists, why the stylesheet goes before the content).`;
 
 const CHECKLIST_CODE = `// main.tsx — confirm this actually runs and doesn't throw
 import AHDjs from 'ahdjs';
@@ -788,6 +832,12 @@ useEffect(() => {
               Plain CSS, no build step. Only targets elements Page Pilot actually renders — h1–h6, p, table, a, code,
               img — since it's scoped inside this content's shadow root.
             </p>
+            <p>
+              <strong className="text-ink">Or have AI fix it for you:</strong> hand this prompt to Cursor, Claude,
+              or GitHub Copilot and it will rewrite your content-rendering component to add sanitizing, shadow DOM
+              mounting, a declarative shadow root for first paint, and the override stylesheet.
+            </p>
+            <AiPromptBlock id="render-content-ai-fix-prompt" prompt={FIX_RENDER_CONTENT_AI_PROMPT} />
           </div>
         </section>
 
