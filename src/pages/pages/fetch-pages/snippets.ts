@@ -203,7 +203,10 @@ export const CSS_LEAK_AFTER = `function PageContent({ html }) {
   const hostRef = useRef(null);
 
   useEffect(() => {
-    const root = hostRef.current.attachShadow({ mode: 'open' });
+    const host = hostRef.current;
+    // reuse the existing shadow root on re-renders (e.g. content refetched) —
+    // calling attachShadow twice on the same host throws
+    const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
     root.innerHTML = DOMPurify.sanitize(html);
   }, [html]);
 
@@ -214,7 +217,8 @@ export const OWN_CSS_OVERRIDE_CODE = `function PageContent({ html }) {
   const hostRef = useRef(null);
 
   useEffect(() => {
-    const root = hostRef.current.attachShadow({ mode: 'open' });
+    const host = hostRef.current;
+    const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
     root.innerHTML = DOMPurify.sanitize(html);
 
     const link = document.createElement('link');
