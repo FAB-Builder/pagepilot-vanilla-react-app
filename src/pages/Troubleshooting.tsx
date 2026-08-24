@@ -98,14 +98,34 @@ interface Props {
 
 export function RenderContent({ html }: Props) {
   const hostRef = useRef<HTMLDivElement | null>(null);
+  const isFirstRender = useRef(true);
+  const safeHtml = DOMPurify.sanitize(html);
 
   useEffect(() => {
-    if (!hostRef.current) return;
-    const root = hostRef.current.shadowRoot ?? hostRef.current.attachShadow({ mode: 'open' });
-    root.innerHTML = DOMPurify.sanitize(html);
-  }, [html]);
+    const host = hostRef.current;
+    if (!host) return;
 
-  return <div ref={hostRef} />;
+    // Skip re-attaching on first mount: the declarative shadow root below
+    // (shadowrootmode="open") is already there from server-rendered HTML.
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      if (host.shadowRoot) return;
+    }
+    const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
+    root.innerHTML = safeHtml;
+  }, [safeHtml]);
+
+  return (
+    <div
+      ref={hostRef}
+      suppressHydrationWarning
+      // Declarative shadow DOM: gives first paint real content before
+      // hydration/JS runs, instead of an empty div until useEffect fires.
+      dangerouslySetInnerHTML={{
+        __html: \`<template shadowrootmode="open">\${safeHtml}</template>\`,
+      }}
+    />
+  );
 }`;
 
 const OWN_CSS_OVERRIDE_CODE = `import { useEffect, useRef } from 'react';
@@ -117,19 +137,32 @@ interface Props {
 
 export function RenderContent({ html }: Props) {
   const hostRef = useRef<HTMLDivElement | null>(null);
+  const isFirstRender = useRef(true);
+  // Your stylesheet goes BEFORE the content in the string, so the
+  // content's own <style> tags come after and win the cascade.
+  const shadowHtml = \`<link rel="stylesheet" href="/pagePilotOverrides.css">\${DOMPurify.sanitize(html)}\`;
 
   useEffect(() => {
-    if (!hostRef.current) return;
-    const root = hostRef.current.shadowRoot ?? hostRef.current.attachShadow({ mode: 'open' });
-    root.innerHTML = DOMPurify.sanitize(html);
+    const host = hostRef.current;
+    if (!host) return;
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/pagePilotOverrides.css';
-    root.appendChild(link);
-  }, [html]);
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      if (host.shadowRoot) return;
+    }
+    const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
+    root.innerHTML = shadowHtml;
+  }, [shadowHtml]);
 
-  return <div ref={hostRef} />;
+  return (
+    <div
+      ref={hostRef}
+      suppressHydrationWarning
+      dangerouslySetInnerHTML={{
+        __html: \`<template shadowrootmode="open">\${shadowHtml}</template>\`,
+      }}
+    />
+  );
 }`;
 
 const OWN_CSS_FILE = `h1, h2, h3 { font-family: 'Inter', sans-serif; }
@@ -736,11 +769,13 @@ useEffect(() => {
             <p>
               <strong className="text-ink">Overriding Page Pilot's own styling:</strong> isolation cuts both ways — your
               app's CSS can no longer reach in either, so you can't override the content's look from outside like normal.
-              Instead, load your own stylesheet <em>into</em> the same shadow root, after the content, so it loads last
-              and wins.
+              Instead, load your own stylesheet <em>into</em> the same shadow root, placed before the content in the
+              markup. CSS specificity being equal, later rules win — so putting your stylesheet first means the
+              content's own inline <code className="inline-block rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">style</code>{' '}
+              tags still win where they conflict, while your rules fill in everything the content doesn't already style.
             </p>
             <CodeSnippet
-              title="Load your own stylesheet into the shadow root, after the content"
+              title="Load your own stylesheet into the shadow root, before the content"
               code={OWN_CSS_OVERRIDE_CODE}
               language="tsx"
             />
