@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon, AppBannerIcon, BlocksIcon, MenusIcon, TroubleshootingIcon } from './components/Icons';
+import { ToursIcon, DemosIcon, TooltipsIcon, PagesIcon, ContextHelpMenuIcon, WebinarIcon, FormsIcon, AppBannerIcon, BlocksIcon, MenusIcon, TroubleshootingIcon, GithubIcon } from './components/Icons';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -81,5 +81,11 @@ export const navItems: NavItem[] = [
     label: 'Troubleshooting',
     description: 'Fixes for the problems people actually hit integrating Tours, Tooltips, and App Banners in a React app.',
     icon: TroubleshootingIcon,
+  },
+  {
+    to: '/swagger-docs',
+    label: 'Create a Docs Site',
+    description: 'Clone the template repo, hand its README to an LLM agent with three inputs, and it generates a full API docs site — menus, pages, live executors — against your PagePilot workspace.',
+    icon: GithubIcon,
   },
 ];

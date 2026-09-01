@@ -17,6 +17,7 @@ import Menus from './pages/menus';
 import Webinar from './pages/webinar';
 import Forms from './pages/forms';
 import Troubleshooting from './pages/Troubleshooting';
+import SwaggerDocs from './pages/swagger-docs';
 import AppBanner from './pages/AppBanner';
 import ButtonBlock from './pages/blocks/button';
 import HeadingBlock from './pages/blocks/heading';
@@ -105,6 +106,7 @@ function App() {
         <Route path="webinar" element={<Webinar />} />
         <Route path="forms" element={<Forms />} />
         <Route path="troubleshooting" element={<Troubleshooting />} />
+        <Route path="swagger-docs" element={<SwaggerDocs />} />
         <Route path="app-banner" element={<AppBanner />} />
         {/* Blocks module — redirects to its first sub-module */}
         <Route path="blocks" element={<Navigate to={BLOCKS_DEFAULT} replace />} />
