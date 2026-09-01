@@ -1,7 +1,8 @@
 import DocLayout from '../../components/DocLayout';
 import { Code } from '../../components/DocSection';
+import { ExternalLink } from 'lucide-react';
 import { GithubIcon } from '../../components/Icons';
-import { REPO_URL, SECTIONS } from './constants';
+import { REPO_URL, LIVE_EXAMPLE_URL, SECTIONS } from './constants';
 import {
   Overview,
   BuildWithLlm,
@@ -56,18 +57,58 @@ export default function SwaggerDocs() {
             etc.) with three inputs, and the agent generates the whole thing — menus, pages,
             executors — against your PagePilot workspace.
           </p>
-          <div className="mt-5">
+          <div className="mt-5 flex flex-wrap gap-3">
             <a
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink/90"
+              className="inline-flex items-center gap-2 rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink/90 dark:bg-white dark:text-ink dark:hover:bg-slate-200"
             >
               <GithubIcon className="h-4 w-4" />
               Template repo
             </a>
+            <a
+              href={LIVE_EXAMPLE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-slate-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-200 dark:hover:bg-slate-800"
+            >
+              <ExternalLink className="h-4 w-4" />
+              See a live example
+            </a>
           </div>
         </header>
+
+        {/* ---------------------------------------------------------------- */}
+        <div className="mb-8 overflow-hidden rounded-xl border border-brand/20 bg-brand-tint/50 dark:border-brand/25 dark:bg-brand/10">
+          <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-ink dark:text-white">Built with this template</p>
+              <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                <a
+                  href={LIVE_EXAMPLE_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-medium text-brand underline underline-offset-2 hover:text-brand-dark dark:hover:text-brand"
+                >
+                  cx-docs.fabbuilder.com
+                </a>{' '}
+                is a real API documentation site generated from a Swagger spec using this exact
+                repo — same layout, same sidebar-from-PagePilot, same in-page executors. Open it
+                to see the finished output before you start.
+              </p>
+            </div>
+            <a
+              href={LIVE_EXAMPLE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark sm:self-center"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Visit the example
+            </a>
+          </div>
+        </div>
 
         <BuildWithLlm />
         <Overview />

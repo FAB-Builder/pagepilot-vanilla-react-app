@@ -3,6 +3,9 @@ import type { DocSection } from '../../components/DocLayout';
 export const REPO_URL = 'https://github.com/FAB-Builder/swagger-documentation-template';
 export const PAGEPILOT_URL = 'https://pagepilot.fabbuilder.com/';
 
+/** A docs site built from this exact template — the real, deployed output. */
+export const LIVE_EXAMPLE_URL = 'https://cx-docs.fabbuilder.com/';
+
 /** Anchors that drive both the left nav and scroll-spy highlighting. */
 export const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
