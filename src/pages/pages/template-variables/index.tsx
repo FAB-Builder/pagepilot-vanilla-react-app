@@ -12,12 +12,13 @@ const SECTIONS: DocSection[] = [
   { id: 'step-image-field', label: '3. Add an image variable' },
   { id: 'step-number-field', label: '4. Add a number variable' },
   { id: 'step-textarea-field', label: '5. Add a long-text variable' },
-  { id: 'step-repeat', label: '6. Add repeatable blocks' },
-  { id: 'repeatable-containers', label: '7. Repeat across a grid/columns' },
-  { id: 'data-reference', label: '8. Data Reference (JSON / API / Menu)' },
-  { id: 'default-values', label: '9. Default values' },
-  { id: 'using-variables', label: '10. Filling in variables' },
-  { id: 'auto-cleanup', label: '11. Variables & the canvas stay in sync' },
+  { id: 'step-datetime-field', label: '6. Add date, time & date+time variables' },
+  { id: 'step-repeat', label: '7. Add repeatable blocks' },
+  { id: 'repeatable-containers', label: '8. Repeat across a grid/columns' },
+  { id: 'data-reference', label: '9. Data Reference (JSON / API / Menu / single field)' },
+  { id: 'default-values', label: '10. Default values' },
+  { id: 'using-variables', label: '11. Filling in variables' },
+  { id: 'auto-cleanup', label: '12. Variables & the canvas stay in sync' },
   { id: 'field-reference', label: 'Field type reference' },
   { id: 'tips', label: 'Tips & common questions' },
 ];
@@ -118,6 +119,12 @@ export default function TemplateVariables() {
             HTML and MDX blocks don't work with <Token>{'{{ }}'}</Token> tokens. Stick to Text,
             Heading, and Button blocks when you want variables to work.
           </Callout>
+          <Callout variant="tip" title="Variables work in Button links too">
+            A Button block's <strong>link URL</strong> can hold a token just like its text — for
+            example a link of <Token>{'https://example.com/?ref={{promoCode}}'}</Token> fills in{' '}
+            <Token>{'{{promoCode}}'}</Token> from the Variables panel exactly like a headline
+            would.
+          </Callout>
         </Section>
 
         {/* ---------------------------------------------------------------- */}
@@ -186,7 +193,7 @@ export default function TemplateVariables() {
               <p className="font-semibold text-ink">Field Type</p>
               <p className="mt-1">
                 Controls what kind of input the user gets: a short text box, a multi-line area, a
-                number, an image picker, or a repeatable list. See the{' '}
+                number, an image picker, a date/time picker, or a repeatable list. See the{' '}
                 <a href="#field-reference" className="text-primary underline">
                   field type reference
                 </a>{' '}
@@ -362,7 +369,100 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="step-repeat" title="6. Add repeatable blocks (Array)">
+        <Section id="step-datetime-field" title="6. Add date, time & date+time variables">
+          <p>
+            Three field types cover anything date-related: <strong>Date</strong>,{' '}
+            <strong>Time</strong>, and <strong>Date + Time</strong>. All three store one value and
+            differ only in what they show and how many tokens they hand you.
+          </p>
+
+          <div className="scroll-slim my-4 overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full min-w-[480px] text-sm">
+              <thead className="bg-slate-50 text-left">
+                <tr>
+                  <th className="px-4 py-3 font-semibold text-ink">Type</th>
+                  <th className="px-4 py-3 font-semibold text-ink">Shows</th>
+                  <th className="px-4 py-3 font-semibold text-ink">Format options</th>
+                  <th className="px-4 py-3 font-semibold text-ink">Token(s)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-600">
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Date</td>
+                  <td className="px-4 py-3">Just the date</td>
+                  <td className="px-4 py-3">
+                    <strong>Relative</strong> (Today / Tomorrow / Mon / Mar 25 — updates itself
+                    over time) or a fixed style like <em>9th Sep 2026</em>, <em>09/09/2026</em>,{' '}
+                    <em>2026-09-09</em>
+                  </td>
+                  <td className="px-4 py-3"><Token>{'{{id}}'}</Token></td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Time</td>
+                  <td className="px-4 py-3">Just the time</td>
+                  <td className="px-4 py-3">
+                    <strong>24-hour</strong> (<em>20:42</em>) or <strong>AM/PM</strong> (
+                    <em>8:42 PM</em>) — always a fixed value, never relative
+                  </td>
+                  <td className="px-4 py-3"><Token>{'{{id}}'}</Token></td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Date + Time</td>
+                  <td className="px-4 py-3">Both, as two independent tokens</td>
+                  <td className="px-4 py-3">Its own Date format + its own Time format</td>
+                  <td className="px-4 py-3">
+                    <Token>{'{{id.date}}'}</Token> and <Token>{'{{id.time}}'}</Token>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p className="font-semibold text-ink">Using Date + Time</p>
+          <p>
+            A <strong>Date + Time</strong> field is one value that unlocks two separate tokens, so
+            you can place the date and the time in different spots on the page — for example the
+            date in a heading and the time underneath:
+          </p>
+          <div className="my-3">
+            <CodeSnippet
+              language="text"
+              code={`Join us on {{webinarStart.date}}\nStarts at {{webinarStart.time}}`}
+            />
+          </div>
+          <p>
+            Inside a repeatable block, use the <Token>this.</Token> form:{' '}
+            <Token>{'{{this.webinarStart.date}}'}</Token> and{' '}
+            <Token>{'{{this.webinarStart.time}}'}</Token>. Typing the bare token —{' '}
+            <Token>{'{{webinarStart}}'}</Token> or <Token>{'{{this.webinarStart}}'}</Token> —
+            prints both parts together as "<em>date time</em>".
+          </p>
+
+          <Steps>
+            <Step n={1} title="Place the token(s) in a Text, Heading, or Button block">
+              For a Date or Time field, one token. For Date + Time, one or both of the{' '}
+              <Code>.date</Code> / <Code>.time</Code> tokens.
+            </Step>
+            <Step n={2} title="Save as template → Template Fields tab → + Add Field" />
+            <Step n={3} title='Set Type to "Date", "Time", or "Date + Time"' />
+            <Step n={4} title="Choose a format and time zone">
+              Pick how the value should display, and the time zone it should be shown in. A live
+              example updates as you choose.
+            </Step>
+            <Step n={5} title="Save" />
+          </Steps>
+
+          <Callout variant="warning" title="A hand-typed .date / .time token needs a matching field">
+            If you type <Token>{'{{this.webinarStart.date}}'}</Token> directly into a design, it
+            only resolves once a Row Field with ID <Code>webinarStart</Code> and type{' '}
+            <strong>Date + Time</strong> actually exists. Declare the field first (or use the
+            regular "Save as template" flow, which detects the tokens for you), then the token
+            fills in.
+          </Callout>
+        </Section>
+
+        {/* ---------------------------------------------------------------- */}
+        <Section id="step-repeat" title="7. Add repeatable blocks (Array)">
           <p>
             Sometimes you don't know in advance how many items the user will need. A repeatable
             block solves this — the user can add as many copies as they want from the Variables
@@ -466,9 +566,9 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="repeatable-containers" title="7. Repeat a template across a grid or columns">
+        <Section id="repeatable-containers" title="8. Repeat a template across a grid or columns">
           <p>
-            Section 6 showed how to repeat <em>one</em> block. But often you want a whole{' '}
+            Section 7 showed how to repeat <em>one</em> block. But often you want a whole{' '}
             <strong>grid or column layout</strong> where every cell holds the same design — a 3×2
             grid of testimonial cards, a row of pricing columns, a gallery of feature tiles. Instead
             of building each cell by hand, you build one, then stamp it into all the empty cells.
@@ -520,7 +620,7 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="data-reference" title="8. Data Reference — fill copies from JSON, an API, or a Menu">
+        <Section id="data-reference" title="9. Data Reference — fill copies (or a single field) from JSON, an API, or a Menu">
           <p>
             When a field is repeatable, you don't have to type every copy by hand. The{' '}
             <strong>Data Reference</strong> section (at the top of a repeatable field in the
@@ -582,7 +682,7 @@ export default function TemplateVariables() {
           <Steps>
             <Step n={1} title="Set up a repeatable field with row sub-fields">
               For example a testimonials field with sub-fields <Code>name</Code> and{' '}
-              <Code>rating</Code> (see section 6).
+              <Code>rating</Code> (see section 7).
             </Step>
             <Step n={2} title="Set Data Reference source to Custom JSON" />
             <Step n={3} title="Paste an array of objects keyed by your sub-field IDs">
@@ -642,10 +742,41 @@ export default function TemplateVariables() {
             <strong>Add rows</strong> or <strong>Add columns</strong> — then seeds every item.
             Single-axis layouts (Flex Columns / Columns Container) grow automatically to fit.
           </Callout>
+
+          <p className="mt-8 font-semibold text-ink">
+            Filling a single field from an API — no repeating involved
+          </p>
+          <p>
+            Everything above is for <em>repeatable</em> fields — one API call feeds many copies.
+            But you can also pull a single set of values into your ordinary top-level fields — a
+            user's name, a product's price, a page's headline — from one API call. Fields don't
+            need to be part of an array for this.
+          </p>
+          <Steps>
+            <Step n={1} title="Open the Data Reference section for the field(s) you want to seed">
+              This appears for regular (non-repeatable) fields too, right below their inputs in the
+              Variables panel.
+            </Step>
+            <Step n={2} title="Set the source to API and enter the endpoint URL">
+              Method is <strong>GET</strong>. Unlike the repeatable case, this endpoint should
+              return <strong>one JSON object</strong> — not an array.
+            </Step>
+            <Step n={3} title="Click Fetch & Apply">
+              Page Pilot matches each field's ID to a key in the response object and fills it in —{' '}
+              <Code>name</Code> reads <Code>{'{ "name": … }'}</Code> from the response. If a value
+              is nested or named differently, set an <strong>object path</strong> on that field
+              (e.g. <Code>user.fullName</Code>) to point at it directly.
+            </Step>
+          </Steps>
+          <Callout variant="warning" title="This is a one-time fetch, not a live connection">
+            "Fetch &amp; Apply" writes the fetched values into your fields once, exactly as if you'd
+            typed them yourself. The page doesn't keep re-fetching at runtime — to refresh the
+            values, reopen the Data Reference section and click Fetch &amp; Apply again.
+          </Callout>
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="default-values" title="9. Default values — pre-fill for a better start">
+        <Section id="default-values" title="10. Default values — pre-fill for a better start">
           <p>
             Every field (and every row sub-field) can have a <strong>default value</strong>. When
             someone applies the template, all defaults are automatically filled in — so the page
@@ -685,7 +816,7 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="using-variables" title="10. Filling in variables (the user's side)">
+        <Section id="using-variables" title="11. Filling in variables (the user's side)">
           <p>
             Once a template is applied, filling in variables is simple. Here's what a user does:
           </p>
@@ -721,7 +852,7 @@ export default function TemplateVariables() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        <Section id="auto-cleanup" title="11. Variables & the canvas stay in sync automatically">
+        <Section id="auto-cleanup" title="12. Variables & the canvas stay in sync automatically">
           <p>
             Page Pilot keeps the Variables panel and the canvas in sync at all times — you don't
             need to manage this manually.
@@ -788,6 +919,26 @@ export default function TemplateVariables() {
                   <td className="px-4 py-3">Photos, logos, avatars, banners</td>
                   <td className="px-4 py-3"><Token>{'{{id}}'}</Token></td>
                   <td className="px-4 py-3">URL input + gallery browse button 🖼</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Date</td>
+                  <td className="px-4 py-3">Publish dates, event dates, deadlines</td>
+                  <td className="px-4 py-3"><Token>{'{{id}}'}</Token></td>
+                  <td className="px-4 py-3">Date picker + format (relative or fixed) + time zone</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Time</td>
+                  <td className="px-4 py-3">Event start times, opening hours</td>
+                  <td className="px-4 py-3"><Token>{'{{id}}'}</Token></td>
+                  <td className="px-4 py-3">Time picker + 24h/AM-PM format + time zone</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-ink">Date + Time</td>
+                  <td className="px-4 py-3">Webinars, appointments — date and time shown separately</td>
+                  <td className="px-4 py-3">
+                    <Token>{'{{id.date}}'}</Token> + <Token>{'{{id.time}}'}</Token>
+                  </td>
+                  <td className="px-4 py-3">One date+time picker, format for each part + time zone</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3 font-semibold text-ink">Array (repeatable)</td>
@@ -912,6 +1063,46 @@ export default function TemplateVariables() {
                 formatting to every copy without changing each copy's own text. See{' '}
                 <a href="#repeatable-containers" className="text-primary underline">
                   Repeat across a grid or columns
+                </a>.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">Can I put a variable in a Button's link URL?</p>
+              <p className="mt-1">
+                Yes. A Button's link works exactly like its text — type{' '}
+                <Token>{'{{token}}'}</Token> anywhere inside the URL and declare a matching field.
+                See{' '}
+                <a href="#how-variables-work" className="text-primary underline">
+                  How variables work
+                </a>.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">
+                What's the difference between a Date field and a Date + Time field?
+              </p>
+              <p className="mt-1">
+                A <strong>Date</strong> field gives you one token showing just the date. A{' '}
+                <strong>Date + Time</strong> field stores one value but gives you{' '}
+                <em>two independent tokens</em> — <Token>{'{{id.date}}'}</Token> and{' '}
+                <Token>{'{{id.time}}'}</Token> — so you can place the date and the time in
+                different parts of the page. See{' '}
+                <a href="#step-datetime-field" className="text-primary underline">
+                  Add date, time & date+time variables
+                </a>.
+              </p>
+            </li>
+            <li className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="font-semibold text-ink">
+                Can I fetch data from an API for a single field without repeating anything?
+              </p>
+              <p className="mt-1">
+                Yes. Any regular (non-repeatable) field has its own Data Reference section — point
+                it at an endpoint that returns <strong>one JSON object</strong> (not an array) and
+                Page Pilot fills matching fields from that object's keys. This is separate from the
+                repeatable API/JSON/Menu sources, which need an array of objects. See{' '}
+                <a href="#data-reference" className="text-primary underline">
+                  Data Reference
                 </a>.
               </p>
             </li>
