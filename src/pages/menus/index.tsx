@@ -164,6 +164,13 @@ export default function Menus() {
             This is the fastest way to audit a menu after a bulk page migration, or to verify a
             batch of slugs before wiring them into items.
           </p>
+          <p className="mt-3">
+            <strong className="text-ink">Save before validating.</strong> The check runs against
+            the menu's saved tree on the server, not whatever is currently on screen. If you just
+            added an item or changed an item's href, click <strong className="text-ink">Save
+            Changes</strong> first — only then will that slug be picked up. A newly typed but
+            unsaved href can show as Not Found even though it looks correct in the builder.
+          </p>
         </Section>
 
         <Section id="slug-changes" title="When a page slug changes">
