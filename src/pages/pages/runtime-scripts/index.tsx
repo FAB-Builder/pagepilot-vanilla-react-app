@@ -340,6 +340,12 @@ export default function RuntimeScripts() {
             script shows as a console error naming the directive that rejected it.
           </p>
           <CodeSnippet code={CSP} language="bash" title="CSP header" />
+          <p>
+            Template variables (<Code>data-ahd-var</Code>, <Code>data-ahd-href-tpl</Code>,{' '}
+            <Code>data-ahd-date</Code>) are filled in by a small inline handler shipped with the
+            page, not by a script file. A CSP that blocks inline event handlers also stops that
+            handler, and the raw <Code>{'{{token}}'}</Code> placeholders stay visible.
+          </p>
 
           <H3>Animations never play</H3>
           <p>

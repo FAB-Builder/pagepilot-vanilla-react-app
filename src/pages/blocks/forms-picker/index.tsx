@@ -70,6 +70,10 @@ export default function FormsPickerBlock() {
             <strong>Alignment</strong> — positions the form in its container. Only visible when the
             width is under 100%.
           </PropertyCard>
+          <PropertyCard type="number | per-corner" defaultValue="0">
+            <strong>Border radius</strong> — one value for all corners, or each corner separately.
+            The frame is clipped to the radius, so rounded corners show on the form itself.
+          </PropertyCard>
           <BlockCallout variant="warning" title="Set the height to fit your longest state">
             The frame can't measure the form inside it, so it won't grow. Size it for the tallest
             state — a long form, or a validation error adding a line under several fields —
@@ -92,7 +96,7 @@ export default function FormsPickerBlock() {
             form that fits in one screen on desktop usually stacks taller on a phone.
           </p>
           <BlockCallout title="Not per-device">
-            The selected form, width, and alignment are shared across devices.
+            The selected form, width, alignment, and border radius are shared across devices.
           </BlockCallout>
         </Section>
       </article>

@@ -17,7 +17,9 @@ function RenderContent() {
       <DemoBlock title="Before — same document, styles collide" code={CSS_LEAK_BEFORE} language="tsx" />
       <p>
         <strong>The fix:</strong> mount the content in a Shadow DOM instead of the light DOM. It's a
-        real style boundary in both directions — nothing leaks either way.
+        real style boundary in both directions — nothing leaks either way. The declarative{' '}
+        <Code>&lt;template shadowrootmode="open"&gt;</Code> gives first paint real content before
+        hydration, and the <Code>isFirstRender</Code> guard avoids re-attaching over it.
       </p>
       <DemoBlock title="After — isolated in a shadow root" code={CSS_LEAK_AFTER} language="tsx" />
       <p>
@@ -35,11 +37,12 @@ function RenderContent() {
       <p>
         <strong>Overriding Page Pilot's own styling:</strong> isolation cuts both ways — your app's
         CSS can no longer reach in either, so you can't override the content's look from outside
-        like normal. Instead, load your own stylesheet <em>into</em> the same shadow root, after the
-        content, so it loads last and wins.
+        like normal. Instead, load your own stylesheet <em>into</em> the same shadow root, <em>before</em>{' '}
+        the content, so the content's own <Code>&lt;style&gt;</Code> tags come after it in the
+        cascade.
       </p>
       <DemoBlock
-        title="Load your own stylesheet into the shadow root, after the content"
+        title="Load your own stylesheet into the shadow root, before the content"
         code={OWN_CSS_OVERRIDE_CODE}
         language="tsx"
       />

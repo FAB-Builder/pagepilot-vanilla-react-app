@@ -125,6 +125,11 @@ export default function TemplateVariables() {
             <Token>{'{{promoCode}}'}</Token> from the Variables panel exactly like a headline
             would.
           </Callout>
+          <Callout variant="tip" title="Variables work in Container background images too">
+            A Container's <strong>background image</strong> URL can hold a token, e.g.{' '}
+            <Token>{'{{heroImage}}'}</Token>. Pair it with an <strong>Image</strong> field and the
+            picked media fills the container background.
+          </Callout>
         </Section>
 
         {/* ---------------------------------------------------------------- */}
@@ -844,6 +849,13 @@ export default function TemplateVariables() {
               back and edit them anytime.
             </Step>
           </Steps>
+          <Callout variant="tip" title="Fill With AI">
+            Don't want to type every value? Use the <strong>Fill With AI</strong> button in the
+            Variables panel — it opens an <em>All variables</em> dialog and generates values for
+            every field in one go. Edits apply live; <strong>Cancel</strong> restores what you had
+            and <strong>Save</strong> keeps them. Individual fields and groups also have their own
+            generate button.
+          </Callout>
           <Callout variant="tip" title="Click a chip to jump to its field">
             On the canvas, unfilled variables show as coloured chips (purple for text, teal for
             arrays). Clicking a chip takes you directly to that field in the Variables panel — no

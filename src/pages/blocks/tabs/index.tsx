@@ -116,6 +116,10 @@ export default function TabsBlock() {
             <strong>Content gap</strong> — space between the tab strip and the content panel, in
             px.
           </PropertyCard>
+          <PropertyCard type="per-side px" defaultValue="1 on all sides">
+            <strong>Border width</strong> — set top, right, bottom and left independently, e.g.
+            only a bottom line under the tab strip.
+          </PropertyCard>
           <PropertyCard type="number | per-corner" defaultValue="0">
             <strong>Radius</strong>
           </PropertyCard>

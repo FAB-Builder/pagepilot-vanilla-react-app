@@ -8,6 +8,7 @@ import { AHD_API_HOST } from '../lib/ahd';
 const SECTIONS: DocSection[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'nothing-showing', label: 'Nothing is showing at all' },
+  { id: 'required-scripts', label: 'Required scripts per feature' },
   { id: 'tours-tooltips', label: 'Tours & Tooltips' },
   { id: 'app-banner', label: 'App Banner' },
   { id: 'demos', label: 'Demos' },
@@ -60,6 +61,29 @@ DELIVERABLE
 Replace my existing component with a single, complete RenderContent.tsx implementing all 4 points
 above. Add short comments only where the reasoning isn't obvious from the code (e.g. why the
 isFirstRender guard exists, why the stylesheet goes before the content).`;
+
+const PAGE_SCRIPT_TAGS = `<!-- Load only the ones your page's blocks use. -->
+<script src="https://pagepilot.fabbuilder.com/scripts/pagePilotTabs.js" defer></script>
+<script src="https://pagepilot.fabbuilder.com/scripts/pagePilotCarousel.js" defer></script>
+<script src="https://pagepilot.fabbuilder.com/scripts/pagePilotPagination.js" defer></script>
+<script src="https://pagepilot.fabbuilder.com/scripts/pagePilotTimer.js" defer></script>
+<script src="https://pagepilot.fabbuilder.com/scripts/pagePilotAnimation.js" defer></script>
+<script src="https://pagepilot.fabbuilder.com/scripts/pagePilotDemoScale.js" defer></script>`;
+
+const SDK_SETUP_CODE = `import AHDjs from 'ahdjs';
+import 'ahdjs/build/css/index.css'; // required — tours, tooltips and banners are unstyled without it
+
+const ahdJs = AHDjs(undefined, {
+  applicationId: 'YOUR_APPLICATION_ID',
+  apiHost: '${AHD_API_HOST}',
+  visitorId: currentUser.id,
+  showProgressbar: false,
+});
+
+await ahdJs.initializeSiteMap(false); // always first
+
+await ahdJs.showHighlights('/your-path', true);          // tours & tooltips
+await ahdJs.renderAppBanner('FAB_BANNER_TYPE_SIMPLE', true); // app banner (after its <div id> mounts)`;
 
 const CHECKLIST_CODE = `// main.tsx — confirm this actually runs and doesn't throw
 import AHDjs from 'ahdjs';
@@ -331,6 +355,103 @@ export default function Troubleshooting() {
               </li>
             </ol>
             <CodeSnippet code={CHECKLIST_CODE} language="tsx" />
+          </div>
+        </section>
+
+        {/* Required scripts per feature */}
+        <section id="required-scripts" className="mb-12 scroll-mt-24">
+          <h2 id="required-scripts-heading" style={{ width: 'fit-content' }} className="mb-4 pb-2 text-xl font-bold">
+            Required scripts per feature
+          </h2>
+          <div id="required-scripts-body" className="space-y-4 leading-relaxed text-slate-600">
+            <p id="required-scripts-text">
+              If a page, tour, tooltip or app banner renders wrong or not at all, check that everything it depends on is
+              actually loaded. Tours, tooltips and banners come from the <strong>ahdjs SDK</strong>; pages come from
+              fetched HTML whose interactive blocks need <strong>hosted script files</strong>.
+            </p>
+            <div className="scroll-slim overflow-x-auto rounded-xl border border-slate-200">
+              <table className="w-full min-w-[560px] text-sm">
+                <thead className="bg-slate-50 text-left">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold text-ink">Feature</th>
+                    <th className="px-4 py-3 font-semibold text-ink">Required</th>
+                    <th className="px-4 py-3 font-semibold text-ink">If it is missing / notes</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 text-slate-600">
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">Tours &amp; Tooltips</td>
+                    <td className="px-4 py-3"><code>ahdjs</code> + <code>ahdjs/build/css/index.css</code></td>
+                    <td className="px-4 py-3">Call <code>initializeSiteMap(false)</code>, then <code>showHighlights('/path', true)</code> on every route change. The path must start with <code>/</code>.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">App Banner</td>
+                    <td className="px-4 py-3"><code>ahdjs</code> + its CSS</td>
+                    <td className="px-4 py-3">An empty <code>{'<div id="{identifier}" />'}</code> must exist, then <code>renderAppBanner(identifier, true)</code> from a <code>useEffect</code>.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">Page – Tabs</td>
+                    <td className="px-4 py-3"><code>pagePilotTabs.js</code></td>
+                    <td className="px-4 py-3">Without it only the first panel shows and tabs do not switch.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">Page – Carousel</td>
+                    <td className="px-4 py-3"><code>pagePilotCarousel.js</code></td>
+                    <td className="px-4 py-3">Without it slides do not advance and arrows/dots do nothing.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">Page – Pagination</td>
+                    <td className="px-4 py-3"><code>pagePilotPagination.js</code></td>
+                    <td className="px-4 py-3">Without it page buttons do nothing.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">Page – Timer</td>
+                    <td className="px-4 py-3"><code>pagePilotTimer.js</code></td>
+                    <td className="px-4 py-3">Without it the countdown does not tick.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">Page – Animations</td>
+                    <td className="px-4 py-3"><code>pagePilotAnimation.js</code></td>
+                    <td className="px-4 py-3">Image, Container, Button, Avatar, Logo, Heading, Text. Without it elements simply show with no animation.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-semibold text-ink">Page – Demo</td>
+                    <td className="px-4 py-3"><code>pagePilotDemoScale.js</code></td>
+                    <td className="px-4 py-3">Without it the demo embed is not scaled to fit.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 className="pt-2 text-base font-semibold text-ink">Tours, tooltips &amp; app banner — SDK setup</h3>
+            <CodeSnippet code={SDK_SETUP_CODE} language="tsx" />
+
+            <h3 className="pt-2 text-base font-semibold text-ink">Pages — block scripts</h3>
+            <p>
+              Add the script tags for the blocks your page uses. Load them once from your app shell (for example{' '}
+              <code>index.html</code>). Scripts that arrive inside fetched HTML via <code>innerHTML</code> or{' '}
+              <code>dangerouslySetInnerHTML</code> <strong>never execute</strong>. The Publish dialog&apos;s{' '}
+              <strong>Scripts &amp; Styles</strong> tab lists exactly which ones a page needs.
+            </p>
+            <CodeSnippet code={PAGE_SCRIPT_TAGS} language="html" />
+
+            <ul className="list-disc space-y-1 pl-5 text-sm">
+              <li>
+                Page content must go through <code>RenderContent</code> (sanitised, shadow root) — see{' '}
+                <a className="text-brand hover:underline" href="#render-content">
+                  Rendering page content safely
+                </a>
+                .
+              </li>
+              <li>
+                A CSP header must allow the <code>pagepilot.fabbuilder.com</code> script host. Blocking inline event
+                handlers also stops template variables from filling, leaving raw <code>{'{{token}}'}</code> text.
+              </li>
+              <li>
+                Check the browser console and Network tab: a 404 or a CSP error on a <code>pagePilot*.js</code> request
+                tells you which script is the problem.
+              </li>
+            </ul>
           </div>
         </section>
 

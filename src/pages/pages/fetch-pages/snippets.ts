@@ -199,35 +199,81 @@ export const CSS_LEAK_BEFORE = `function PageContent({ html }) {
   return <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />;
 }`;
 
-export const CSS_LEAK_AFTER = `function PageContent({ html }) {
-  const hostRef = useRef(null);
+export const CSS_LEAK_AFTER = `import { useEffect, useRef } from 'react';
+import DOMPurify from 'dompurify';
+
+interface Props {
+  html: string;
+}
+
+export function RenderContent({ html }: Props) {
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  const isFirstRender = useRef(true);
+  const safeHtml = DOMPurify.sanitize(html);
 
   useEffect(() => {
     const host = hostRef.current;
-    // reuse the existing shadow root on re-renders (e.g. content refetched) —
-    // calling attachShadow twice on the same host throws
-    const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
-    root.innerHTML = DOMPurify.sanitize(html);
-  }, [html]);
+    if (!host) return;
 
-  return <div ref={hostRef} />;
+    // Skip re-attaching on first mount: the declarative shadow root below
+    // (shadowrootmode="open") is already there from server-rendered HTML.
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      if (host.shadowRoot) return;
+    }
+    // reuse the existing shadow root on re-renders — attachShadow twice throws
+    const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
+    root.innerHTML = safeHtml;
+  }, [safeHtml]);
+
+  return (
+    <div
+      ref={hostRef}
+      suppressHydrationWarning
+      // Declarative shadow DOM: gives first paint real content before
+      // hydration/JS runs, instead of an empty div until useEffect fires.
+      dangerouslySetInnerHTML={{
+        __html: \`<template shadowrootmode="open">\${safeHtml}</template>\`,
+      }}
+    />
+  );
 }`;
 
-export const OWN_CSS_OVERRIDE_CODE = `function PageContent({ html }) {
-  const hostRef = useRef(null);
+export const OWN_CSS_OVERRIDE_CODE = `import { useEffect, useRef } from 'react';
+import DOMPurify from 'dompurify';
+
+interface Props {
+  html: string;
+}
+
+export function RenderContent({ html }: Props) {
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  const isFirstRender = useRef(true);
+  // Your stylesheet goes BEFORE the content in the string, so the
+  // content's own <style> tags come after and win the cascade.
+  const shadowHtml = \`<link rel="stylesheet" href="/pagePilotOverrides.css">\${DOMPurify.sanitize(html)}\`;
 
   useEffect(() => {
     const host = hostRef.current;
+    if (!host) return;
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      if (host.shadowRoot) return;
+    }
     const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
-    root.innerHTML = DOMPurify.sanitize(html);
+    root.innerHTML = shadowHtml;
+  }, [shadowHtml]);
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/pagePilotOverrides.css';
-    root.appendChild(link);
-  }, [html]);
-
-  return <div ref={hostRef} />;
+  return (
+    <div
+      ref={hostRef}
+      suppressHydrationWarning
+      dangerouslySetInnerHTML={{
+        __html: \`<template shadowrootmode="open">\${shadowHtml}</template>\`,
+      }}
+    />
+  );
 }`;
 
 export const OWN_CSS_FILE = `h1, h2, h3 { font-family: 'Inter', sans-serif; }
