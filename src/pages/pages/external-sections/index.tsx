@@ -137,13 +137,14 @@ export default function ExternalSections() {
         <Section id="create" title="Create an external section">
           <ol className="my-4 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             <li>
-              <strong className="text-ink">1. Open the section dropdown</strong> — in the page
-              editor, click the section name at the top (e.g. <Code>Section 1</Code>) to open the
-              sections list.
+              <strong className="text-ink">1. Open more options</strong> — in the page editor
+              toolbar, click the <strong>⋮ (More options)</strong> button next to the Preview and
+              Publish buttons.
             </li>
             <li>
               <strong className="text-ink">2. Add a section</strong> — choose{' '}
-              <strong>Add Section</strong>. The <strong>Add Section</strong> dialog opens.
+              <strong>Add Section</strong> from the menu. The <strong>Add Section</strong> dialog
+              opens.
             </li>
             <li>
               <strong className="text-ink">3. Give it a title</strong> — e.g.{' '}
