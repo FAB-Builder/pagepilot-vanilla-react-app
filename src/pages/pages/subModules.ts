@@ -12,6 +12,7 @@ export const PAGES_SUBMODULES: SubModule[] = [
   { to: '/pages/runtime-scripts', label: 'Runtime Scripts & Animations' },
   { to: '/pages/build-triggers', label: 'Automated Build Triggers' },
   { to: '/pages/editor-css', label: 'Editor Block CSS' },
+  { to: '/pages/dark-theme', label: 'Dark Theme' },
 ];
 
 /** Where /pages should land by default. */

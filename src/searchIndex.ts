@@ -116,6 +116,15 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'both', label: 'Add both at once' },
     { id: 'troubleshoot', label: 'Troubleshooting' },
   ],
+  '/pages/dark-theme': [
+    { id: 'overview', label: 'Overview' },
+    { id: 'detection', label: 'How the theme is detected' },
+    { id: 'inline', label: 'Rendering inline (innerHTML)' },
+    { id: 'iframe', label: 'Rendering in an iframe' },
+    { id: 'override', label: 'Force or lock a theme' },
+    { id: 'troubleshoot', label: 'Troubleshooting' },
+    { id: 'checklist', label: 'Debug checklist' },
+  ],
   '/pages/external-sections': [
     { id: 'overview', label: 'Overview' },
     { id: 'internal-vs-external', label: 'Internal vs external' },
@@ -506,6 +515,7 @@ const MODULE_LABEL: Record<string, string> = {
   '/pages/template-variables': 'Templates & Variables',
   '/pages/link-page-to-menu': 'Link a Page to a Menu',
   '/pages/editor-css': 'Editor Block CSS',
+  '/pages/dark-theme': 'Dark Theme',
   '/pages/external-sections': 'External Sections',
   '/pages/runtime-scripts': 'Runtime Scripts & Animations',
   '/pages/build-triggers': 'Automated Build Triggers',

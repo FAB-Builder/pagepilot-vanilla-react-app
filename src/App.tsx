@@ -7,6 +7,7 @@ import Tooltips from './pages/Tooltips';
 import FetchPages from './pages/pages/fetch-pages';
 import TemplateVariables from './pages/pages/template-variables';
 import EditorCss from './pages/pages/editor-css';
+import DarkTheme from './pages/pages/dark-theme';
 import LinkPageToMenu from './pages/pages/link-page-to-menu';
 import ExternalSections from './pages/pages/external-sections';
 import RuntimeScripts from './pages/pages/runtime-scripts';
@@ -98,6 +99,7 @@ function App() {
         <Route path="pages/template-variables" element={<TemplateVariables />} />
         <Route path="pages/link-page-to-menu" element={<LinkPageToMenu />} />
         <Route path="pages/editor-css" element={<EditorCss />} />
+        <Route path="pages/dark-theme" element={<DarkTheme />} />
         <Route path="pages/external-sections" element={<ExternalSections />} />
         <Route path="pages/runtime-scripts" element={<RuntimeScripts />} />
         <Route path="pages/build-triggers" element={<BuildTriggers />} />
