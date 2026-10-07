@@ -12,6 +12,9 @@ import {
   RE_INIT,
   CSP,
   ANIMATION_MARKUP,
+  SHADOW_DOM_REGISTER,
+  SHADOW_DOM,
+  SHADOW_DOM_VANILLA,
 } from './snippets';
 
 const SECTIONS: DocSection[] = [
@@ -20,6 +23,7 @@ const SECTIONS: DocSection[] = [
   { id: 'enabling', label: 'Turning them on' },
   { id: 'embedding', label: 'Loading them yourself' },
   { id: 'dynamic', label: 'Content that loads late' },
+  { id: 'shadow-dom', label: 'Shadow DOM' },
   { id: 'animations', label: 'Animations' },
   { id: 'troubleshooting', label: 'Troubleshooting' },
 ];
@@ -170,7 +174,9 @@ export default function RuntimeScripts() {
           <Note tone="warn" label="Ticking the box is not always enough.">
             If your application renders the page by injecting raw HTML, those injected{' '}
             <Code>&lt;script&gt;</Code> tags will not run — see the next section. This is the
-            single most common reason a carousel "doesn't work" on a live site.
+            single most common reason a carousel "doesn't work" on a live site. Rendering the
+            content inside a <strong>Shadow DOM</strong>? There's one more step — see{' '}
+            <a className="text-brand hover:underline" href="#shadow-dom">Shadow DOM</a>.
           </Note>
         </Section>
 
@@ -209,6 +215,11 @@ export default function RuntimeScripts() {
             every navigation. The guard in the example above makes that harmless, but app-level is
             still the right place.
           </Note>
+          <Note tone="warn" label="Content inside a Shadow DOM?">
+            Loading the scripts is necessary but not sufficient — they can't see into a shadow
+            root until you register it. See{' '}
+            <a className="text-brand hover:underline" href="#shadow-dom">Shadow DOM</a>.
+          </Note>
         </Section>
 
         {/* ================================================================ */}
@@ -219,16 +230,74 @@ export default function RuntimeScripts() {
             get wired up?
           </p>
           <p>
-            <strong>Yes, automatically.</strong> Every script attaches a{' '}
-            <Code>MutationObserver</Code> to the document and re-runs its initialisation whenever
+            <strong>Yes, automatically — in the normal (light) DOM.</strong> Every script attaches
+            a <Code>MutationObserver</Code> to the document and re-runs its initialisation whenever
             new nodes appear. Elements it has already handled are skipped, so re-binding costs
             almost nothing.
           </p>
           <CodeSnippet code={RE_INIT} language="tsx" title="nothing extra to do" />
           <Note label="No init function to call.">
             There's no <Code>window.PagePilot*.init()</Code> API — the scripts are self-contained
-            and self-rebinding. If a block isn't working after a route change, the cause is
-            something else; see Troubleshooting.
+            and self-rebinding. The one exception is content rendered inside a shadow root, which
+            the document observer can't see: register the root once (next section) and it gets the
+            same automatic re-binding from then on.
+          </Note>
+        </Section>
+
+        {/* ================================================================ */}
+        <Section id="shadow-dom" title="Content inside a Shadow DOM">
+          <p>
+            Rendering Page Pilot content into a shadow root — as{' '}
+            <a
+              className="text-brand hover:underline"
+              href="/pagepilot-vanilla-react-app/pages/fetch-pages#render-content"
+            >
+              Rendering page content safely
+            </a>{' '}
+            recommends — isolates its styles from your app. It also isolates it from the runtime
+            scripts. Even with the scripts loaded from your app shell, a carousel inside a shadow
+            root shows its first slide and never moves, and tabs never switch.
+          </p>
+          <H3>Why the standard method isn't enough</H3>
+          <ul className="list-disc space-y-1.5 pl-5">
+            <li>
+              The scripts find their blocks with <Code>document.querySelectorAll</Code>, which
+              stops at a shadow boundary — the blocks are never initialised, so autoplay never
+              starts.
+            </li>
+            <li>
+              The <Code>MutationObserver</Code> on the document doesn't see changes made inside a
+              shadow root, so content you inject later is missed too.
+            </li>
+            <li>
+              A click inside a shadow root reaches the document <em>retargeted</em> to the shadow
+              host, so the arrow or tab that was actually clicked is hidden from a document-level
+              listener.
+            </li>
+          </ul>
+          <H3>The fix: register the shadow root</H3>
+          <p>
+            Hand the root to the scripts with one line. They initialise every block inside it
+            straight away, observe it for later changes, and resolve clicks inside it to the real
+            element.
+          </p>
+          <CodeSnippet code={SHADOW_DOM_REGISTER} language="ts" title="register once" />
+          <CodeSnippet code={SHADOW_DOM} language="tsx" title="RenderContent.tsx" />
+          <CodeSnippet code={SHADOW_DOM_VANILLA} language="html" title="plain HTML" />
+          <Note label="Load order doesn't matter.">
+            <Code>window.pagePilotRoots</Code> works like a queue: push before the scripts load and
+            each script picks the root up when it arrives; push afterwards and it's initialised
+            immediately. Pushing the same root again is ignored.
+          </Note>
+          <Note tone="warn" label="Open shadow roots only.">
+            The scripts need to reach into the root, so it must be created with{' '}
+            <Code>attachShadow({'{'} mode: 'open' {'}'})</Code>. A closed root can't be wired up.
+          </Note>
+          <Note label="Applies to every script.">
+            Carousel, Tabs, Pagination, Timer, Animation and Demo all share the same registry, so
+            one push covers every block in the root. Animations get their "start hidden" rule via
+            the shadow host, so scroll- and click-triggered elements behave exactly as in the light
+            DOM.
           </Note>
         </Section>
 
@@ -326,6 +395,15 @@ export default function RuntimeScripts() {
             <Code>pagePilot*.js</Code> request appears and returns 200. If it isn't there at all,
             you're hitting the <Code>innerHTML</Code> problem — load the script from your app shell
             instead.
+          </p>
+
+          <H3>The script loads (200) but the block still does nothing</H3>
+          <p>
+            Check whether your app renders the content inside a shadow root (look for{' '}
+            <Code>#shadow-root</Code> in the Elements panel). If it does, the script is running but
+            can't see the block — register the root as shown in{' '}
+            <a className="text-brand hover:underline" href="#shadow-dom">Shadow DOM</a>. A quick
+            check in the console: <Code>window.pagePilotRoots</Code> should list your shadow root.
           </p>
 
           <H3>Works in preview, not on the live site</H3>

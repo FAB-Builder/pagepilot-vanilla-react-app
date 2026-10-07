@@ -215,15 +215,18 @@ export function RenderContent({ html }: Props) {
     const host = hostRef.current;
     if (!host) return;
 
-    // Skip re-attaching on first mount: the declarative shadow root below
+    // Skip re-filling on first mount: the declarative shadow root below
     // (shadowrootmode="open") is already there from server-rendered HTML.
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      if (host.shadowRoot) return;
-    }
+    const ssrRoot = isFirstRender.current && host.shadowRoot;
+    isFirstRender.current = false;
     // reuse the existing shadow root on re-renders — attachShadow twice throws
     const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
-    root.innerHTML = safeHtml;
+    if (!ssrRoot) root.innerHTML = safeHtml;
+
+    // Lets the Page Pilot runtime scripts (carousel, tabs, timer…) reach
+    // inside the shadow root — see Runtime Scripts → Shadow DOM.
+    const w = window as typeof window & { pagePilotRoots?: ShadowRoot[] };
+    (w.pagePilotRoots = w.pagePilotRoots || []).push(root);
   }, [safeHtml]);
 
   return (
@@ -257,12 +260,13 @@ export function RenderContent({ html }: Props) {
     const host = hostRef.current;
     if (!host) return;
 
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      if (host.shadowRoot) return;
-    }
+    const ssrRoot = isFirstRender.current && host.shadowRoot;
+    isFirstRender.current = false;
     const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
-    root.innerHTML = shadowHtml;
+    if (!ssrRoot) root.innerHTML = shadowHtml;
+
+    const w = window as typeof window & { pagePilotRoots?: ShadowRoot[] };
+    (w.pagePilotRoots = w.pagePilotRoots || []).push(root);
   }, [shadowHtml]);
 
   return (

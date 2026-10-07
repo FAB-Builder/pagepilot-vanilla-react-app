@@ -23,6 +23,18 @@ function RenderContent() {
       </p>
       <DemoBlock title="After — isolated in a shadow root" code={CSS_LEAK_AFTER} language="tsx" />
       <p>
+        <strong>Interactive blocks:</strong> the <Code>window.pagePilotRoots.push(root)</Code> line
+        is what lets carousels, tabs, pagination, timers and animations work inside the shadow root
+        — the runtime scripts can't see into it otherwise, even when loaded from your app shell. See{' '}
+        <a
+          className="text-brand hover:underline"
+          href="/pagepilot-vanilla-react-app/pages/runtime-scripts#shadow-dom"
+        >
+          Runtime Scripts → Shadow DOM
+        </a>
+        .
+      </p>
+      <p>
         <strong>Trade-off:</strong> your own Tailwind classes / <Code>prose</Code> wrapper around the
         content also stop reaching in, since Shadow DOM blocks inherited styling from outside (CSS
         custom properties like <Code>var(--foo)</Code> are the one exception — those still pierce

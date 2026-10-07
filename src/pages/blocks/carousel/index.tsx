@@ -45,6 +45,11 @@ export default function CarouselBlock() {
               Runtime Scripts &amp; Animations
             </a>
             . Without it the first slide shows and the controls do nothing — the block degrades, it does not break.
+            If your app renders the content inside a Shadow DOM, also register the shadow root — see{' '}
+            <a className="text-brand hover:underline" href="/pagepilot-vanilla-react-app/pages/runtime-scripts#shadow-dom">
+              Shadow DOM
+            </a>
+            .
           </BlockCallout>
         </Section>
 

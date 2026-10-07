@@ -140,6 +140,7 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'enabling', label: 'Turning them on' },
     { id: 'embedding', label: 'Loading them yourself' },
     { id: 'dynamic', label: 'Content that loads late' },
+    { id: 'shadow-dom', label: 'Shadow DOM' },
     { id: 'animations', label: 'Animations' },
     { id: 'troubleshooting', label: 'Troubleshooting' },
   ],

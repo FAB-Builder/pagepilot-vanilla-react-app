@@ -76,7 +76,8 @@ export const DANGEROUS_HTML = `// Injecting page HTML this way is fine — but a
 // It finds the markup by data attributes, so order does not matter.`;
 
 export const RE_INIT = `// Content that arrives AFTER the script loaded — a client-side route
-// change, a fetch that resolves late, a modal — needs no extra work.
+// change, a fetch that resolves late, a modal — needs no extra work
+// as long as it lands in the normal (light) DOM. Shadow DOM: see below.
 //
 // Each script attaches a MutationObserver to the document and re-runs its
 // own initialisation whenever new nodes appear. Already-initialised
@@ -88,6 +89,51 @@ export default function PageView({ slug }) {
   // No init call, no cleanup, no re-run on slug change.
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }`;
+
+export const SHADOW_DOM_REGISTER = `// One line, once per shadow root. Safe to run before or after the
+// scripts load, and safe to repeat — a root is only registered once.
+(window.pagePilotRoots = window.pagePilotRoots || []).push(shadowRoot);`;
+
+export const SHADOW_DOM = `// RenderContent — the shadow-root renderer from "Fetching Pages",
+// plus the one line that lets carousels, tabs, timers etc. run inside it.
+import { useEffect, useRef } from 'react';
+import DOMPurify from 'dompurify';
+
+declare global {
+  interface Window { pagePilotRoots?: ShadowRoot[] }
+}
+
+export function RenderContent({ html }: { html: string }) {
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  const safeHtml = DOMPurify.sanitize(html);
+
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+    const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
+    root.innerHTML = safeHtml;
+
+    // Hand the shadow root to the Page Pilot runtime scripts. They watch it
+    // from now on, so later innerHTML updates are picked up automatically.
+    (window.pagePilotRoots = window.pagePilotRoots || []).push(root);
+  }, [safeHtml]);
+
+  return <div ref={hostRef} />;
+}
+
+// Still load the scripts once from your app shell, exactly as in
+// "Loading them yourself" — registering a root doesn't load anything.`;
+
+export const SHADOW_DOM_VANILLA = `<div id="pp-content"></div>
+
+<script src="https://pagepilot.fabbuilder.com/scripts/pagePilotCarousel.js" defer></script>
+<script>
+  const host = document.getElementById('pp-content');
+  const root = host.attachShadow({ mode: 'open' }); // must be 'open'
+  root.innerHTML = pageHtml;
+
+  (window.pagePilotRoots = window.pagePilotRoots || []).push(root);
+</script>`;
 
 export const CSP = `# If your site sends a Content-Security-Policy header, allow the script host.
 Content-Security-Policy: script-src 'self' https://pagepilot.fabbuilder.com;`;
