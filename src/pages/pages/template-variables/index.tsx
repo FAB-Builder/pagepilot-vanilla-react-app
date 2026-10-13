@@ -19,6 +19,7 @@ const SECTIONS: DocSection[] = [
   { id: 'default-values', label: '10. Default values' },
   { id: 'using-variables', label: '11. Filling in variables' },
   { id: 'auto-cleanup', label: '12. Variables & the canvas stay in sync' },
+  { id: 'page-from-template-api', label: '13. Create a page from a template (API)' },
   { id: 'field-reference', label: 'Field type reference' },
   { id: 'tips', label: 'Tips & common questions' },
 ];
@@ -893,6 +894,58 @@ export default function TemplateVariables() {
               </p>
             </li>
           </ul>
+        </Section>
+
+        {/* ---------------------------------------------------------------- */}
+        <Section id="page-from-template-api" title="13. Create a page from a template (API)">
+          <p>
+            You can skip the editor entirely and create — or update — a page straight from a saved
+            template with one call. Send the template ID and your variable values; Page Pilot
+            fills the variables, renders the HTML on the server and saves the page.
+          </p>
+          <CodeSnippet
+            language="bash"
+            code={`curl -X POST "$API_HOST/api/tenant/$TENANT/upsert-page-from-template" \\
+  -H "Authorization: Bearer $PP_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "data": {
+      "templateId": "<TEMPLATE_ID>",
+      "name": "Spring Sale",
+      "slug": "spring-sale",
+      "title": "Spring Sale",
+      "status": "live",
+      "isActive": true,
+      "variables": {
+        "firstName": "Sarah",
+        "heroImage": "https://cdn.example.com/hero.jpg"
+      }
+    }
+  }'`}
+          />
+          <p className="mt-4 font-semibold text-ink">Request body (inside <Code>data</Code>)</p>
+          <ul className="my-3 space-y-2 text-sm text-slate-600">
+            <li><Code>templateId</Code> <strong>(required)</strong> — copy it from the template card in the Templates step. Workspace templates are checked first, then global ones.</li>
+            <li><Code>variables</Code> — a <Code>{'{ fieldId: value }'}</Code> map. Each key is a variable's <strong>ID</strong> (the token name, e.g. <Token>firstName</Token> for <Token>{'{{firstName}}'}</Token>). Unknown keys are ignored; fields you leave out keep their default value.</li>
+            <li><Code>id</Code> — the page ID. Send it to <strong>update</strong> an existing page; omit it to <strong>create</strong> a new one.</li>
+            <li><Code>sectionId</Code> — the page's existing section ID. Send it when updating so the section is overwritten instead of a new one being created.</li>
+            <li><Code>contentMetadata.document</Code> — optional. A full editor document to render instead of the template's own design.</li>
+            <li>Any normal page field — <Code>name</Code>, <Code>slug</Code>, <Code>title</Code>, <Code>status</Code>, <Code>isActive</Code>, <Code>groups</Code>, <Code>tags</Code>, <Code>metaTitle</Code>, <Code>metaDescription</Code>, <Code>head</Code>, <Code>bodyBottom</Code>, <Code>website</Code>, etc. — same as <Code>upsert-page-item</Code>.</li>
+          </ul>
+          <p>
+            The response is the saved page. Keep its <Code>id</Code> and <Code>sections[0]</Code>{' '}
+            and send them back as <Code>id</Code> / <Code>sectionId</Code> to update the same page
+            later.
+          </p>
+          <Callout variant="warning" title="Things to know">
+            <ul className="list-disc space-y-1 pl-5">
+              <li>The page HTML is always rendered on the server — any HTML you send is ignored.</li>
+              <li>The page gets exactly one section, built from the template. Updating replaces the page's sections with that one.</li>
+              <li>Matching is by <Code>id</Code>, not slug — sending the same slug without an <Code>id</Code> creates a second page.</li>
+              <li>Needs the page-create permission and counts toward your page quota.</li>
+              <li>A <strong>400</strong> means the <Code>templateId</Code> is missing, the template has no design, or the design failed to render.</li>
+            </ul>
+          </Callout>
         </Section>
 
         {/* ---------------------------------------------------------------- */}
