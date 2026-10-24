@@ -1,10 +1,13 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { ExternalLink, Moon, Sun } from 'lucide-react';
+import { ArrowUpRight, Moon, Search, Sun } from 'lucide-react';
 import { GithubIcon, PagePilotIcon } from './Icons';
 import { GoogleTranslate } from './language/GoogleTranslate';
 import { LanguageMenu } from './language/LanguageMenu';
 import SearchCommand from './search/SearchCommand';
-import SearchTrigger from './search/SearchTrigger';
+import HeaderNav from './header/HeaderNav';
+import HeaderIconButton from './header/HeaderIconButton';
+import { openSearch } from '../lib/searchCommand';
+import { HOME_CONTAINER } from './layoutClasses';
 import { useTheme } from '../hooks/useTheme';
 
 const PAGEPILOT_URL = 'https://pagepilot.fabbuilder.com/';
@@ -19,48 +22,46 @@ function Layout() {
       <header className="relative z-20 shrink-0 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
         <div
           className={[
-            'flex h-14 items-center gap-2',
-            isHome ? 'mx-auto max-w-6xl px-4 sm:px-6' : 'px-4 sm:px-5',
+            'flex h-14 items-center gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]',
+            isHome ? HOME_CONTAINER : 'px-4 sm:px-5',
           ].join(' ')}
         >
-          <Link
-            to="/"
-            className="flex shrink-0 items-center gap-2 font-semibold text-ink"
-            aria-label="PagePilot home"
-          >
-            <PagePilotIcon className="h-10 w-auto" />
+          <Link to="/" className="shrink-0 justify-self-start" aria-label="Page Pilot docs home">
+            <PagePilotIcon className="h-9 w-auto" />
           </Link>
 
-          <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+          <HeaderNav />
+
+          <div className="ml-auto flex items-center gap-1 justify-self-end">
             <LanguageMenu />
             {/* Desktop search lives in the docs sidebar and the home hero. */}
-            <SearchTrigger variant="icon" className="lg:hidden" />
-            <button
-              type="button"
+            <HeaderIconButton label="Search docs" onClick={openSearch} className="lg:hidden">
+              <Search size={16} />
+            </HeaderIconButton>
+            <HeaderIconButton
+              label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-ink"
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
+            </HeaderIconButton>
+            <HeaderIconButton label="ahdjs on GitHub" href={AHDJS_REPO_URL}>
+              <GithubIcon className="h-4 w-4" />
+            </HeaderIconButton>
+
+            <span className="mx-2 hidden h-5 w-px bg-slate-200 sm:block" aria-hidden="true" />
+
             <a
               href={PAGEPILOT_URL}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark sm:px-3"
+              className="group flex items-center gap-1 rounded-lg bg-brand px-3 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-brand-dark"
             >
               <span className="hidden sm:inline">Open Page Pilot</span>
               <span className="sm:hidden">Open</span>
-              <ExternalLink size={13} className="opacity-80" />
-            </a>
-            <a
-              href={AHDJS_REPO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1.5 text-[13px] font-semibold text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-ink sm:px-3"
-            >
-              <GithubIcon className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">ahdjs</span>
+              <ArrowUpRight
+                size={14}
+                className="opacity-80 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+              />
             </a>
           </div>
         </div>

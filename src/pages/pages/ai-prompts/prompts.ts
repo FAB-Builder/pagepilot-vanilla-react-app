@@ -101,8 +101,8 @@ ${CODE_RULES}
 ${done}
 - When finished, list the files you created or changed and any env variable I need to set.`;
 
-const BLOG_LIST_PROMPT = promptFor(
-  'Build a blog listing page in my app that shows the published posts from one Page Pilot group as a paginated card grid.',
+const LIST_PROMPT = promptFor(
+  'Build a listing page in my app that shows the published pages from one Page Pilot group (for example blog posts, news, case studies or docs) as a paginated card grid. Ask me which group and which route path to use if I have not said.',
   `${LIST_ENDPOINT}
 
 ## Steps
@@ -110,17 +110,17 @@ const BLOG_LIST_PROMPT = promptFor(
    \`filter[groups][]=<group>\`, \`filter[status]=live\`, \`includeSections=false\`,
    \`select=slug name title metaDescription thumbnailImage tags updatedAt\`, \`orderBy=createdAt_DESC\`, \`limit\`, \`offset\`.
    Return \`{ pages: rows ?? [], total: count ?? 0 }\`.
-2. Create a \`BlogCard\` (or reuse mine) showing: thumbnail (\`thumbnailImage\`), title (\`title\`, falling back to \`name\` — \`title\` is often missing), \`metaDescription\`, formatted \`updatedAt\`, and a link to \`/blogs/{slug}\`.
-3. Create the listing route (e.g. \`/blogs\`) with a responsive grid and pagination: total pages = \`Math.ceil(total / limit)\`; keep the current page in the URL (\`?page=2\`) so it is shareable.
-4. Add loading, empty ("No posts yet"), and error states.
+2. Create a \`PageCard\` (or reuse my card component) showing: thumbnail (\`thumbnailImage\`), title (\`title\`, falling back to \`name\` — \`title\` is often missing), \`metaDescription\`, formatted \`updatedAt\`, and a link to \`<listPath>/{slug}\`.
+3. Create the listing route (e.g. \`/blog\`, \`/news\`, \`/resources\`) with a responsive grid and pagination: total pages = \`Math.ceil(total / limit)\`; keep the current page in the URL (\`?page=2\`) so it is shareable.
+4. Add loading, empty ("Nothing published yet"), and error states.
 5. If my framework supports static generation or server rendering, fetch on the server for SEO.`,
-  `- \`/blogs\` lists live posts, newest first, with working pagination.
-- Each card links to \`/blogs/{slug}\`.
+  `- The listing route shows live pages from the group, newest first, with working pagination.
+- Each card links to \`<listPath>/{slug}\`.
 - No list request is sent without \`includeSections=false\`.`,
 );
 
-const BLOG_DETAIL_PROMPT = promptFor(
-  'Build a blog post detail page at `/blogs/[slug]` that loads one Page Pilot page by its slug and renders its content safely, with SEO meta.',
+const DETAIL_PROMPT = promptFor(
+  'Build a detail page at `<listPath>/[slug]` (for example `/blog/[slug]`) that loads one Page Pilot page by its slug and renders its content safely, with SEO meta. Ask me for the route path and group if I have not said.',
   `${SLUG_ENDPOINT}
 
 ${LIST_ENDPOINT}
@@ -133,13 +133,13 @@ ${SAFE_RENDER}
    \`pageSelect.sectionSelect = { title: 1, content: 1, image: 1 }\`
    Return \`data.page\` (or \`null\`).
 2. Create the \`RenderContent\` component described above.
-3. Create the \`/blogs/[slug]\` route: read the slug from the route params, fetch the page, and show my 404 page if it is \`null\`.
+3. Create the \`<listPath>/[slug]\` route: read the slug from the route params, fetch the page, and show my 404 page if it is \`null\`.
 4. Render: title (\`title\` ?? \`name\`), hero image (\`thumbnailImage\`), then each of \`page.sections\` in order — an image if \`section.image?.[0]?.downloadUrl\` exists, then \`section.title\` and \`section.content\` through \`RenderContent\`.
 5. SEO: set the document title, meta description, and og:image from \`metaTitle\` ?? \`title\`, \`metaDescription\`, \`metaImageUrl\`.
 6. Static generation (Next.js \`generateStaticParams\`, or the equivalent in my framework): list every slug with
    \`GET /client/page?filter[groups][]=<group>&filter[status]=live&includeSections=false&select=slug\`
    and map \`rows\` to \`{ slug }\`, skipping rows without a slug.`,
-  `- Visiting \`/blogs/<existing-slug>\` renders the post; an unknown slug shows the 404 page.
+  `- Visiting \`<listPath>/<existing-slug>\` renders the page; an unknown slug shows the 404 page.
 - Page Pilot HTML is rendered only through \`RenderContent\` (sanitized + Shadow DOM); its styles do not affect the rest of my site.
 - The page has a correct title, description and og:image.`,
 );
@@ -243,16 +243,17 @@ ${SAFE_RENDER}
 
 export const CONTENT_PROMPTS: ContentPrompt[] = [
   {
-    id: 'blog-list',
-    title: 'Blog listing page',
-    description: 'A paginated grid of posts from a group, using GET /client/page.',
-    prompt: BLOG_LIST_PROMPT,
+    id: 'list-pages',
+    title: 'List of pages',
+    description:
+      'A paginated grid of pages from any group — blog posts, news, case studies — using GET /client/page.',
+    prompt: LIST_PROMPT,
   },
   {
-    id: 'blog-detail',
-    title: 'Blog post page',
-    description: 'One post by slug, rendered safely, with SEO meta and static generation.',
-    prompt: BLOG_DETAIL_PROMPT,
+    id: 'single-page',
+    title: 'Single page by slug',
+    description: 'One page by its slug, rendered safely, with SEO meta and static generation.',
+    prompt: DETAIL_PROMPT,
   },
   {
     id: 'faqs',

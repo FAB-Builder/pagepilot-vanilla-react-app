@@ -2,7 +2,6 @@ import { Search } from 'lucide-react';
 import { openSearch } from '../../lib/searchCommand';
 
 interface SearchTriggerProps {
-  variant?: 'field' | 'icon';
   size?: 'md' | 'lg';
   className?: string;
 }
@@ -14,20 +13,7 @@ const FIELD_SIZES = {
   lg: 'gap-3 rounded-xl bg-white px-4 py-3.5 text-[15px] shadow-card',
 };
 
-function SearchTrigger({ variant = 'field', size = 'md', className = '' }: SearchTriggerProps) {
-  if (variant === 'icon') {
-    return (
-      <button
-        type="button"
-        onClick={openSearch}
-        aria-label="Search the documentation"
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-ink ${className}`}
-      >
-        <Search size={16} />
-      </button>
-    );
-  }
-
+function SearchTrigger({ size = 'md', className = '' }: SearchTriggerProps) {
   return (
     <button
       type="button"

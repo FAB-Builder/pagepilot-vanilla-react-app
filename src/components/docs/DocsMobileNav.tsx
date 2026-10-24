@@ -42,7 +42,7 @@ function DocsMobileNav({ moduleLabel, title, children }: DocsMobileNavProps) {
 
   return (
     <>
-      <div className="sticky top-0 z-20 mb-4 border-b border-slate-200/80 bg-white/95 px-4 py-2 backdrop-blur-md sm:px-7 lg:hidden">
+      <div className="sticky top-0 z-20 mb-4 border-b border-slate-200/80 bg-white/95 px-4 py-2 backdrop-blur-md sm:px-6 lg:hidden">
         <button
           type="button"
           onClick={() => setOpen(true)}

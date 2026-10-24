@@ -102,9 +102,9 @@ function DocLayout({ title, sections, subModules, children }: DocLayoutProps) {
         </div>
       </aside>
 
-      <div className="min-w-0 px-4 pb-24 pt-2 sm:px-7 lg:px-12 lg:pt-10">
-        <div className="mx-auto max-w-[78rem] xl:grid xl:grid-cols-[minmax(0,50rem)_14rem] xl:justify-between xl:gap-12">
-          <div className="mx-auto w-full min-w-0 max-w-[50rem] overflow-x-hidden xl:mx-0">
+      <div className="min-w-0 px-4 pb-24 pt-2 sm:px-6 lg:px-8 lg:pt-10">
+        <div className="mx-auto max-w-[82rem] xl:grid xl:grid-cols-[minmax(0,54rem)_14rem] xl:justify-between xl:gap-10">
+          <div className="mx-auto w-full min-w-0 max-w-[54rem] overflow-x-hidden xl:mx-0">
             <DocsBreadcrumb module={currentModule} title={title} />
             <div className="doc-content mt-5">{children}</div>
             <DocsPager prev={prev} next={next} />

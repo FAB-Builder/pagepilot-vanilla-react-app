@@ -49,7 +49,7 @@ export default function AiPrompts() {
           <Section key={id} id={id} title={title}>
             <AiPromptBlock
               id={`${id}-prompt`}
-              title={title}
+              title={null}
               description={description}
               prompt={prompt}
             />

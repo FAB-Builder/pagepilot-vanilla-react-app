@@ -149,8 +149,8 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
   ],
   '/pages/ai-prompts': [
     { id: 'overview', label: 'How to use' },
-    { id: 'blog-list', label: 'Blog listing page' },
-    { id: 'blog-detail', label: 'Blog post page' },
+    { id: 'list-pages', label: 'List of pages' },
+    { id: 'single-page', label: 'Single page by slug' },
     { id: 'faqs', label: 'FAQ section' },
     { id: 'menus', label: 'Header & footer menus' },
     { id: 'catch-all', label: 'Any page (catch-all route)' },

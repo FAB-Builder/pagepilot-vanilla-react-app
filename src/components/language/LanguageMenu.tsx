@@ -32,7 +32,7 @@ export function LanguageMenu() {
         aria-haspopup="true"
         aria-expanded={open}
         aria-label={languageCopy.trigger}
-        className="flex h-8 shrink-0 items-center gap-1.5 px-2 text-[13px] font-medium text-ink transition-colors group-hover:text-slate-500 group-focus-within:text-slate-500"
+        className="flex h-8 shrink-0 items-center gap-1.5 rounded-lg px-2 text-[13px] font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-ink"
       >
         <Languages className="h-3.5 w-3.5" aria-hidden="true" />
         <span className="uppercase">{active.split('-')[0]}</span>
