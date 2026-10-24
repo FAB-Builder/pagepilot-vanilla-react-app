@@ -9,12 +9,14 @@ export interface SearchEntry {
   module: string;
   /** Extra text this entry matches against but doesn't display verbatim. */
   keywords?: string;
+  /** One-line summary shown under the title in the search dialog. */
+  description?: string;
 }
 
 /**
  * Static search index: one entry per module (matches on label + description)
  * and one entry per doc section (matches on section label, links straight to
- * its anchor). Kept in sync by hand with each page's `SECTIONS` constant â€”
+ * its anchor). Kept in sync by hand with each page's `SECTIONS` constant —
  * there's no runtime content scan, so a new `<Section>` needs a line here too.
  */
 const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
@@ -65,7 +67,8 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
   ],
   '/pages/fetch-pages': [
     { id: 'overview', label: 'Overview' },
-    { id: 'endpoint', label: 'The endpoint' },
+    { id: 'list-pages', label: 'Fetch a list of pages' },
+    { id: 'endpoint', label: 'Fetch one page by slug' },
     { id: 'example', label: 'Full example' },
     { id: 'includes', label: 'Includes' },
     { id: 'multiple-includes', label: 'Multiple includes' },
@@ -143,6 +146,14 @@ const SECTION_INDEX: Record<string, { id: string; label: string }[]> = {
     { id: 'shadow-dom', label: 'Shadow DOM' },
     { id: 'animations', label: 'Animations' },
     { id: 'troubleshooting', label: 'Troubleshooting' },
+  ],
+  '/pages/ai-prompts': [
+    { id: 'overview', label: 'How to use' },
+    { id: 'blog-list', label: 'Blog listing page' },
+    { id: 'blog-detail', label: 'Blog post page' },
+    { id: 'faqs', label: 'FAQ section' },
+    { id: 'menus', label: 'Header & footer menus' },
+    { id: 'catch-all', label: 'Any page (catch-all route)' },
   ],
   '/pages/build-triggers': [
     { id: 'overview', label: 'What this does' },
@@ -520,6 +531,7 @@ const MODULE_LABEL: Record<string, string> = {
   '/pages/external-sections': 'External Sections',
   '/pages/runtime-scripts': 'Runtime Scripts & Animations',
   '/pages/build-triggers': 'Automated Build Triggers',
+  '/pages/ai-prompts': 'AI Prompts',
   '/context-help-menu': 'Context Help Menu',
   '/webinar': 'Webinar',
   '/forms': 'Forms',
@@ -572,6 +584,7 @@ function buildIndex(): SearchEntry[] {
       title: item.label,
       module: item.label,
       keywords: item.description,
+      description: item.description,
     });
   }
 

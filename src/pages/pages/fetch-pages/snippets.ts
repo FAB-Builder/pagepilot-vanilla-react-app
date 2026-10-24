@@ -27,7 +27,51 @@ async function fetchPage(slug) {
   return data.page; // the page that matched the slug
 }`;
 
-export const FULL_EXAMPLE_CODE = `// Replace ${LEAD_APPLICATION_ID} with your workspace id.
+export const LIST_PAGES_CODE = `const PAGEPILOT_API = '${PP_BASE_SNIPPET}';
+
+async function fetchBlogs() {
+  const params = new URLSearchParams({
+    'filter[groups][]': 'blogs',
+    'filter[status]': 'live',
+    includeSections: 'false',
+    select: 'slug name title',
+    orderBy: 'createdAt_DESC',
+    limit: '20',
+  });
+
+  const res = await fetch(\`\${PAGEPILOT_API}/client/page?\${params}\`);
+  const data = await res.json();
+
+  return data.rows; // [{ slug, name, title }, ...]
+}`;
+
+export const LIST_SLUGS_NEXT_CODE = `// app/blogs/[slug]/page.tsx — pre-render one route per blog at build time.
+export async function generateStaticParams() {
+  const params = new URLSearchParams({
+    'filter[groups][]': 'blogs',
+    includeSections: 'false',
+    select: 'slug',
+  });
+
+  const res = await fetch(\`\${PAGEPILOT_API}/client/page?\${params}\`);
+  const { rows = [] } = await res.json();
+
+  return rows.filter((r) => r.slug).map((r) => ({ slug: r.slug }));
+}`;
+
+export const LIST_PAGES_RESPONSE = `{
+  "count": 190,
+  "rows": [
+    {
+      "_id": "6ad211414815d241dc773f25",
+      "id": "6ad211414815d241dc773f25",
+      "name": "Purple Colour Combination: Wall Paint Colour Shades and Ideas",
+      "slug": "purple-wall-colour-combinations"
+    }
+  ]
+}`;
+
+export const FULL_EXAMPLE_CODE =`// Replace ${LEAD_APPLICATION_ID} with your workspace id.
 const PAGEPILOT_API = '${PP_BASE_SNIPPET}';
 
 // Fetch a page AND a filtered list of related pages in one request.

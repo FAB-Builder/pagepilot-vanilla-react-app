@@ -15,9 +15,61 @@ function ApiReference() {
             type: `${PP_BASE}/pagebyslug/{slug}`,
           },
           {
+            property: 'GET /client/page',
+            description: 'List pages, filtered and paged via the query string.',
+            type: `${PP_BASE}/client/page`,
+          },
+          {
             property: 'Content-Type',
-            description: 'Request body is JSON.',
+            description: 'Request body is JSON (pagebyslug only).',
             type: 'application/json',
+          },
+        ]}
+      />
+      <h3 className="mb-2 mt-6 text-base font-semibold text-ink">List query parameters</h3>
+      <ApiTable
+        rows={[
+          {
+            property: 'filter[groups][]',
+            description: 'Restrict to this group. Repeat the param for several groups.',
+            type: 'string',
+          },
+          {
+            property: 'filter[status]',
+            description: 'Restrict to this status.',
+            type: "'live' | 'draft'",
+          },
+          {
+            property: 'includeSections',
+            description: 'Set to false to leave out section HTML.',
+            type: 'boolean',
+            default: 'true',
+          },
+          {
+            property: 'select',
+            description: 'Space-separated fields per page, e.g. "slug name title".',
+            type: 'string',
+          },
+          {
+            property: 'orderBy',
+            description: 'Sort as field_ASC or field_DESC, e.g. createdAt_DESC.',
+            type: 'string',
+          },
+          {
+            property: 'limit / offset',
+            description: 'Page through results. Omit limit to return every match.',
+            type: 'number',
+          },
+        ]}
+      />
+      <h3 className="mb-2 mt-6 text-base font-semibold text-ink">List response</h3>
+      <ApiTable
+        rows={[
+          { property: 'rows', description: 'The matched pages.', type: 'object[]' },
+          {
+            property: 'count',
+            description: 'Total matches, ignoring limit and offset.',
+            type: 'number',
           },
         ]}
       />

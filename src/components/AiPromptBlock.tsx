@@ -7,6 +7,8 @@ interface AiPromptBlockProps {
   prompt: string;
   /** Optional id prefix so multiple blocks on a page stay unique. */
   id?: string;
+  title?: string;
+  description?: string;
 }
 
 /**
@@ -15,7 +17,12 @@ interface AiPromptBlockProps {
  * own codebase. Mirrors the "Copy AI Setup Prompt" affordance from the
  * PagePilot admin (ahd-fe ConfigureDialog), reworked for the docs site.
  */
-function AiPromptBlock({ prompt, id = 'ai-prompt' }: AiPromptBlockProps) {
+function AiPromptBlock({
+  prompt,
+  id = 'ai-prompt',
+  title = 'Integrate using AI',
+  description = 'Copy this prompt into Cursor, Claude, or GitHub Copilot and let it wire PagePilot into your codebase, step by step.',
+}: AiPromptBlockProps) {
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
   const toast = useToast();
@@ -42,11 +49,8 @@ function AiPromptBlock({ prompt, id = 'ai-prompt' }: AiPromptBlockProps) {
             <Sparkles size={17} />
           </div>
           <div>
-            <p className="text-sm font-semibold text-ink">Integrate using AI</p>
-            <p className="mt-0.5 text-sm leading-relaxed text-slate-500">
-              Copy this prompt into Cursor, Claude, or GitHub Copilot and let it wire PagePilot
-              into your codebase, step by step.
-            </p>
+            <p className="text-sm font-semibold text-ink">{title}</p>
+            <p className="mt-0.5 text-sm leading-relaxed text-slate-500">{description}</p>
           </div>
         </div>
         <button
