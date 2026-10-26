@@ -14,9 +14,11 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="mb-12 scroll-mt-24">
-      <h2 className="mb-4 border-b border-slate-200 pb-2 text-xl font-bold">{title}</h2>
-      <div className="space-y-3 leading-relaxed text-slate-600">{children}</div>
+    <section id={id} className="doc-section scroll-mt-24">
+      <h2 className="mb-4 text-[1.375rem] font-semibold leading-snug tracking-[-0.02em] text-ink">
+        {title}
+      </h2>
+      <div className="space-y-4 text-[15.5px] leading-7 text-slate-600">{children}</div>
     </section>
   );
 }
@@ -24,7 +26,7 @@ export function Section({
 /** Inline code chip used throughout the docs. */
 export function Code({ children }: { children: ReactNode }) {
   return (
-    <code className="inline-block max-w-full break-all rounded bg-brand-tint px-1.5 py-0.5 font-mono text-[13px] text-brand">
+    <code className="rounded-md border border-slate-200 bg-slate-50 px-1.5 py-px font-mono text-[0.84em] font-medium text-slate-800">
       {children}
     </code>
   );

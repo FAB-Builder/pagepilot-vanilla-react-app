@@ -4,7 +4,7 @@ import { BASIC_CODE } from '../snippets';
 
 function Endpoint() {
   return (
-    <Section id="endpoint" title="The endpoint">
+    <Section id="endpoint" title="Fetch one page by slug">
       <p>
         Send a <Code>POST</Code> to <Code>/pagebyslug/&#123;slug&#125;</Code> with a JSON body. The
         body is where you describe what related content to pull in (see <Code>includes</Code> below).

@@ -12,6 +12,7 @@ import LinkPageToMenu from './pages/pages/link-page-to-menu';
 import ExternalSections from './pages/pages/external-sections';
 import RuntimeScripts from './pages/pages/runtime-scripts';
 import BuildTriggers from './pages/pages/build-triggers';
+import AiPrompts from './pages/pages/ai-prompts';
 import { PAGES_DEFAULT } from './pages/pages/subModules';
 import ContextHelpMenu from './pages/context-help-menu';
 import Menus from './pages/menus';
@@ -103,6 +104,7 @@ function App() {
         <Route path="pages/external-sections" element={<ExternalSections />} />
         <Route path="pages/runtime-scripts" element={<RuntimeScripts />} />
         <Route path="pages/build-triggers" element={<BuildTriggers />} />
+        <Route path="pages/ai-prompts" element={<AiPrompts />} />
         <Route path="context-help-menu" element={<ContextHelpMenu />} />
         <Route path="menus" element={<Menus />} />
         <Route path="webinar" element={<Webinar />} />

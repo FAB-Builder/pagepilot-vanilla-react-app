@@ -1,5 +1,6 @@
 export { default as Overview } from './Overview';
 export { default as Endpoint } from './Endpoint';
+export { default as ListPages } from './ListPages';
 export { default as FullExample } from './FullExample';
 export { default as Includes } from './Includes';
 export { default as MultipleIncludes } from './MultipleIncludes';
@@ -9,8 +10,7 @@ export { default as AllTogether } from './AllTogether';
 export { default as Filter } from './Filter';
 export { default as SelectFields } from './SelectFields';
 export { default as PageSelect } from './PageSelect';
-export { default as AiPrompt } from './AiPrompt';
-export { default as ApiReference } from './ApiReference';
+export { default as AiPrompt } from './AiPrompt';export { default as ApiReference } from './ApiReference';
 export { default as PageFields } from './PageFields';
 export { default as RenderContent } from './RenderContent';
 export { default as PreviewMode } from './PreviewMode';

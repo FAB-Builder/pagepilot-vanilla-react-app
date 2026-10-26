@@ -18,14 +18,14 @@ function PreviewMode() {
     <Section id="preview-mode" title="Preview mode">
       <p>
         <strong>The problem:</strong> most sites build Page Pilot content into static pages, so
-        visitors get fast, cached HTML. The trade-off is staleness â€” edit a page in Page Pilot and
+        visitors get fast, cached HTML. The trade-off is staleness — edit a page in Page Pilot and
         the live site keeps serving the previous build until it redeploys. Authors have no way to
         see how a change actually looks on the real site until then.
       </p>
       <p>
         <strong>The fix:</strong> a query parameter that opts one page view out of the static copy.
         Append <Code>?mode=preview</Code> to any page URL and your site fetches that slug from the
-        API at runtime, rendering the latest saved content â€” including edits still in draft. Page
+        API at runtime, rendering the latest saved content — including edits still in draft. Page
         Pilot hands authors this URL in the publish dialog, next to the normal live URL.
       </p>
       <p>
@@ -40,7 +40,7 @@ function PreviewMode() {
             description:
               'Query parameter on any page URL. When set to "preview", the page is fetched from the API at runtime instead of served from the static build.',
             type: "'preview'",
-            default: 'â€”',
+            default: '—',
           },
           {
             property: 'includes',
@@ -53,20 +53,20 @@ function PreviewMode() {
       />
 
       <p>
-        <strong>Step 1 â€” fetch without the live filter.</strong> The endpoint is the same one you
+        <strong>Step 1 — fetch without the live filter.</strong> The endpoint is the same one you
         already use. The only difference is <Code>includes</Code>: normally you pass{' '}
         <Code>{`[{ filter: { status: 'live' } }]`}</Code> so drafts never reach visitors, but in
         preview you pass an empty array so unpublished content comes back too.
       </p>
       <DemoBlock
         title="fetchPageBySlug with a preview flag"
-        description="Same endpoint as always â€” preview just drops the status filter."
+        description="Same endpoint as always — preview just drops the status filter."
         code={PREVIEW_FETCH_CODE}
         language="js"
       />
 
       <p>
-        <strong>Step 2 â€” detect the flag and swap the content.</strong> Read the query string after
+        <strong>Step 2 — detect the flag and swap the content.</strong> Read the query string after
         mount and fetch only when preview is on. The statically built page paints first, then the
         live copy replaces it once the request resolves, so there is no blank screen while the
         request is in flight.
@@ -81,7 +81,7 @@ function PreviewMode() {
       <BlockCallout title="Next.js: do not reach for useSearchParams()" variant="warning">
         On the App Router, any component calling <Code>useSearchParams()</Code> opts its entire
         route out of static prerendering unless it sits inside a <Code>&lt;Suspense&gt;</Code>{' '}
-        boundary â€” and <Code>next build</Code> fails outright with{' '}
+        boundary — and <Code>next build</Code> fails outright with{' '}
         <em>"useSearchParams() should be wrapped in a suspense boundary"</em>. Reading{' '}
         <Code>window.location.search</Code> inside <Code>useEffect</Code> sidesteps the bailout
         entirely and behaves identically.

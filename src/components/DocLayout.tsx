@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react';
 import type { ComponentType, ReactNode, SVGProps } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { navItems } from '../navItems';
+import { useLocation } from 'react-router-dom';
+import { docsNavFlat, findCurrentModule } from '../docsNav';
+import { useScrollSpy } from '../hooks/useScrollSpy';
+import DocsNav from './docs/DocsNav';
+import DocsToc from './docs/DocsToc';
+import DocsBreadcrumb from './docs/DocsBreadcrumb';
+import DocsPager, { type PagerLink } from './docs/DocsPager';
+import DocsMobileNav from './docs/DocsMobileNav';
+import SearchTrigger from './search/SearchTrigger';
 
 export interface DocSection {
   id: string;
@@ -16,325 +21,107 @@ export interface SubModule {
   label: string;
   /**
    * Optional glyph rendered before the label. Block sub-modules pass the same
-   * icon the editor shows in its Add Block menu; other modules omit it and the
-   * rail renders label-only as before.
+   * icon the editor shows in its Add Block menu; other modules omit it.
    */
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 interface DocLayoutProps {
-  /** The page title shown above the section list. */
+  /** The page title — used in the breadcrumb and the mobile crumb bar. */
   title: string;
-  /** Section anchors — drive BOTH the left nav and scroll-spy highlighting. */
+  /** Section anchors — drive the "On this page" list and scroll-spy highlighting. */
   sections: DocSection[];
-  /**
-   * Optional sub-modules for a parent module (e.g. "Pages" → Lead Form,
-   * Fetch Pages). When provided they render as a list in the left rail,
-   * above the on-this-page sections.
-   */
+  /** Sub-pages of the current module (e.g. "Pages" → Fetch Pages), nested in the sidebar. */
   subModules?: SubModule[];
-  /** Heading shown above the sub-module list. Defaults to the title. */
+  /** Kept for API compatibility; the module name now comes from the route. */
   subModulesLabel?: string;
   children: ReactNode;
 }
 
+function getSiblings(pathname: string, subModules?: SubModule[]) {
+  const list: PagerLink[] =
+    subModules && subModules.some((sm) => sm.to === pathname)
+      ? subModules.map(({ to, label }) => ({ to, label }))
+      : docsNavFlat.map(({ to, label }) => ({ to, label }));
+  const index = list.findIndex((link) => link.to === pathname);
+  if (index === -1) return {};
+  return { prev: list[index - 1], next: list[index + 1] };
+}
+
 /**
- * Ant-Design-style documentation shell. The left rail shows the current
- * page's sub-modules and on-this-page sections (with scroll-spy
- * highlighting); the right rail shows the top-level component list.
+ * Three-column documentation shell: grouped module nav on the left, the page
+ * in the middle (breadcrumb + content + prev/next), and "On this page" on the
+ * right. Below lg the nav collapses into a drawer behind a sticky crumb bar.
  */
-function DocLayout({
-  title,
-  sections,
-  subModules,
-  subModulesLabel,
-  children,
-}: DocLayoutProps) {
-  const { hash, pathname } = useLocation();
-  const initialId = hash ? hash.slice(1) : sections[0]?.id;
-  const [activeId, setActiveId] = useState(initialId);
-  const [navOpen, setNavOpen] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
-
-  // Close the mobile nav drawer whenever the route changes.
-  useEffect(() => {
-    setNavOpen(false);
-  }, [pathname]);
-
-  // Mount the drawer first, then flip the transition class on the next
-  // frame so the slide-in animation actually plays (mount + open in the
-  // same tick would skip straight to the open state).
-  useEffect(() => {
-    if (navOpen) {
-      const id = requestAnimationFrame(() => setNavVisible(true));
-      return () => cancelAnimationFrame(id);
-    }
-    setNavVisible(false);
-  }, [navOpen]);
-
-  const closeNav = () => {
-    setNavVisible(false);
-    setTimeout(() => setNavOpen(false), 200);
-  };
-  // On mount scroll to the hash section, after the DOM is painted.
-  useEffect(() => {
-    if (!hash) return;
-    const id = hash.slice(1);
-    const scrollRoot = document.querySelector('main') as HTMLElement | null;
-
-    const attempt = (tries: number) => {
-      const el = document.getElementById(id);
-      if (el && scrollRoot) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setActiveId(id);
-      } else if (tries > 0) {
-        setTimeout(() => attempt(tries - 1), 150);
-      }
-    };
-    attempt(5);
-  }, [hash]);
-
-  useEffect(() => {
-    const scrollRoot = document.querySelector('main') as HTMLElement | null;
-    if (!scrollRoot) return;
-
-    // The line near the top of the viewport that decides the active section.
-    const TRIGGER_OFFSET = 120;
-
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-
-      const els = sections
-        .map((s) => document.getElementById(s.id))
-        .filter((el): el is HTMLElement => Boolean(el));
-      if (!els.length) return;
-
-      // If we're scrolled to (or near) the bottom, the last section is active
-      // even if it never reaches the trigger line — short trailing sections
-      // can't scroll all the way to the top.
-      const atBottom =
-        scrollRoot.scrollTop + scrollRoot.clientHeight >= scrollRoot.scrollHeight - 2;
-      if (atBottom) {
-        setActiveId(els[els.length - 1].id);
-        return;
-      }
-
-      const rootTop = scrollRoot.getBoundingClientRect().top;
-
-      // Active = the last section whose top has crossed the trigger line.
-      let current = els[0].id;
-      for (const el of els) {
-        const top = el.getBoundingClientRect().top - rootTop;
-        if (top <= TRIGGER_OFFSET) current = el.id;
-        else break;
-      }
-      setActiveId(current);
-    };
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    };
-
-    scrollRoot.addEventListener('scroll', onScroll, { passive: true });
-    // When no hash, set active section based on current scroll position immediately.
-    // When there's a hash, the hash effect handles the initial activeId.
-    if (!hash) update();
-
-    return () => scrollRoot.removeEventListener('scroll', onScroll);
-  }, [sections, hash]);
-
-  const leftRailContent = (
-    <>
-      {/* Sub-modules of the current module (e.g. Pages → Lead Form) */}
-      {subModules && subModules.length > 0 && (
-        <>
-          <span className="mb-2 block px-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted/70">
-            {subModulesLabel ?? title}
-          </span>
-          <nav id="doc-submodule-nav" className="mb-6 flex flex-col gap-0.5">
-            {subModules.map((sm) => (
-              <NavLink
-                key={sm.to}
-                to={sm.to}
-                id={`submodule-link-${sm.to.replace(/\//g, '-').replace(/^-/, '')}`}
-                className={({ isActive }) =>
-                  [
-                    'flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors',
-                    isActive
-                      ? 'bg-brand-tint font-semibold text-brand'
-                      : 'font-medium text-slate-600 hover:bg-slate-100 hover:text-ink',
-                  ].join(' ')
-                }
-              >
-                {sm.icon && <sm.icon className="h-4 w-4 shrink-0 opacity-80" />}
-                <span className="truncate">{sm.label}</span>
-              </NavLink>
-            ))}
-          </nav>
-        </>
-      )}
-
-      {/* On-this-page sections for the current component */}
-      <span
-        className={[
-          'mb-2 block px-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted/70',
-          subModules && subModules.length > 0 ? 'border-t border-slate-200/80 pt-5' : '',
-        ].join(' ')}
-      >
-        {title}
-      </span>
-      <nav id="doc-section-nav" className="flex flex-col">
-        {sections.map((s) => (
-          <a
-            key={s.id}
-            id={`section-link-${s.id}`}
-            href={`#${s.id}`}
-            onClick={(e) => {
-              e.preventDefault();
-              const el = document.getElementById(s.id);
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                setActiveId(s.id);
-                window.history.replaceState(null, '', `#${s.id}`);
-              }
-              closeNav();
-            }}
-            className={[
-              'cursor-pointer border-l-2 py-1.5 pl-4 pr-2 text-sm transition-colors',
-              activeId === s.id
-                ? 'border-brand font-semibold text-brand'
-                : 'border-slate-200 text-muted hover:border-slate-300 hover:text-ink',
-            ].join(' ')}
-          >
-            {s.label}
-          </a>
-        ))}
-      </nav>
-
-      {/* Component list — folded into the mobile drawer since the right rail is xl+ only */}
-      <span className="mb-2 mt-6 block border-t border-slate-200/80 px-3 pt-5 text-xs font-semibold uppercase tracking-[0.08em] text-muted/70 xl:hidden">
-        Components
-      </span>
-      <nav className="flex flex-col gap-0.5 xl:hidden">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) =>
-                [
-                  'flex items-center gap-2.5 rounded-md px-3 py-1.5 text-sm transition-colors',
-                  isActive
-                    ? 'bg-brand-tint font-semibold text-brand'
-                    : 'font-medium text-slate-600 hover:bg-slate-100 hover:text-ink',
-                ].join(' ')
-              }
-              onClick={() => closeNav()}
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              {item.label}
-            </NavLink>
-          );
-        })}
-      </nav>
-    </>
-  );
+function DocLayout({ title, sections, subModules, children }: DocLayoutProps) {
+  const { pathname } = useLocation();
+  const currentModule = findCurrentModule(pathname);
+  const { activeId, scrollToSection, scrollToTop } = useScrollSpy(sections);
+  const { prev, next } = getSiblings(pathname, subModules);
 
   return (
-    <div className="lg:flex lg:gap-6 xl:gap-10">
-      {/* Mobile/tablet nav toggle — only visible below lg */}
-      <button
-        type="button"
-        onClick={() => setNavOpen(true)}
-        className="sticky top-0 z-20 -mx-4 mb-4 flex w-[calc(100%+2rem)] items-center gap-2 border-b border-slate-200/80 bg-white/95 px-4 py-3 text-sm font-medium text-slate-600 backdrop-blur-md sm:-mx-6 sm:w-[calc(100%+3rem)] sm:px-6 lg:hidden"
-        aria-label="Open page navigation"
+    <div className="lg:grid lg:grid-cols-[17rem_minmax(0,1fr)]">
+      <DocsMobileNav moduleLabel={currentModule?.label} title={title}>
+        {(close) => (
+          <>
+            <SearchTrigger className="mb-5" />
+            <DocsNav
+              currentModulePath={currentModule?.to}
+              subModules={subModules}
+              onNavigate={close}
+            />
+            {sections.length > 0 && (
+              <div className="mt-6 border-t border-slate-200 pt-5">
+                <DocsToc
+                  sections={sections}
+                  activeId={activeId}
+                  onSelect={(id) => {
+                    scrollToSection(id);
+                    close();
+                  }}
+                  onBackToTop={() => {
+                    scrollToTop();
+                    close();
+                  }}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </DocsMobileNav>
+
+      <aside
+        id="doc-left-rail"
+        className="sticky top-0 hidden h-[calc(100vh-3.5rem)] flex-col self-start border-r border-slate-200 lg:flex"
       >
-        <Menu className="h-4 w-4 shrink-0" />
-        <span className="truncate">{title}</span>
-      </button>
+        <div className="px-4 pb-3 pt-5">
+          <SearchTrigger />
+        </div>
+        <div className="scroll-slim min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pb-10 pt-2">
+          <DocsNav currentModulePath={currentModule?.to} subModules={subModules} />
+        </div>
+      </aside>
 
-      {/* Mobile drawer overlay */}
-      {navOpen && (
-        <div className="fixed inset-0 z-30 lg:hidden">
-          <div
-            className={[
-              'absolute inset-0 bg-black/40 transition-opacity duration-200 ease-out',
-              navVisible ? 'opacity-100' : 'opacity-0',
-            ].join(' ')}
-            onClick={() => closeNav()}
-            aria-hidden="true"
-          />
-          <div
-            className={[
-              'scroll-slim absolute inset-y-0 left-0 w-72 max-w-[85vw] overflow-y-auto bg-white p-4 pb-10 shadow-xl transition-transform duration-200 ease-out',
-              navVisible ? 'translate-x-0' : '-translate-x-full',
-            ].join(' ')}
-          >
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-sm font-semibold text-ink">Navigation</span>
-              <button
-                type="button"
-                onClick={() => closeNav()}
-                className="rounded-md p-1 text-slate-500 hover:bg-slate-100"
-                aria-label="Close page navigation"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            {leftRailContent}
+      <div className="min-w-0 px-4 pb-24 pt-2 sm:px-6 lg:px-8 lg:pt-10">
+        <div className="mx-auto max-w-[82rem] xl:grid xl:grid-cols-[minmax(0,54rem)_14rem] xl:justify-between xl:gap-10">
+          <div className="mx-auto w-full min-w-0 max-w-[54rem] overflow-x-hidden xl:mx-0">
+            <DocsBreadcrumb module={currentModule} title={title} />
+            <div className="doc-content mt-5">{children}</div>
+            <DocsPager prev={prev} next={next} />
           </div>
-        </div>
-      )}
 
-      {/* Left rail: sub-modules + on-this-page sections for the current page */}
-      <aside id="doc-left-rail" className="hidden w-56 shrink-0 lg:block xl:w-64">
-        {/* Fixed so it never scrolls with the content, but bounded to the
-            viewport and scrollable on its own — the block list is long enough
-            to overflow, and without this its tail is unreachable. */}
-        <div className="scroll-slim fixed top-14 max-h-[calc(100vh-3.5rem)] w-56 overflow-y-auto overscroll-contain pb-6 pr-2 pt-6 xl:w-64">
-          {leftRailContent}
+          <aside id="doc-right-rail" className="hidden xl:block">
+            <div className="scroll-slim sticky top-10 max-h-[calc(100vh-8rem)] overflow-y-auto pb-8">
+              <DocsToc
+                sections={sections}
+                activeId={activeId}
+                onSelect={scrollToSection}
+                onBackToTop={scrollToTop}
+              />
+            </div>
+          </aside>
         </div>
-      </aside>
-
-      {/* Center: the page content */}
-      <div className="min-w-0 lg:w-0 lg:flex-1 overflow-x-hidden">{children}</div>
-
-      {/* Right rail: the top-level component list */}
-      <aside id="doc-right-rail" className="hidden w-56 shrink-0 xl:block">
-        <div className="sticky top-6 pt-6">
-          <span className="mb-2 block px-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted/70">
-            Components
-          </span>
-          <nav id="doc-components-nav" className="flex flex-col gap-0.5">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  id={`component-link-${item.to.replace(/\//g, '-').replace(/^-/, '')}`}
-                  className={({ isActive }) =>
-                    [
-                      'flex items-center gap-2.5 rounded-md px-3 py-1.5 text-sm transition-colors',
-                      isActive
-                        ? 'bg-brand-tint font-semibold text-brand'
-                        : 'font-medium text-slate-600 hover:bg-slate-100 hover:text-ink',
-                    ].join(' ')
-                  }
-                >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  {item.label}
-                </NavLink>
-              );
-            })}
-          </nav>
-        </div>
-      </aside>
+      </div>
     </div>
   );
 }

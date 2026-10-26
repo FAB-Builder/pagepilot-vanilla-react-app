@@ -11,12 +11,6 @@ function Overview() {
         the same call you can also pull in <em>related</em> pages — for example, a blog index page
         can return the page itself plus the list of all published posts.
       </p>
-      <p>
-        This works the same way the FabBuilder website renders its blog: it requests the{' '}
-        <Code>website-blogs</Code> page and, alongside it, a filtered list of blog pages to show in
-        the grid.
-      </p>
-
       <CaseStudyCallout />
 
       <p>
