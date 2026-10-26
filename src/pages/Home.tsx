@@ -1,7 +1,6 @@
 import HomeHero from './home/HomeHero';
 import ModuleGroup from './home/ModuleGroup';
-import HomeResources from './home/HomeResources';
-import { HOME_GROUPS, HOME_RESOURCES } from './home/homeData';
+import HomeResources from './home/HomeResources';import { HOME_GROUPS, HOME_RESOURCES } from './home/homeData';
 import { HOME_CONTAINER } from '../components/layoutClasses';
 
 function Home() {

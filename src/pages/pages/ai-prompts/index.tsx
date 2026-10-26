@@ -1,6 +1,7 @@
 import DocLayout, { type DocSection } from '../../../components/DocLayout';
 import { Section } from '../../../components/DocSection';
 import AiPromptBlock from '../../../components/AiPromptBlock';
+import AiAssistantPills from '../../../components/ai/AiAssistantPills';
 import { PAGES_SUBMODULES } from '../subModules';
 import { CONTENT_PROMPTS } from './prompts';
 
@@ -24,8 +25,9 @@ export default function AiPrompts() {
           </h1>
           <p className="mt-3 text-lg leading-relaxed text-slate-600">
             Ready-made prompts for building Page Pilot content into your app. Pick what you're
-            building, copy its prompt, and paste it into Claude, ChatGPT, Cursor, or GitHub Copilot.
+            building, copy its prompt, and paste it into your AI assistant.
           </p>
+          <AiAssistantPills className="mt-5" />
         </header>
 
         <Section id="overview" title="How to use">

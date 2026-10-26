@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
 import CodeSnippet from '../../../../components/CodeSnippet';
+import Select from '../../../../components/Select';
 import BuilderField, { inputClass } from './BuilderField';
 import FieldChips from './FieldChips';
 import UrlPreview from './UrlPreview';
@@ -8,13 +9,11 @@ import TryRequest from './TryRequest';
 import {
   DEFAULT_QUERY,
   FIELD_OPTIONS,
-  SORT_FIELDS,
+  STATUS_OPTIONS,
   buildFetchCode,
   buildListUrl,
   isPlaceholderWorkspace,
   type ListQuery,
-  type PageStatus,
-  type SortDirection,
 } from './listQuery';
 
 /** Interactive builder for GET /client/page — fill the form, copy a complete endpoint. */
@@ -70,42 +69,12 @@ function EndpointBuilder() {
         </BuilderField>
 
         <BuilderField label="Status" htmlFor="eb-status">
-          <select
+          <Select
             id="eb-status"
             value={query.status}
-            onChange={(e) => set('status', e.target.value as PageStatus)}
-            className={inputClass}
-          >
-            <option value="live">live — published only</option>
-            <option value="draft">draft — unpublished only</option>
-            <option value="any">any — no status filter</option>
-          </select>
-        </BuilderField>
-
-        <BuilderField label="Sort by" htmlFor="eb-sort">
-          <div className="flex gap-2">
-            <select
-              id="eb-sort"
-              value={query.sortField}
-              onChange={(e) => set('sortField', e.target.value)}
-              className={inputClass}
-            >
-              {SORT_FIELDS.map((f) => (
-                <option key={f} value={f}>
-                  {f}
-                </option>
-              ))}
-            </select>
-            <select
-              aria-label="Sort direction"
-              value={query.sortDirection}
-              onChange={(e) => set('sortDirection', e.target.value as SortDirection)}
-              className={`${inputClass} w-40`}
-            >
-              <option value="DESC">Newest / Z–A</option>
-              <option value="ASC">Oldest / A–Z</option>
-            </select>
-          </div>
+            options={STATUS_OPTIONS}
+            onChange={(v) => set('status', v)}
+          />
         </BuilderField>
 
         <BuilderField label="Limit" htmlFor="eb-limit" hint="Leave empty to return every match.">
@@ -116,17 +85,6 @@ function EndpointBuilder() {
             value={query.limit}
             onChange={(e) => set('limit', e.target.value)}
             placeholder="all"
-            className={inputClass}
-          />
-        </BuilderField>
-
-        <BuilderField label="Offset" htmlFor="eb-offset" hint="Skip this many pages — for pagination.">
-          <input
-            id="eb-offset"
-            type="number"
-            min={0}
-            value={query.offset}
-            onChange={(e) => set('offset', e.target.value)}
             className={inputClass}
           />
         </BuilderField>

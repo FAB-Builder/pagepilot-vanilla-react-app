@@ -60,7 +60,7 @@ Response:
 {
   "count": 190,
   "rows": [
-    { "_id": "6ad2…", "id": "6ad2…", "name": "Purple Colour Combination", "slug": "purple-wall-colour-combinations" }
+    { "_id": "PAGE_ID", "id": "PAGE_ID", "name": "Purple Colour Combination", "slug": "purple-wall-colour-combinations" }
   ]
 }
 \`\`\`

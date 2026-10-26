@@ -37,13 +37,13 @@ Requirements
 const SCHEDULE_RESPONSE_CODE = `{
   "occurrences": [
     {
-      "_id": "664a1f2e9b3c4e001f8a7d12",
+      "_id": "OCCURRENCE_ID_1",
       "name": "Product Deep Dive",
       "occurrenceStart": "2026-06-10T14:00:00.000Z",
       "occurrenceEnd":   "2026-06-10T15:30:00.000Z"
     },
     {
-      "_id": "664a1f2e9b3c4e001f8a7d13",
+      "_id": "OCCURRENCE_ID_2",
       "name": "Onboarding Live",
       "occurrenceStart": "2026-06-18T09:00:00.000Z",
       "occurrenceEnd":   "2026-06-18T10:00:00.000Z"

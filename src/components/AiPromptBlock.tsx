@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Sparkles, Check, Copy, ChevronDown, ChevronUp } from 'lucide-react';
 import { useToast } from './Toast';
-import OpenInAssistants from './ai/OpenInAssistants';
 
 interface AiPromptBlockProps {
   /** The full prompt copied to the clipboard / shown when expanded. */
@@ -15,7 +14,7 @@ interface AiPromptBlockProps {
 
 /**
  * "Integrate using AI" block. A ready-made, step-by-step prompt the user can
- * copy, or open directly in Claude, ChatGPT, Copilot, Cursor or Gemini.
+ * copy into any AI assistant.
  */
 function AiPromptBlock({
   prompt,
@@ -63,14 +62,13 @@ function AiPromptBlock({
         </button>
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-slate-200 bg-slate-50 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
-        <OpenInAssistants prompt={prompt} />
+      <div className="flex justify-end border-t border-slate-200 bg-slate-50 px-5 py-3">
         <button
           id={`${id}-toggle`}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
-          className="flex shrink-0 items-center gap-1.5 self-start text-xs font-medium text-brand transition-colors hover:text-brand-dark sm:self-center"
+          className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-brand transition-colors hover:text-brand-dark"
         >
           {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           {open ? 'Hide prompt' : 'Preview prompt'}

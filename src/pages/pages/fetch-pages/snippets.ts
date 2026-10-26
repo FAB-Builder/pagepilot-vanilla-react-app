@@ -63,8 +63,8 @@ export const LIST_PAGES_RESPONSE = `{
   "count": 190,
   "rows": [
     {
-      "_id": "6ad211414815d241dc773f25",
-      "id": "6ad211414815d241dc773f25",
+      "_id": "PAGE_ID",
+      "id": "PAGE_ID",
       "name": "Purple Colour Combination: Wall Paint Colour Shades and Ideas",
       "slug": "purple-wall-colour-combinations"
     }
