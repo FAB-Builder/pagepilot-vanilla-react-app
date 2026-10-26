@@ -18,6 +18,7 @@ export const FIELD_OPTIONS = [
   'title',
   'metaDescription',
   'thumbnailImage',
+  'heroImage',
   'tags',
   'groups',
   'createdAt',
